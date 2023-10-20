@@ -83,4 +83,9 @@ class GameResource extends Resource
             'edit' => Pages\EditGame::route('/{record}/edit'),
         ];
     }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return 'Games';
+    }
 }
