@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('sortname', 10);
             $table->string('name', 150);
-            $table->smallInteger('phonecode');
+            $table->smallInteger('phonecode')->nullable();
         });
     }
 
