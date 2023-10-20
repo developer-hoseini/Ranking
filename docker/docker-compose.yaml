@@ -1,0 +1,62 @@
+version: '3'
+
+networks:
+  ranking:
+    driver: bridge
+
+volumes:
+  db_data_ranking:
+
+services:
+  mysql_ranking:
+    image: mysql:latest
+    container_name: mysql_ranking
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3306"
+    deploy:
+      resources:
+        limits:
+          cpus: '1.50'
+          memory: 512M
+        reservations:
+          cpus: '0.50'
+          memory: 128M
+    volumes:
+      - db_data_ranking:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      SERVICE_TAGS: dev
+      SERVICE_NAME: ${DB_CONNECTION}
+    networks:
+      - ranking
+
+  app_ranking:
+    build:
+      context: ../
+      dockerfile: docker/DockerfileApp
+    container_name: app_ranking
+    restart: unless-stopped
+    volumes:
+      - ../:/var/www/html
+      - ./supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
+    ports:
+      - "8000"
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 256M
+        reservations:
+          cpus: '0.50'
+          memory: 128M
+    depends_on:
+      - mysql_ranking
+    external_links:
+      - mysql_ranking
+    networks:
+      - ranking
