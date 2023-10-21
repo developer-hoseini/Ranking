@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name', 40);
             $table->string('model_type')->index()->nullable();
+            $table->string('message')->nullable();
             $table->timestamps();
         });
     }
