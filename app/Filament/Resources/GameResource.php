@@ -88,4 +88,9 @@ class GameResource extends Resource
     {
         return 'Games';
     }
+
+    public static function getNavigationSort(): ?int
+    {
+        return 1;
+    }
 }
