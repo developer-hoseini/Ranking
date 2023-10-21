@@ -113,6 +113,8 @@ class RoleAndPermissionSeeder extends Seeder
                     'password' => bcrypt('admin'),
                 ]);
             });
+
+            $user->update(['username' => 'admin',]);
         } catch (\Throwable $th) {
             throw $th;
         }
