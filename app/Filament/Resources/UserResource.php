@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
@@ -50,14 +51,17 @@ class UserResource extends Resource
                     ->required()
                     ->maxLength(255),
                 TextInput::make('password')
-//                    ->confirmed()
+                    ->confirmed()
                     ->password()
                     ->required(fn ($record) => is_null($record))
                     ->maxLength(255),
-//                TextInput::make('password_confirmation')
-//                    ->dehydrated()
-//                    ->required(fn ($record) => is_null($record))
-//                    ->maxLength(255),
+                Select::make('roles')
+                    ->multiple()
+                    ->relationship(name: 'roles', titleAttribute: 'name'),
+                TextInput::make('password_confirmation')
+                    ->dehydrated()
+                    ->required(fn ($record) => is_null($record))
+                    ->maxLength(255),
                 Toggle::make('active'),
             ]);
     }
