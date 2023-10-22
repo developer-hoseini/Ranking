@@ -78,6 +78,7 @@ class User extends Authenticatable implements FilamentUser, HasMedia, HasAvatar
     protected $fillable = [
         'name',
         'username',
+        'active',
         'email',
         'password',
     ];
@@ -100,11 +101,12 @@ class User extends Authenticatable implements FilamentUser, HasMedia, HasAvatar
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'active' => 'boolean',
     ];
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return (bool)Auth::user()?->hasRole(['admin']);
+        return Auth::user()?->hasRole(['admin']) && Auth::user()?->active;
     }
 
     public function getFilamentAvatarUrl(): ?string
