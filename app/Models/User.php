@@ -9,6 +9,7 @@ use Filament\Models\Contracts\HasAvatar;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
@@ -55,12 +56,19 @@ use Spatie\Permission\Traits\HasRoles;
  * @method static Builder|User whereRememberToken($value)
  * @method static Builder|User whereUpdatedAt($value)
  * @method static Builder|User whereUsername($value)
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property int $active
+ * @method static Builder|User onlyTrashed()
+ * @method static Builder|User whereActive($value)
+ * @method static Builder|User whereDeletedAt($value)
+ * @method static Builder|User withTrashed()
+ * @method static Builder|User withoutTrashed()
  * @mixin \Eloquent
  */
 class User extends Authenticatable implements FilamentUser, HasMedia, HasAvatar
 {
     use HasApiTokens, HasFactory, HasRoles,Notifiable;
-    use InteractsWithMedia;
+    use InteractsWithMedia,SoftDeletes;
 
     /**
      * The attributes that are mass assignable.

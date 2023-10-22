@@ -7,7 +7,9 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Query\Builder;
 
 class UserResource extends Resource
 {
@@ -22,11 +24,14 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\TextInput::make('username')
+                    ->required()
+                    ->unique()
+                    ->maxLength(255),
                 Forms\Components\TextInput::make('email')
                     ->email()
                     ->required()
                     ->maxLength(255),
-                Forms\Components\DateTimePicker::make('email_verified_at'),
                 Forms\Components\TextInput::make('password')
                     ->password()
                     ->required()
@@ -42,8 +47,7 @@ class UserResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('email_verified_at')
-                    ->dateTime()
+                Tables\Columns\TextColumn::make('username')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
@@ -55,7 +59,15 @@ class UserResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                TernaryFilter::make('trashed')
+                    ->placeholder('Without trashed records')
+                    ->trueLabel('With trashed records')
+                    ->falseLabel('Only trashed records')
+                    ->queries(
+                        true: fn ( $query) => $query->withTrashed(),
+                        false: fn ( $query) => $query->onlyTrashed(),
+                        blank: fn ( $query) => $query->withoutTrashed(),
+                    )
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
