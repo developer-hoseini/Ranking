@@ -3,13 +3,11 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\CompetitionResource\Pages;
-use App\Filament\Resources\CompetitionResource\RelationManagers\CompetitionableRelationManager;
+use App\Filament\Resources\CompetitionResource\RelationManagers\TeamsRelationManager;
+use App\Filament\Resources\CompetitionResource\RelationManagers\UsersRelationManager;
 use App\Models\Competition;
 use App\Models\State;
-use App\Models\Team;
-use App\Models\User;
 use Filament\Forms;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -73,29 +71,7 @@ class CompetitionResource extends Resource
                 Forms\Components\DateTimePicker::make('start_at')
                     ->afterOrEqual('end_register_at')
                     ->required(),
-                Section::make('Players')->schema([
-                    Forms\Components\Select::make('competition_type')
-                        ->label('Player Type')
-                        ->options([
-                            Team::class => 'Team',
-                            User::class => 'User',
-                        ])
-                        ->reactive()
-                        ->afterStateUpdated(function (callable $set) {
-                            $set('competition_id', null);
-                        })->dehydrated(false),
-                    Forms\Components\Select::make('competition_id')
-                        ->label('Player')
-                        ->multiple()
-                        ->options(function (callable $get) {
-                            $competitionType = $get('competition_type');
-                            if (! $competitionType) {
-                                return [];
-                            }
 
-                            return $competitionType::query()->pluck('name', 'id')->toArray();
-                        })->dehydrated(false),
-                ]),
             ]);
     }
 
@@ -165,7 +141,8 @@ class CompetitionResource extends Resource
     public static function getRelations(): array
     {
         return [
-            // CompetitionableRelationManager::class,
+            TeamsRelationManager::class,
+            UsersRelationManager::class,
         ];
     }
 
@@ -180,6 +157,7 @@ class CompetitionResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
+
         return parent::getEloquentQuery()
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,

@@ -34,6 +34,6 @@ class Team extends Model
 
     public function competitions(): MorphToMany
     {
-        return $this->morphToMany(Competition::class, 'competitionable');
+        return $this->morphToMany(Competition::class, 'competitionable')->withPivot(['status_id']);
     }
 }

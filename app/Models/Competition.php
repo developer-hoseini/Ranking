@@ -13,12 +13,12 @@ class Competition extends Model
 
     public function users()
     {
-        return $this->morphedByMany(User::class, 'competitionable');
+        return $this->morphedByMany(User::class, 'competitionable')->withPivot(['status_id']);
     }
 
     public function teams()
     {
-        return $this->morphedByMany(Team::class, 'competitionable');
+        return $this->morphedByMany(Team::class, 'competitionable')->withPivot(['status_id']);
     }
 
     public function game(): BelongsTo
