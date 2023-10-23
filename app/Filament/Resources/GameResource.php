@@ -27,7 +27,7 @@ class GameResource extends Resource
         return $form
             ->schema([
                 TextInput::make('name')->required()->maxLength(255),
-                TextInput::make('sort')->numeric()->minValue(1),
+                TextInput::make('sort')->numeric()->minValue(1)->required()->default(10),
                 Checkbox::make('active')->default(true),
                 Checkbox::make('is_online')->default(true),
             ]);
