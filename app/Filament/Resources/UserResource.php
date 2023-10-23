@@ -20,6 +20,7 @@ use Filament\Tables\Actions\ForceDeleteAction;
 use Filament\Tables\Actions\ForceDeleteBulkAction;
 use Filament\Tables\Actions\RestoreAction;
 use Filament\Tables\Actions\RestoreBulkAction;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Filters\Filter;
@@ -29,6 +30,7 @@ use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 
 class UserResource extends Resource
 {
@@ -84,6 +86,10 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
+                SpatieMediaLibraryImageColumn::make('avatar')
+                    ->collection('avatar')
+                    ->circular()
+                    ->toggleable(isToggledHiddenByDefault: false),
                 TextColumn::make('name')
                     ->sortable()
                     ->searchable(),
@@ -134,13 +140,14 @@ class UserResource extends Resource
             ->actions([
                 EditAction::make(),
                 DeleteAction::make(),
-//                ForceDeleteAction::make(),
                 RestoreAction::make(),
+            ])
+            ->groups([
+                'active',
             ])
             ->bulkActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
-//                    ForceDeleteBulkAction::make(),
                     RestoreBulkAction::make(),
                 ]),
             ]);
