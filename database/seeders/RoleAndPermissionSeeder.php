@@ -110,11 +110,12 @@ class RoleAndPermissionSeeder extends Seeder
                 return User::create([
                     'name' => 'admin',
                     'email' => 'admin@admin.com',
+                    'username' => 'admin',
                     'password' => bcrypt('admin'),
                 ]);
             });
 
-            if(!$user->getMedia('avatar')->first()) {
+            if (! $user->getMedia('avatar')->first()) {
                 $user->addMediaFromUrl('https://www.clipartmax.com/png/middle/319-3191274_male-avatar-admin-profile.png')
                     ->toMediaCollection('avatar');
             }
