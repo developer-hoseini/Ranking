@@ -115,6 +115,33 @@ class RoleAndPermissionSeeder extends Seeder
                 ]);
             });
 
+            if (app()->environment('local')) {
+                $fakeUsers = [
+                    [
+                        'name' => 'userfake1',
+                        'email' => 'userfake1@user.com',
+                        'username' => 'userfake1',
+                        'password' => bcrypt('userfake1'),
+                    ],
+                    [
+                        'name' => 'userfake2',
+                        'email' => 'userfake2@user.com',
+                        'username' => 'userfake2',
+                        'password' => bcrypt('userfake2'),
+                    ],
+                    [
+                        'name' => 'userfake3',
+                        'email' => 'userfake3@user.com',
+                        'username' => 'userfake3',
+                        'password' => bcrypt('userfake3'),
+                    ],
+                ];
+
+                foreach ($fakeUsers as $fakeUser) {
+                    User::updateOrCreate($fakeUser);
+                }
+            }
+
             if (! $user->getMedia('avatar')->first()) {
                 $user->addMediaFromUrl('https://www.clipartmax.com/png/middle/319-3191274_male-avatar-admin-profile.png')
                     ->toMediaCollection('avatar');

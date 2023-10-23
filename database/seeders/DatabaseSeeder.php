@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -18,5 +19,11 @@ class DatabaseSeeder extends Seeder
             GameTypeSeeder::class,
             StatusSeeder::class,
         ]);
+
+        if (app()->environment('local')) {
+            $this->call([
+                CountryStateSeeder::class,
+            ]);
+        }
     }
 }

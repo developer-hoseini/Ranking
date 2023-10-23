@@ -9,6 +9,7 @@ use Filament\Models\Contracts\HasAvatar;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -40,6 +41,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property-read int|null $roles_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
+ *
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
  * @method static Builder|User newModelQuery()
  * @method static Builder|User newQuery()
@@ -56,16 +58,19 @@ use Spatie\Permission\Traits\HasRoles;
  * @method static Builder|User whereRememberToken($value)
  * @method static Builder|User whereUpdatedAt($value)
  * @method static Builder|User whereUsername($value)
+ *
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property int $active
+ *
  * @method static Builder|User onlyTrashed()
  * @method static Builder|User whereActive($value)
  * @method static Builder|User whereDeletedAt($value)
  * @method static Builder|User withTrashed()
  * @method static Builder|User withoutTrashed()
+ *
  * @mixin \Eloquent
  */
-class User extends Authenticatable implements FilamentUser, HasMedia, HasAvatar
+class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia
 {
     use HasApiTokens, HasFactory, HasRoles,Notifiable;
     use InteractsWithMedia,SoftDeletes;
@@ -104,6 +109,11 @@ class User extends Authenticatable implements FilamentUser, HasMedia, HasAvatar
         'active' => 'boolean',
     ];
 
+    public function teams(): BelongsToMany
+    {
+        return $this->belongsToMany(Team::class)->withPivot(['created_at', 'updated_at']);
+    }
+
     public function canAccessPanel(Panel $panel): bool
     {
         return Auth::user()?->hasRole(['admin']) && Auth::user()?->active;
@@ -111,7 +121,7 @@ class User extends Authenticatable implements FilamentUser, HasMedia, HasAvatar
 
     public function getFilamentAvatarUrl(): ?string
     {
-        return $this->getMedia('avatar')?->first()?->getUrl()??'';
+        return $this->getMedia('avatar')?->first()?->getUrl() ?? '';
     }
 
     public function scopeRoleUser(Builder $builder)
