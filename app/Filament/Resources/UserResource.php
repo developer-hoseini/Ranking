@@ -31,6 +31,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
 class UserResource extends Resource
 {
@@ -147,6 +148,7 @@ class UserResource extends Resource
             ])
             ->bulkActions([
                 BulkActionGroup::make([
+                    ExportBulkAction::make(),
                     DeleteBulkAction::make(),
                     RestoreBulkAction::make(),
                 ]),
