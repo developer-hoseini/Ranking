@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
@@ -104,6 +105,7 @@ class User extends Authenticatable implements FilamentUser, HasMedia, HasAvatar
         'active' => 'boolean',
     ];
 
+    //for panel
     public function canAccessPanel(Panel $panel): bool
     {
         return Auth::user()?->hasRole(['admin']) && Auth::user()?->active;
@@ -114,6 +116,15 @@ class User extends Authenticatable implements FilamentUser, HasMedia, HasAvatar
         return $this->getMedia('avatar')?->first()?->getUrl()??'';
     }
 
+    //for media
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('avatar')
+            ->acceptsMimeTypes(['image/jpeg','image/png','image/gif','image/jpg'])
+            ->singleFile();
+    }
+
+    //scope
     public function scopeRoleUser(Builder $builder)
     {
         return $builder->whereHas('roles', function (Builder $query) {
