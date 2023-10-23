@@ -23,8 +23,8 @@ return new class extends Migration
             $table->foreignId('status_id')->constrained();
             $table->foreignId('created_by_user_id')->constrained('users', 'id');
 
-            $table->timestamp('end_register_at');
-            $table->timestamp('start_at');
+            $table->timestamp('end_register_at')->nullable();
+            $table->timestamp('start_at')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
