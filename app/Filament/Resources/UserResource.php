@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -19,6 +20,7 @@ use Filament\Tables\Actions\ForceDeleteAction;
 use Filament\Tables\Actions\ForceDeleteBulkAction;
 use Filament\Tables\Actions\RestoreAction;
 use Filament\Tables\Actions\RestoreBulkAction;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Filters\Filter;
@@ -27,7 +29,9 @@ use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use PhpParser\Node\Scalar\String_;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
 class UserResource extends Resource
 {
@@ -39,6 +43,18 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
+                SpatieMediaLibraryFileUpload::make('avatar')
+                    ->collection('avatar')
+                    ->image()
+                    ->imageEditor()
+                    ->imageEditorMode(2)
+                    ->openable()
+                    ->imageEditorAspectRatios([
+                        null,
+                        '16:9',
+                        '4:3',
+                        '1:1',
+                    ]),
                 TextInput::make('name')
                     ->required()
                     ->maxLength(255),
@@ -49,15 +65,16 @@ class UserResource extends Resource
                 TextInput::make('email')
                     ->email()
                     ->required()
+                    ->unique(ignoreRecord: true)
                     ->maxLength(255),
+                Select::make('roles')
+                    ->multiple()
+                    ->relationship(name: 'roles', titleAttribute: 'name'),
                 TextInput::make('password')
                     ->confirmed()
                     ->password()
                     ->required(fn ($record) => is_null($record))
                     ->maxLength(255),
-                Select::make('roles')
-                    ->multiple()
-                    ->relationship(name: 'roles', titleAttribute: 'name'),
                 TextInput::make('password_confirmation')
                     ->dehydrated()
                     ->required(fn ($record) => is_null($record))
@@ -70,6 +87,10 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
+                SpatieMediaLibraryImageColumn::make('avatar')
+                    ->collection('avatar')
+                    ->circular()
+                    ->toggleable(isToggledHiddenByDefault: false),
                 TextColumn::make('name')
                     ->sortable()
                     ->searchable(),
@@ -94,6 +115,7 @@ class UserResource extends Resource
             ])
             ->filters([
                 TrashedFilter::make(),
+                TernaryFilter::make('active'),
                 SelectFilter::make('roles')
                     ->relationship('roles', 'name')
                     ->multiple()
@@ -119,13 +141,15 @@ class UserResource extends Resource
             ->actions([
                 EditAction::make(),
                 DeleteAction::make(),
-//                ForceDeleteAction::make(),
                 RestoreAction::make(),
+            ])
+            ->groups([
+                'active',
             ])
             ->bulkActions([
                 BulkActionGroup::make([
+                    ExportBulkAction::make(),
                     DeleteBulkAction::make(),
-//                    ForceDeleteBulkAction::make(),
                     RestoreBulkAction::make(),
                 ]),
             ]);
