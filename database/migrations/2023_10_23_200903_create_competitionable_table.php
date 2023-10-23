@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('games', function (Blueprint $table) {
+        Schema::create('competitionables', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->unsignedInteger('sort')->default(0);
-            $table->boolean('active')->default(true);
-            $table->boolean('is_online')->default(false);
-            $table->timestamp('image_updated_at')->nullable();
+            $table->foreignId('competition_id')->constrained();
+            $table->morphs('competitionable');
+
+            $table->foreignId('status_id')->nullable()->constrained();
+
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('games');
+        Schema::dropIfExists('competitionables');
     }
 };
