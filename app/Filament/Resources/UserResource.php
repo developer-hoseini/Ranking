@@ -2,13 +2,20 @@
 
 namespace App\Filament\Resources;
 
+use App\Models\Profile;
+use App\Models\State;
+use App\Models\Status;
 use App\Models\User;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\Wizard\Step;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
@@ -26,6 +33,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
+use Illuminate\Support\Str;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
 class UserResource extends Resource
@@ -139,6 +147,53 @@ class UserResource extends Resource
                 EditAction::make(),
                 DeleteAction::make(),
                 RestoreAction::make(),
+                Action::make('profile')
+                    ->icon('heroicon-o-user')
+                    ->fillForm(fn (User $record): array => [
+                        ...$record?->profile?->toArray()??[],
+                    ])
+                    ->steps([
+                        Step::make('Name & Bio')
+                            ->description('Info User')
+                            ->schema([
+                                TextInput::make('fname')
+                                    ->label('First Name')
+                                    ->maxLength(50),
+                                TextInput::make('lname')
+                                    ->label('Last Name')
+                                    ->maxLength(50),
+                                TextInput::make('bio')
+                                    ->label('Bio')
+                                    ->maxLength(100),
+                            ])
+                            ->columns(2),
+                        Step::make('Description')
+                            ->description('Add some extra details')
+                            ->schema([
+                                Select::make('state_id')
+                                    ->label('State')
+                                    ->options(State::query()->pluck('name', 'id')),
+                            ]),
+                        Step::make('Visibility')
+                            ->description('Control who can view it')
+                            ->schema([
+                                Toggle::make('show_mobile')
+                                    ->label('Show Mobile?')
+                                    ->default(true),
+                            ]),
+                    ])->action(function (array $data, User $record): void {
+                        if($record->profile()->updateOrCreate([],$data)) {
+                            Notification::make()
+                                ->title('Saved successfully')
+                                ->success()
+                                ->send();
+                        }else{
+                            Notification::make()
+                                ->title('Something Went Wrong')
+                                ->danger()
+                                ->send();
+                        }
+                    })
             ])
             ->groups([
                 'active',

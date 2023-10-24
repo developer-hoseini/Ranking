@@ -117,9 +117,9 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia
         return $this->belongsToMany(Team::class)->withPivot(['created_at', 'updated_at']);
     }
 
-    public function profile(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function profile(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
-        return $this->belongsTo(Profile::class);
+        return $this->hasOne(Profile::class);
     }
 
     public function competitions(): MorphToMany

@@ -79,8 +79,8 @@ class Profile extends Model
     ];
 
 
-    public function user(): \Illuminate\Database\Eloquent\Relations\HasOne
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->hasOne(User::class);
+        return $this->belongsTo(User::class);
     }
 }
