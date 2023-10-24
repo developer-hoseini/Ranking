@@ -15,6 +15,7 @@ use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\RestoreAction;
 use Filament\Tables\Actions\RestoreBulkAction;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Filters\Filter;
@@ -74,7 +75,7 @@ class UserResource extends Resource
                     ->dehydrated()
                     ->required(fn ($record) => is_null($record))
                     ->maxLength(255),
-                Toggle::make('active'),
+                Toggle::make('active')->visible(fn($record) => $record->id!==auth()->id()),
             ]);
     }
 
@@ -95,7 +96,8 @@ class UserResource extends Resource
                 TextColumn::make('username')
                     ->sortable()
                     ->searchable(),
-                ToggleColumn::make('active')
+                IconColumn::make('active')
+                    ->boolean()
                     ->searchable(),
                 TextColumn::make('roles.name')
                     ->sortable(),

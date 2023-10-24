@@ -25,6 +25,10 @@ class EditUser extends EditRecord
 
         unset($data['password_confirmation']);
 
+        if($this->record->id == auth()->id()){
+            $data['active'] = 1;
+        }
+
         return $data;
     }
 }
