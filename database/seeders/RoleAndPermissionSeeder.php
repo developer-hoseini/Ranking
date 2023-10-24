@@ -116,6 +116,9 @@ class RoleAndPermissionSeeder extends Seeder
             });
 
             if (app()->environment('local')) {
+
+
+                $clientRole = Role::where('name', 'client')->first();
                 $fakeUsers = [
                     [
                         'name' => 'userfake1',
@@ -138,7 +141,7 @@ class RoleAndPermissionSeeder extends Seeder
                 ];
 
                 foreach ($fakeUsers as $fakeUser) {
-                    User::updateOrCreate($fakeUser);
+                    User::updateOrCreate($fakeUser)->roles()->sync($clientRole);
                 }
             }
 
