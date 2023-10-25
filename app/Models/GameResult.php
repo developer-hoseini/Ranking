@@ -22,7 +22,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read \App\Models\Invite $invite
  * @property-read \App\Models\Status|null $invitedGameResultStatus
  * @property-read \App\Models\Status|null $inviterGameResultStatus
- *
  * @method static \Illuminate\Database\Eloquent\Builder|GameResult newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|GameResult newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|GameResult onlyTrashed()
@@ -37,7 +36,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|GameResult whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|GameResult withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|GameResult withoutTrashed()
- *
+ * @property-read \App\Models\Status|null $gameResultStatus
+ * @property-read Model|\Eloquent $gameresultable
+ * @property-read Model|\Eloquent $playerable
+ * @property-read \App\Models\Status $status
  * @mixin \Eloquent
  */
 class GameResult extends Model
