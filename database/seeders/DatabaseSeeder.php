@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             $this->call([
                 CountryStateSeeder::class,
                 GameSeeder::class,
+                CompetitionSeeder::class,
             ]);
         }
     }

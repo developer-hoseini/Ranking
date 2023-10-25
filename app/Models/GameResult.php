@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read \App\Models\Invite $invite
  * @property-read \App\Models\Status|null $invitedGameResultStatus
  * @property-read \App\Models\Status|null $inviterGameResultStatus
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|GameResult newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|GameResult newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|GameResult onlyTrashed()
@@ -36,29 +37,31 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|GameResult whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|GameResult withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|GameResult withoutTrashed()
+ *
  * @mixin \Eloquent
  */
 class GameResult extends Model
 {
     use HasFactory, SoftDeletes;
 
-    public function invite(): BelongsTo
+    public function status()
     {
-        return $this->belongsTo(Invite::class);
+        return $this->belongsTo(Status::class, 'status_id')->modelType(null, false);
     }
 
-    public function inviterGameResultStatus(): BelongsTo
+    public function gameResultStatus()
     {
-        return $this->belongsTo(Status::class, 'inviter_game_result_status_id')->modelType(GameResult::class, false);
+        return $this->belongsTo(Status::class, 'game_result_status_id')->modelType(GameResult::class, false);
+
     }
 
-    public function invitedGameResultStatus(): BelongsTo
+    public function playerable(): MorphTo
     {
-        return $this->belongsTo(Status::class, 'invited_game_result_status_id')->modelType(GameResult::class, false);
+        return $this->morphTo('playerable');
     }
 
-    public function club(): BelongsTo
+    public function gameresultable(): MorphTo
     {
-        return $this->belongsTo(Club::class);
+        return $this->morphTo('gameresultable');
     }
 }

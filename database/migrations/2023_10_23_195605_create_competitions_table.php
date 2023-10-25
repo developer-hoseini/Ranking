@@ -21,7 +21,7 @@ return new class extends Migration
             $table->foreignId('game_id')->constrained();
             $table->foreignId('state_id')->constrained();
             $table->foreignId('status_id')->constrained();
-            $table->foreignId('created_by_user_id')->constrained('users', 'id');
+            $table->foreignId('created_by_user_id')->nullable()->constrained('users', 'id');
 
             $table->timestamp('end_register_at')->nullable();
             $table->timestamp('start_at')->nullable();

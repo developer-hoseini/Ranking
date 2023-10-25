@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Permission;
 use App\Models\Role;
+use App\Models\Team;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -138,7 +139,14 @@ class RoleAndPermissionSeeder extends Seeder
                 ];
 
                 foreach ($fakeUsers as $fakeUser) {
-                    User::updateOrCreate($fakeUser);
+                    $createdUser = User::updateOrCreate($fakeUser);
+                    $team = Team::updateOrCreate([
+                        'name' => "Team {$fakeUser['name']}",
+                    ]);
+
+                    if ($createdUser->wasRecentlyCreated) {
+                        $team->users()->attach($createdUser);
+                    }
                 }
             }
 

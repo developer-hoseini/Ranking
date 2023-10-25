@@ -17,6 +17,8 @@ return new class extends Migration
             $table->unsignedInteger('sort')->default(0);
             $table->boolean('active')->default(true);
             $table->boolean('is_online')->default(false);
+            $table->unsignedInteger('coin')->default(0);
+            $table->unsignedInteger('score')->default(0);
             $table->timestamp('image_updated_at')->nullable();
             $table->timestamps();
         });

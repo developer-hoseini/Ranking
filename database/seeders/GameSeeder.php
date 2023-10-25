@@ -12,13 +12,23 @@ class GameSeeder extends Seeder
      */
     public function run(): void
     {
-        $games = ['footbal', 'valibol'];
+        $games = [
+            [
+                'name' => 'footbal',
+                'score' => 2,
+                'coin' => 50,
+                'sort' => 10,
+            ],
+            [
+                'name' => 'valibol',
+                'score' => 1,
+                'coin' => 20,
+                'sort' => 10,
+            ],
+        ];
 
         foreach ($games as $game) {
-            Game::updateOrCreate([
-                'name' => $game,
-                'sort' => 10,
-            ]);
+            Game::updateOrCreate($game);
         }
     }
 }
