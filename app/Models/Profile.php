@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -51,6 +52,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|Profile whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Profile withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Profile withoutTrashed()
+ * @property-read \App\Models\State|null $state
  * @mixin \Eloquent
  */
 class Profile extends Model
@@ -79,8 +81,13 @@ class Profile extends Model
     ];
 
 
-    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function state(): BelongsTo
+    {
+        return $this->belongsTo(State::class);
     }
 }

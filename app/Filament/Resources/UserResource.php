@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Models\Country;
 use App\Models\Profile;
 use App\Models\State;
 use App\Models\Status;
@@ -13,6 +14,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Wizard\Step;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\Action;
@@ -33,6 +35,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
@@ -150,38 +153,75 @@ class UserResource extends Resource
                 Action::make('profile')
                     ->icon('heroicon-o-user')
                     ->fillForm(fn (User $record): array => [
+                        'mobile' => '99',
+                        'show_mobile' => true,
                         ...$record?->profile?->toArray()??[],
+                        'country' => $record->profile?->state?->country_id
                     ])
                     ->steps([
-                        Step::make('Name & Bio')
-                            ->description('Info User')
+                        Step::make('Information User')
                             ->schema([
                                 TextInput::make('fname')
                                     ->label('First Name')
+                                    ->required()
                                     ->maxLength(50),
                                 TextInput::make('lname')
                                     ->label('Last Name')
+                                    ->required()
                                     ->maxLength(50),
-                                TextInput::make('bio')
-                                    ->label('Bio')
-                                    ->maxLength(100),
+                                TextInput::make('en_fullname')
+                                    ->label('Full name (In English)')
+                                    ->maxLength(50),
+                                TextInput::make('mobile')
+                                    ->default('00')
+                                    ->label('Mobile')
+                                    ->maxLength(30),
+                                TextInput::make('code_melli')
+                                    ->label('National code')
+                                    ->maxLength(50),
+                                Toggle::make('show_mobile')
+                                    ->label('Show mobile number for opponent?')
+                                    ->default(true),
+                                DatePicker::make('birth_date')
+                                    ->label('Birth Date')
+                                    ->before(today()),
+                                Select::make('gender')
+                                    ->required()
+                                    ->options([
+                                        1 => 'Male',
+                                        0 => 'FeMale',
+                                    ]),
                             ])
                             ->columns(2),
-                        Step::make('Description')
-                            ->description('Add some extra details')
+                        Step::make('Extra Details')
                             ->schema([
+                                Select::make('country')
+                                    ->required()
+                                    ->options(Country::query()->pluck('name', 'id'))
+                                    ->live()
+                                ->columns(2),
                                 Select::make('state_id')
+                                    ->required()
                                     ->label('State')
-                                    ->options(State::query()->pluck('name', 'id')),
+                                    ->options(fn (Get $get): Collection => State::query()
+                                        ->where('country_id', $get('country'))->pluck('name', 'id')
+                                    )->columns(2),
+                                TextInput::make('bio')
+                                    ->label('Bio')
+                                    ->columns(1)
+                                    ->maxLength(100),
                             ]),
-                        Step::make('Visibility')
-                            ->description('Control who can view it')
+                        Step::make('Bank Account')
                             ->schema([
-                                Toggle::make('show_mobile')
-                                    ->label('Show Mobile?')
-                                    ->default(true),
+                                TextInput::make('bank_account')
+                                    ->label('Bank account')
+                                    ->maxLength(100),
+                                TextInput::make('account_holder_name')
+                                    ->label('Name of account holder')
+                                    ->maxLength(100),
                             ]),
                     ])->action(function (array $data, User $record): void {
+                        unset($data['country']);
                         if($record->profile()->updateOrCreate([],$data)) {
                             Notification::make()
                                 ->title('Saved successfully')
