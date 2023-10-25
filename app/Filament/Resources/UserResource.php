@@ -2,25 +2,27 @@
 
 namespace App\Filament\Resources;
 
+use App\Models\Profile;
+use App\Models\State;
+use App\Models\Status;
 use App\Models\User;
-use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\Wizard\Step;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Actions\ForceDeleteAction;
-use Filament\Tables\Actions\ForceDeleteBulkAction;
 use Filament\Tables\Actions\RestoreAction;
 use Filament\Tables\Actions\RestoreBulkAction;
-use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Filters\Filter;
@@ -31,6 +33,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
+use Illuminate\Support\Str;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
 class UserResource extends Resource
@@ -68,6 +71,7 @@ class UserResource extends Resource
                     ->unique(ignoreRecord: true)
                     ->maxLength(255),
                 Select::make('roles')
+                    ->required()
                     ->multiple()
                     ->relationship(name: 'roles', titleAttribute: 'name'),
                 TextInput::make('password')
@@ -79,7 +83,7 @@ class UserResource extends Resource
                     ->dehydrated()
                     ->required(fn ($record) => is_null($record))
                     ->maxLength(255),
-                Toggle::make('active'),
+                Toggle::make('active')->visible(fn($record) => $record->id!==auth()->id()),
             ]);
     }
 
@@ -100,7 +104,8 @@ class UserResource extends Resource
                 TextColumn::make('username')
                     ->sortable()
                     ->searchable(),
-                ToggleColumn::make('active')
+                IconColumn::make('active')
+                    ->boolean()
                     ->searchable(),
                 TextColumn::make('roles.name')
                     ->sortable(),
@@ -142,6 +147,53 @@ class UserResource extends Resource
                 EditAction::make(),
                 DeleteAction::make(),
                 RestoreAction::make(),
+                Action::make('profile')
+                    ->icon('heroicon-o-user')
+                    ->fillForm(fn (User $record): array => [
+                        ...$record?->profile?->toArray()??[],
+                    ])
+                    ->steps([
+                        Step::make('Name & Bio')
+                            ->description('Info User')
+                            ->schema([
+                                TextInput::make('fname')
+                                    ->label('First Name')
+                                    ->maxLength(50),
+                                TextInput::make('lname')
+                                    ->label('Last Name')
+                                    ->maxLength(50),
+                                TextInput::make('bio')
+                                    ->label('Bio')
+                                    ->maxLength(100),
+                            ])
+                            ->columns(2),
+                        Step::make('Description')
+                            ->description('Add some extra details')
+                            ->schema([
+                                Select::make('state_id')
+                                    ->label('State')
+                                    ->options(State::query()->pluck('name', 'id')),
+                            ]),
+                        Step::make('Visibility')
+                            ->description('Control who can view it')
+                            ->schema([
+                                Toggle::make('show_mobile')
+                                    ->label('Show Mobile?')
+                                    ->default(true),
+                            ]),
+                    ])->action(function (array $data, User $record): void {
+                        if($record->profile()->updateOrCreate([],$data)) {
+                            Notification::make()
+                                ->title('Saved successfully')
+                                ->success()
+                                ->send();
+                        }else{
+                            Notification::make()
+                                ->title('Something Went Wrong')
+                                ->danger()
+                                ->send();
+                        }
+                    })
             ])
             ->groups([
                 'active',
@@ -149,7 +201,6 @@ class UserResource extends Resource
             ->bulkActions([
                 BulkActionGroup::make([
                     ExportBulkAction::make(),
-                    DeleteBulkAction::make(),
                     RestoreBulkAction::make(),
                 ]),
             ]);
@@ -179,5 +230,10 @@ class UserResource extends Resource
     public static function getNavigationSort(): ?int
     {
         return 1;
+    }
+
+    public static function canDelete($user): bool
+    {
+        return $user->id !== auth()->id();
     }
 }

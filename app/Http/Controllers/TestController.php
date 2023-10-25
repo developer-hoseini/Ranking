@@ -17,7 +17,9 @@ class TestController extends Controller
         return $a;
         dd($a);
 
-        $user = User::first();
+        $user = User::with('profile')->find(3);
+
+        dd($user);
 
         $media = $user->getMedia('avatar')->first();
 

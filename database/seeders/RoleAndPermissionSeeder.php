@@ -117,6 +117,8 @@ class RoleAndPermissionSeeder extends Seeder
             });
 
             if (app()->environment('local')) {
+
+                $clientRole = Role::where('name', 'client')->first();
                 $fakeUsers = [
                     [
                         'name' => 'userfake1',
@@ -140,6 +142,7 @@ class RoleAndPermissionSeeder extends Seeder
 
                 foreach ($fakeUsers as $fakeUser) {
                     $createdUser = User::updateOrCreate($fakeUser);
+                    $createdUser->roles()->sync($clientRole);
                     $team = Team::updateOrCreate([
                         'name' => "Team {$fakeUser['name']}",
                     ]);
@@ -150,10 +153,10 @@ class RoleAndPermissionSeeder extends Seeder
                 }
             }
 
-            if (! $user->getMedia('avatar')->first()) {
-                $user->addMediaFromUrl('https://www.clipartmax.com/png/middle/319-3191274_male-avatar-admin-profile.png')
-                    ->toMediaCollection('avatar');
-            }
+            //            if (! $user->getMedia('avatar')->first()) {
+            //                $user->addMediaFromUrl('https://www.clipartmax.com/png/middle/319-3191274_male-avatar-admin-profile.png')
+            //                    ->toMediaCollection('avatar');
+            //            }
         } catch (\Throwable $th) {
             throw $th;
         }
