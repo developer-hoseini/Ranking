@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -32,6 +33,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read int|null $teams_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
  * @property-read int|null $users_count
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Competition newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Competition newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Competition onlyTrashed()
@@ -52,6 +54,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|Competition whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Competition withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Competition withoutTrashed()
+ *
  * @mixin \Eloquent
  */
 class Competition extends Model
@@ -86,5 +89,10 @@ class Competition extends Model
     public function createdByUser(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by_user_id');
+    }
+
+    public function cups(): MorphToMany
+    {
+        return $this->morphToMany(Cup::class, 'cupable');
     }
 }

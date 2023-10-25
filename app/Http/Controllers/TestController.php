@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\GameResult;
+use App\Models\Cup;
 use App\Models\Invite;
 use App\Models\Status;
 use App\Models\User;
@@ -12,7 +12,7 @@ class TestController extends Controller
     public function index()
     {
 
-        $a = GameResult::where('id', 1)->with('gameResultStatus')->get();
+        $a = Cup::where('id', 1)->with('competitions')->get();
 
         return $a;
         dd($a);

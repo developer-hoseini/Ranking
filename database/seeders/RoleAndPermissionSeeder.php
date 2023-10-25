@@ -44,6 +44,11 @@ class RoleAndPermissionSeeder extends Seeder
             ['name' => 'role'],
             ['name' => 'permission'],
             ['name' => 'club'],
+            ['name' => 'competition'],
+            ['name' => 'cup'],
+            ['name' => 'game-result'],
+            ['name' => 'invite'],
+            ['name' => 'team'],
         ]);
 
         $adminReports = [];
@@ -158,7 +163,7 @@ class RoleAndPermissionSeeder extends Seeder
             //                    ->toMediaCollection('avatar');
             //            }
         } catch (\Throwable $th) {
-            throw $th;
+            // throw $th;
         }
 
         $user->roles()->sync($adminRole);
