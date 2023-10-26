@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
                 CountryStateSeeder::class,
                 GameSeeder::class,
                 CompetitionSeeder::class,
+                TicketCategorySeeder::class,
             ]);
         }
     }
