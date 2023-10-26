@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Competition> $competitions
  * @property-read int|null $competitions_count
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Cup newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Cup newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Cup onlyTrashed()
@@ -32,6 +33,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|Cup whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Cup withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Cup withoutTrashed()
+ *
  * @mixin \Eloquent
  */
 class Cup extends Model

@@ -26,7 +26,6 @@ class AdminPanelProvider extends PanelProvider
     {
         return $panel
             ->default()
-            ->plugin(FilamentSpatieRolesPermissionsPlugin::make())
             ->id('admin')
             ->path('admin')
             ->login(Login::class)
@@ -55,6 +54,7 @@ class AdminPanelProvider extends PanelProvider
                 DispatchServingFilamentEvent::class,
             ])
             ->profile()
+            ->plugin(FilamentSpatieRolesPermissionsPlugin::make())
             ->authMiddleware([
                 Authenticate::class,
             ]);

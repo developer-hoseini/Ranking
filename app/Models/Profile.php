@@ -28,6 +28,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\User|null $user
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Profile newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Profile newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Profile onlyTrashed()
@@ -52,7 +53,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|Profile whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Profile withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Profile withoutTrashed()
+ *
  * @property-read \App\Models\State|null $state
+ *
  * @mixin \Eloquent
  */
 class Profile extends Model
@@ -79,7 +82,6 @@ class Profile extends Model
     protected $casts = [
         'birth_date' => 'date',
     ];
-
 
     public function user(): BelongsTo
     {

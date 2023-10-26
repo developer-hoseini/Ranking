@@ -44,6 +44,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property-read int|null $roles_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
+ *
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
  * @method static Builder|User newModelQuery()
  * @method static Builder|User newQuery()
@@ -60,20 +61,25 @@ use Spatie\Permission\Traits\HasRoles;
  * @method static Builder|User whereRememberToken($value)
  * @method static Builder|User whereUpdatedAt($value)
  * @method static Builder|User whereUsername($value)
+ *
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property int $active
+ *
  * @method static Builder|User onlyTrashed()
  * @method static Builder|User whereActive($value)
  * @method static Builder|User whereDeletedAt($value)
  * @method static Builder|User withTrashed()
  * @method static Builder|User withoutTrashed()
+ *
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Competition> $competitions
  * @property-read int|null $competitions_count
  * @property-read \App\Models\Profile|null $profile
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Team> $teams
  * @property-read int|null $teams_count
  * @property int $coin
+ *
  * @method static Builder|User whereCoin($value)
+ *
  * @mixin \Eloquent
  */
 class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia

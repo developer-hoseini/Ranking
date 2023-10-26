@@ -28,6 +28,7 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @property-read \App\Models\Status|null $status
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
  * @property-read int|null $users_count
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Team newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Team newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Team query()
@@ -41,6 +42,7 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @method static \Illuminate\Database\Eloquent\Builder|Team whereStateId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Team whereStatusId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Team whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class Team extends Model

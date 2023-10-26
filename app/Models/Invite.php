@@ -28,6 +28,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read \App\Models\GameType|null $gameType
  * @property-read \App\Models\User $invitedUser
  * @property-read \App\Models\User $inviterUser
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Invite newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Invite newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Invite onlyTrashed()
@@ -45,6 +46,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|Invite whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Invite withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Invite withoutTrashed()
+ *
  * @mixin \Eloquent
  */
 class Invite extends Model

@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Club> $clubs
  * @property-read int|null $clubs_count
  * @property-read \App\Models\Country $country
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|State newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|State newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|State query()
@@ -26,6 +27,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|State whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|State whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|State whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class State extends Model

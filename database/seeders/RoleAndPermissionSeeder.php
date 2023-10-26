@@ -22,35 +22,35 @@ class RoleAndPermissionSeeder extends Seeder
             ['name' => 'admin'],
             ['name' => 'client'],
         ]);
-/*
-        $permissions = collect([
-            ['name' => 'show', 'label' => 'نمایش'], ['name' => 'create'], ['name' => 'edit'], ['name' => 'delete'],
-        ]);
+        /*
+                $permissions = collect([
+                    ['name' => 'show', 'label' => 'نمایش'], ['name' => 'create'], ['name' => 'edit'], ['name' => 'delete'],
+                ]);
 
-        $modelsOnlyShow = collect([
-            ['name' => 'panel admin'],
-            ['name' => 'dashboard'],
-        ]);
+                $modelsOnlyShow = collect([
+                    ['name' => 'panel admin'],
+                    ['name' => 'dashboard'],
+                ]);
 
-        $modelsHavePermissionAdmin = collect([
-        ]);
+                $modelsHavePermissionAdmin = collect([
+                ]);
 
-        $customPermissions = collect([
-        ]);
+                $customPermissions = collect([
+                ]);
 
-        $models = collect([
-            ['name' => 'game'],
-            ['name' => 'user'],
-            ['name' => 'role'],
-            ['name' => 'permission'],
-            ['name' => 'club'],
-            ['name' => 'competition'],
-            ['name' => 'cup'],
-            ['name' => 'game-result'],
-            ['name' => 'invite'],
-            ['name' => 'team'],
-        ]);
-*/
+                $models = collect([
+                    ['name' => 'game'],
+                    ['name' => 'user'],
+                    ['name' => 'role'],
+                    ['name' => 'permission'],
+                    ['name' => 'club'],
+                    ['name' => 'competition'],
+                    ['name' => 'cup'],
+                    ['name' => 'game-result'],
+                    ['name' => 'invite'],
+                    ['name' => 'team'],
+                ]);
+        */
 
         $adminReports = [];
 
@@ -173,7 +173,7 @@ class RoleAndPermissionSeeder extends Seeder
         }
 
         $user->roles()->sync($adminRole);
-        $allPermissions = Permission::where('guard_name','web')->get();
+        $allPermissions = Permission::where('guard_name', 'web')->get();
         $adminRole->givePermissionTo($allPermissions);
     }
 }

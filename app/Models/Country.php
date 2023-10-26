@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int|null $phonecode
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\State> $states
  * @property-read int|null $states_count
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Country newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Country newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Country query()
@@ -22,6 +23,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|Country whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Country wherePhonecode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Country whereSortname($value)
+ *
  * @mixin \Eloquent
  */
 class Country extends Model

@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\State $state
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Club newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Club newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Club query()
@@ -35,6 +36,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|Club whereStateId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Club whereTel($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Club whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class Club extends Model

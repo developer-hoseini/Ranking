@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $model_type
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ *
  * @method static Builder|Status modelType(?string $type, bool $withNull = true)
  * @method static Builder|Status newModelQuery()
  * @method static Builder|Status newQuery()
@@ -23,8 +24,11 @@ use Illuminate\Database\Eloquent\Model;
  * @method static Builder|Status whereModelType($value)
  * @method static Builder|Status whereName($value)
  * @method static Builder|Status whereUpdatedAt($value)
+ *
  * @property string|null $message
+ *
  * @method static Builder|Status whereMessage($value)
+ *
  * @mixin \Eloquent
  */
 class Status extends Model

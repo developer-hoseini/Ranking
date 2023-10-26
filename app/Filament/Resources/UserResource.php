@@ -7,6 +7,7 @@ use App\Models\State;
 use App\Models\User;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Wizard\Step;
@@ -21,6 +22,7 @@ use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\RestoreAction;
 use Filament\Tables\Actions\RestoreBulkAction;
 use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
@@ -28,8 +30,6 @@ use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
-use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Illuminate\Support\Collection;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
@@ -80,7 +80,7 @@ class UserResource extends Resource
                     ->dehydrated()
                     ->required(fn ($record) => is_null($record))
                     ->maxLength(255),
-                Toggle::make('active')->visible(fn($record) => $record->id!==auth()->id()),
+                Toggle::make('active')->visible(fn ($record) => $record->id !== auth()->id()),
             ]);
     }
 
@@ -138,7 +138,7 @@ class UserResource extends Resource
                                 $data['created_until'],
                                 fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
                             );
-                    })
+                    }),
             ])
             ->actions([
                 EditAction::make(),
@@ -149,8 +149,8 @@ class UserResource extends Resource
                     ->fillForm(fn (User $record): array => [
                         'mobile' => '99',
                         'show_mobile' => true,
-                        ...$record?->profile?->toArray()??[],
-                        'country' => $record->profile?->state?->country_id
+                        ...$record?->profile?->toArray() ?? [],
+                        'country' => $record->profile?->state?->country_id,
                     ])
                     ->steps([
                         Step::make('Information User')
@@ -214,18 +214,18 @@ class UserResource extends Resource
                             ]),
                     ])->action(function (array $data, User $record): void {
                         unset($data['country']);
-                        if($record->profile()->updateOrCreate([],$data)) {
+                        if ($record->profile()->updateOrCreate([], $data)) {
                             Notification::make()
                                 ->title('Saved successfully')
                                 ->success()
                                 ->send();
-                        }else{
+                        } else {
                             Notification::make()
                                 ->title('Something Went Wrong')
                                 ->danger()
                                 ->send();
                         }
-                    })
+                    }),
             ])
             ->groups([
                 'active',

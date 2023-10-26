@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $image_updated_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Game newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Game newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Game query()
@@ -27,10 +28,13 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Game whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Game whereSort($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Game whereUpdatedAt($value)
+ *
  * @property int $coin
  * @property int $score
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Game whereCoin($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Game whereScore($value)
+ *
  * @mixin \Eloquent
  */
 class Game extends Model

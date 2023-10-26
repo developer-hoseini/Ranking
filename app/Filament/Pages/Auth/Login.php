@@ -2,9 +2,9 @@
 
 namespace App\Filament\Pages\Auth;
 
-use Filament\Forms\Form;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Component;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Form;
 use Filament\Pages\Auth\Login as BaseAuth;
 
 class Login extends BaseAuth
@@ -31,11 +31,11 @@ class Login extends BaseAuth
 
     protected function getCredentialsFromFormData(array $data): array
     {
-        $login_type = filter_var($data['login'], FILTER_VALIDATE_EMAIL ) ? 'email' : 'username';
+        $login_type = filter_var($data['login'], FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
         return [
             $login_type => $data['login'],
-            'password'  => $data['password'],
+            'password' => $data['password'],
         ];
     }
 }
