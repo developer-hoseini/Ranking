@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use Althinect\FilamentSpatieRolesPermissions\FilamentSpatieRolesPermissionsPlugin;
 use App\Filament\Pages\Auth\Login;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -25,6 +26,7 @@ class AdminPanelProvider extends PanelProvider
     {
         return $panel
             ->default()
+            ->plugin(FilamentSpatieRolesPermissionsPlugin::make())
             ->id('admin')
             ->path('admin')
             ->login(Login::class)

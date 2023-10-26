@@ -22,7 +22,7 @@ class RoleAndPermissionSeeder extends Seeder
             ['name' => 'admin'],
             ['name' => 'client'],
         ]);
-
+/*
         $permissions = collect([
             ['name' => 'show', 'label' => 'نمایش'], ['name' => 'create'], ['name' => 'edit'], ['name' => 'delete'],
         ]);
@@ -50,6 +50,7 @@ class RoleAndPermissionSeeder extends Seeder
             ['name' => 'invite'],
             ['name' => 'team'],
         ]);
+*/
 
         $adminReports = [];
 
@@ -67,6 +68,8 @@ class RoleAndPermissionSeeder extends Seeder
         }
 
         try {
+
+            /*
             $modelsOnlyShow->each(function ($item) {
                 Permission::updateOrCreate([
                     'name' => 'show '.$item['name'],
@@ -109,6 +112,9 @@ class RoleAndPermissionSeeder extends Seeder
                     'guard_name' => 'web',
                 ]);
             });
+        */
+
+            \Artisan::call('permissions:sync');
 
             $adminRole = Role::where('name', 'admin')->first();
 
@@ -167,7 +173,7 @@ class RoleAndPermissionSeeder extends Seeder
         }
 
         $user->roles()->sync($adminRole);
-        $allPermissions = Permission::all();
+        $allPermissions = Permission::where('guard_name','web')->get();
         $adminRole->givePermissionTo($allPermissions);
     }
 }

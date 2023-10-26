@@ -3,12 +3,9 @@
 namespace App\Filament\Resources;
 
 use App\Models\Country;
-use App\Models\Profile;
 use App\Models\State;
-use App\Models\Status;
 use App\Models\User;
 use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -20,13 +17,11 @@ use Filament\Resources\Resource;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\RestoreAction;
 use Filament\Tables\Actions\RestoreBulkAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
@@ -36,7 +31,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
 class UserResource extends Resource
@@ -198,17 +192,15 @@ class UserResource extends Resource
                                 Select::make('country')
                                     ->required()
                                     ->options(Country::query()->pluck('name', 'id'))
-                                    ->live()
-                                ->columns(2),
+                                    ->live(),
                                 Select::make('state_id')
                                     ->required()
                                     ->label('State')
                                     ->options(fn (Get $get): Collection => State::query()
                                         ->where('country_id', $get('country'))->pluck('name', 'id')
-                                    )->columns(2),
+                                    ),
                                 TextInput::make('bio')
                                     ->label('Bio')
-                                    ->columns(1)
                                     ->maxLength(100),
                             ]),
                         Step::make('Bank Account')
