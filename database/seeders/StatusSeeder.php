@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\GameResult;
 use App\Models\Invite;
 use App\Models\Status;
+use App\Models\Ticket;
 use Illuminate\Database\Seeder;
 
 class StatusSeeder extends Seeder
@@ -29,6 +30,9 @@ class StatusSeeder extends Seeder
             ['name' => 'win', 'model_type' => GameResult::class, 'message' => 'you won'],
             ['name' => 'lose', 'model_type' => GameResult::class, 'message' => 'you lose'],
             ['name' => 'absent', 'model_type' => GameResult::class, 'message' => 'you absent'],
+            ['name' => 'pending', 'model_type' => Ticket::class, 'message' => ''],
+            ['name' => 'answered', 'model_type' => Ticket::class, 'message' => ''],
+            ['name' => 'closed', 'model_type' => Ticket::class, 'message' => ''],
         ];
 
         try {
