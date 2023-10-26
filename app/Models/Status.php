@@ -23,6 +23,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static Builder|Status whereModelType($value)
  * @method static Builder|Status whereName($value)
  * @method static Builder|Status whereUpdatedAt($value)
+ * @property string|null $message
+ * @method static Builder|Status whereMessage($value)
  * @mixin \Eloquent
  */
 class Status extends Model

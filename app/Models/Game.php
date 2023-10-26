@@ -27,6 +27,10 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Game whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Game whereSort($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Game whereUpdatedAt($value)
+ * @property int $coin
+ * @property int $score
+ * @method static \Illuminate\Database\Eloquent\Builder|Game whereCoin($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Game whereScore($value)
  * @mixin \Eloquent
  */
 class Game extends Model

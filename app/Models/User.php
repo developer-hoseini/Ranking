@@ -72,6 +72,8 @@ use Spatie\Permission\Traits\HasRoles;
  * @property-read \App\Models\Profile|null $profile
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Team> $teams
  * @property-read int|null $teams_count
+ * @property int $coin
+ * @method static Builder|User whereCoin($value)
  * @mixin \Eloquent
  */
 class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia

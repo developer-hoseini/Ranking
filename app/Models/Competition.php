@@ -33,7 +33,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read int|null $teams_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
  * @property-read int|null $users_count
- *
  * @method static \Illuminate\Database\Eloquent\Builder|Competition newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Competition newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Competition onlyTrashed()
@@ -54,7 +53,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|Competition whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Competition withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Competition withoutTrashed()
- *
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Cup> $cups
+ * @property-read int|null $cups_count
  * @mixin \Eloquent
  */
 class Competition extends Model

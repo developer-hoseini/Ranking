@@ -40,6 +40,18 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read Model|\Eloquent $gameresultable
  * @property-read Model|\Eloquent $playerable
  * @property-read \App\Models\Status $status
+ * @property string $playerable_type
+ * @property int $playerable_id
+ * @property string $gameresultable_type
+ * @property int $gameresultable_id
+ * @property int $game_result_status_id
+ * @property int|null $status_id
+ * @method static \Illuminate\Database\Eloquent\Builder|GameResult whereGameResultStatusId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GameResult whereGameresultableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GameResult whereGameresultableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GameResult wherePlayerableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GameResult wherePlayerableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GameResult whereStatusId($value)
  * @mixin \Eloquent
  */
 class GameResult extends Model
