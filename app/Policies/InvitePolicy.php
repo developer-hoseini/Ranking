@@ -5,7 +5,8 @@ namespace App\Policies;
 use App\Traits\GeneralPolicy;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class RolePolicy
+class InvitePolicy
 {
-    use GeneralPolicy,HandlesAuthorization;
+    use GeneralPolicy;
+    use HandlesAuthorization;
 }

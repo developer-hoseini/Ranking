@@ -5,7 +5,7 @@ namespace App\Traits;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
-trait BasePolicy
+trait GeneralPolicy
 {
     public function getModel(): array|string
     {

@@ -5,7 +5,8 @@ namespace App\Policies;
 use App\Traits\GeneralPolicy;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class RolePolicy
+class TeamPolicy
 {
-    use GeneralPolicy,HandlesAuthorization;
+    use GeneralPolicy;
+    use HandlesAuthorization;
 }

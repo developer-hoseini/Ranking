@@ -3,12 +3,12 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Traits\BasePolicy;
+use App\Traits\GeneralPolicy;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class UserPolicy
 {
-    use BasePolicy,HandlesAuthorization;
+    use GeneralPolicy,HandlesAuthorization;
 
     public function delete(User $user, User $model): bool
     {
