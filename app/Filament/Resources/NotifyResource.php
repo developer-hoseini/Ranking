@@ -21,7 +21,7 @@ class NotifyResource extends Resource
 {
     protected static ?string $model = Notify::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-bell-alert';
 
     public static function form(Form $form): Form
     {
@@ -111,5 +111,10 @@ class NotifyResource extends Resource
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]);
+    }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return 'setting';
     }
 }
