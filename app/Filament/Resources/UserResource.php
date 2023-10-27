@@ -80,7 +80,7 @@ class UserResource extends Resource
                     ->dehydrated()
                     ->required(fn ($record) => is_null($record))
                     ->maxLength(255),
-                Toggle::make('active')->visible(fn ($record) => $record->id !== auth()->id()),
+                Toggle::make('active')->visible(fn ($record) => $record?->id !== auth()->id()),
             ]);
     }
 
@@ -266,6 +266,6 @@ class UserResource extends Resource
 
     public static function canDelete($user): bool
     {
-        return $user->id !== auth()->id();
+        return $user->id !== auth()->id() && auth()->user()->can(['delete User']);
     }
 }

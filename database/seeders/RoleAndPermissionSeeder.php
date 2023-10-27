@@ -175,5 +175,7 @@ class RoleAndPermissionSeeder extends Seeder
         $user->roles()->sync($adminRole);
         $allPermissions = Permission::where('guard_name', 'web')->get();
         $adminRole->givePermissionTo($allPermissions);
+
+        \Artisan::call('cache:clear');
     }
 }
