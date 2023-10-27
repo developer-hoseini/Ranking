@@ -37,7 +37,17 @@ trait GeneralPolicy
         return $user->can('delete '.$this->getModel());
     }
 
+    public function deleteAny(User $user): bool
+    {
+        return $user->can('delete '.$this->getModel());
+    }
+
     public function restore(User $user, Model $model): bool
+    {
+        return $user->can('restore '.$this->getModel());
+    }
+
+    public function restoreAny(User $user): bool
     {
         return $user->can('restore '.$this->getModel());
     }
@@ -45,5 +55,20 @@ trait GeneralPolicy
     public function forceDelete(User $user, Model $model): bool
     {
         return $user->can('force-delete '.$this->getModel());
+    }
+
+    public function forceDeleteAny(User $user): bool
+    {
+        return $user->can('force-delete '.$this->getModel());
+    }
+
+    public function reorder(User $user): bool
+    {
+        return $user->can('reorder '.$this->getModel());
+    }
+
+    public function replicate(User $user, Model $model): bool
+    {
+        return $user->can('reorder '.$this->getModel());
     }
 }
