@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             GameTypeSeeder::class,
             StatusSeeder::class,
             PolicySeeder::class,
+            GallerySeeder::class,
         ]);
 
         if (app()->environment('local')) {
