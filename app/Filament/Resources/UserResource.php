@@ -232,9 +232,9 @@ class UserResource extends Resource
             ])
             ->bulkActions([
                 BulkActionGroup::make([
-                    ExportBulkAction::make(),
                     RestoreBulkAction::make(),
                 ]),
+                ExportBulkAction::make(),
             ]);
     }
 
