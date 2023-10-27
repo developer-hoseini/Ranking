@@ -26,13 +26,11 @@ class PolicySeeder extends Seeder
             // Get the policy name from the resource name
             $policyName = $resourceName.'Policy';
 
-            // Get the policy class name with namespace
-            $policyClass = 'App\\Policies\\'.$policyName;
+            // Create the policy file path
+            $policyPath = app_path('Policies/'.$policyName.'.php');
 
             // Check if the policy class exists
-            if (! class_exists($policyClass)) {
-                // Create the policy file path
-                $policyPath = app_path('Policies/'.$policyName.'.php');
+            if (! file_exists($policyPath)) {
 
                 // Create the policy file content
                 $policyContent = <<<EOT

@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             RoleAndPermissionSeeder::class,
             GameTypeSeeder::class,
             StatusSeeder::class,
+            PolicySeeder::class,
         ]);
 
         if (app()->environment('local')) {

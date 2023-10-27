@@ -8,7 +8,8 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 
 class UserPolicy
 {
-    use GeneralPolicy,HandlesAuthorization;
+    use GeneralPolicy;
+    use HandlesAuthorization;
 
     public function delete(User $user, User $model): bool
     {
