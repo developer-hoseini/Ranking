@@ -1,6 +1,7 @@
 <!doctype html>
 @php
     $app = config('app');
+
 @endphp
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
@@ -15,8 +16,25 @@
     <meta name="keywords" content="ranking, metaverse, meta sports, meta coin, games coin, sports token, blockchane, rank, tournament, tournament brackets">
     <link rel="shortcut icon" href="{{url('/img/favicon.png')}}" type="image/x-icon">
 
+    <link rel="stylesheet" href="{{url('css/sweetalert2.min.css')}}">
+    <script type="text/javascript" src="{{url('js/sweetalert2.min.js')}}"></script>
+    <script src="{{url('/assets/js/app.js')}}" defer></script>
+    <script src="{{url('/assets/js/jquery.min.js')}}"></script>
+    <script src="{{url('/assets/js/slick.min.js')}}" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="{{url('/assets/js/bootstrap.js')}}"></script>
+    <link rel="stylesheet" href="{{url('/assets/css/bootstrap.css')}}">
+    <link rel="stylesheet" href="{{url('/assets/css/fontawesome.css')}}">
+    <link rel="stylesheet" href="{{url('/assets/css/solid.css')}}">
+    <link rel="stylesheet" href="{{url('/assets/css/slick.css')}}">
+    <link rel="stylesheet" href="{{url('/assets/css/slick-theme.css')}}">
+    <link rel="stylesheet" href="{{url('/assets/css/app.css')}}">
+    
+    @stack('styles')
+
 </head>
 <body>
+
+@include('layouts.header')
 
 @section('header')
 

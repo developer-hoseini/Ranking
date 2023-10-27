@@ -1,0 +1,353 @@
+html, body {
+    font-family: 'IranSans';
+    direction: rtl;
+    text-align: right;
+}
+pre{font-family: 'IranSans';}
+.title {width: 47%;}
+.dropdown-menu{text-align: right;}
+.auth .form-check-label{margin-right: 20px;}
+.auth_box label{text-align: left !important;}
+.form-group{width: 100%;}
+.btn-register{
+    position: relative;
+    right: 66%;
+    top: 20%;
+    padding: 3px 20px;
+}
+.box, .game_box, .games_box, .top_club_box, .latest_played_box,
+.gamepage_box, .latest_photos_box, .stars_box, .statistics-box{
+    float: right;
+    margin-left: 0px;
+    margin-right: 25px;
+}
+
+.game_box{margin-right: 29px;}
+.list-group-item{left: 20px; padding: 10px 0;}
+.top_club_box{margin: 50px 20px 0px 0px;}
+.top_club_box .alert-heading h4{font-size: 20px;}
+.latest_played_box{margin-right: 55px;}
+.latest_photos_box{margin-right: 40px;}
+.statistics-box{margin-right: 16px;}
+
+.games-body{padding: 0;}
+.games_box{height: 325px; margin-right: 18px;}
+.games_box a{width: 90%; margin: 0 auto; margin-top: 15px; border-radius: 20px;}
+
+.invite_box{margin-left: 0; margin-right: 30px;}
+.invite-part{float: right; text-align: left;}
+.user-results, .fullname_results{direction: ltr; width: 437px; left: 254px;}
+.fullname_results{direction: ltr; width: 93%; left: 15px;}
+.fullname_results .list-group-item{padding: 15px; left: 0;}
+.user-results .list-group-item{left: 0px; padding: 15px;}
+.lblusername{text-align: left !important;}
+.btn-tooltip{left: 5px;}
+.club-part{margin-left: 0; margin-right: 35%; width: 46%;}
+.invite-part .btn-danger{position: relative; right: 20px;}
+.result_box{margin-left: 0; margin-right: 29px;}
+.gamepage_box{margin-right: 7px; height: 315px;}
+.result-user-info, .sent-user-info, .receive-user-info{
+    float: right;
+    padding: 0 10px;
+}
+.result-info{border-left: none; border-right: #dfdfdf 1px solid; padding-left: 0; padding-right: 10px;}
+.result-user-info{width: 16%;}
+.upload-image{direction: ltr;}
+.btn-iAbsent{margin-right: 4px;}
+.result-btn-box{margin-right: 20px; margin-left: 5%;}
+.result_status{left: -15px;}
+.custom-file-label{text-align: left;}
+.result-info, .sent-info, .receive-info{
+    border-left: none;
+    border-right: #dfdfdf 1px solid;
+    padding-left: 0px;
+    padding-right: 10px;
+}
+.invite-dt{margin-top: 5px; margin-bottom: 5px;}
+.sent_box .card-body, .received_box .card-body{padding: 1.25rem 0;}
+.warn-part-one, .warn-part-two{
+    float: right;
+    margin-left: 0;
+    margin-right: 0px;
+}
+.warn-part-one{margin-right: 0;}
+.stars_box{margin-right: 5px;}
+.stars_textbox, .star-ratings-sprite, .stars_value{float: right;}
+.stars_textbox{width: 80px;}
+.stars_value{padding-right: 20px;}
+.star-ratings-sprite-rating{
+    background-position: 100% 100%;
+    float: right;
+}
+
+.chat_box, .btn-send-chat{float: right;}
+.btn-send-chat{margin-left: 0px; margin-right: 10px;}
+.loading-chats{left: -10px;}
+
+.invite-part .loading{right: unset; left: 20%;}
+
+.change-games-part{width: 42%;}
+.find-part label, .find-part button, .find-part input{float: right;}
+.find-part .text-md-right{text-align: left !important;}
+.loading-ranks{left: -15px;}
+
+.cd-timeline{direction: ltr; text-align: left;}
+.cd-timeline__block{font-family: 'IranSans';}
+.cd-timeline__content h6{direction: rtl; text-align: right; line-height: 25px;}
+
+.profile-bio{float: right; margin-right: 10px; margin-left: 0;}
+.profile-photo{float: right;}
+.profile-photo span{left: 0;}
+.profile_stars_box,.profile_scores_box,.profile_gamepage_box{float: right;}
+.profile_stars_box{margin: 10px 15px 0 0;}
+.profile_stars_box .btn-tooltip{left: -10px;}
+.profile_gamepage_box{margin: 10px 0 20px 0;}
+.profile_gamepage_box .card-body{padding: 1.25rem 0;}
+.card-login-reg .form-check-label{margin-right: 20px;}
+.profile-details{width: 20%; float: right;}
+.navbar, .home-cat-header h2, .global-header h2{
+    font-family: 'IranSans_Bold';
+    padding: 0;
+    font-size: 28px;
+}
+
+.like_cnt .fa-heart{float: right; padding-left: 5px;}
+.like_cnt span{float: right;}
+
+/*DatePicker*/
+.vpd-input-group input{
+    border-right: none;
+    border-radius: .25rem 0 0 .25rem !important;
+}
+
+.profile_game_scores .card-body{padding: 0;}
+.login-page label{text-align: left;}
+.chats-photo-row .userpart{direction: ltr;}
+
+.latest_photos_content{top: 50px;}
+.ranking_desktop{right: unset; left: 30px;}
+.team_name{float: right;}
+.team_details{float: right; margin-right: 30px; margin-left: 0;}
+.team_details table{float: right;}
+.team_buttons{text-align: right; float: right; margin-left: 0; margin-right: 50px;}
+.reg_team .team_buttons{width: 45%; margin-right: 30px; margin-left: 0;}
+.btn_captain_chat{margin-top: 0;}
+.event_see{text-align: left;}
+.prize_box{margin-left: 0 !important; margin-right: 50px !important;}
+.profile_coin{float: right; margin: 0 30px 0 5px; position: unset;}
+.ranks_table .user_photo{float: right;}
+.dynamic_label{text-align: right;}
+.profile_stars_box, .profile_scores_box, .profile_gamepage_box{height: 230px;}
+#txt_fullname{direction: rtl;}
+.desktop_auth_box .fa-user-edit{left: 4px;}
+.qrcode_black_menu{margin-left: 4px;}
+.desktop_auth_box .fa-power-off{margin-left: 4px; position: relative; left: -2px;}
+.cc_photo{right: 97px;}
+.cc_qrcode{right: 604px;}
+.player_1, .player_2{direction: rtl;}
+.tok_hidder{left: -170px;}
+.select_third{text-align: right;}
+.frm_convert_coin{direction: rtl;}
+.list-arrow-down{
+    background-position: 98%;
+    padding-right: 40px;
+}
+
+
+
+
+
+
+
+/*  Mohebi CSS  */
+.menu-list-item{font-size: 12px;font-weight: bold;}
+#login-box{float: left;}
+.menu-left-list-box{float: left;}
+.events_alert{margin-right: 55px;}
+.tournament-show-tite-btn{direction: ltr;text-align: left;}
+.ticket-td6{display: none;}
+#ticket_create_div{display: none;}
+.form-sm-input{width: 49%;margin-left: 2%;float: right;}
+.invite-swal-items{text-align: right;}
+.invite-swal-items img{float: right;}
+.invite-swal-items span{float: right;margin-right: 5px;margin-top: 3px;}
+.invite-swal-items i{float: left;margin: 9px 5px;}
+.float-right-rtl{float: right !important;}
+.float-left-rtl{float: left !important;}
+.top_players_td{text-align: right;}
+.menu-nav-right{direction: rtl;text-align: left;}
+.menu-nav-left{direction: ltr;text-align: right;}
+.medium-box{direction: rtl;text-align: right;}
+.direction{direction: rtl;}
+.alignment{text-align: right;}
+.tour-srch-btn{line-height: 55px;}
+.more-tour-link{text-align: left;direction: ltr;}
+
+
+
+
+
+
+
+/****************   Mobile Phones   ***********************/
+
+@media screen and (max-width: 900px) {
+
+/* Header */
+.header{height: 0px;}
+.logo{display: none;}
+.title{width: 100%;}
+.auth{width: 100%; margin-right: 0;}
+.auth_box{width: 100%; height: 100%; float: none; margin-left: 20px;}
+.auth_box label{text-align: right !important;}
+.tab-content{width: 100%; padding: 15px 25px 15px 15px;}
+.btn-register{position: unset;}
+.login-forgot-custom{left: 0;}
+
+/* Menu */
+.auth .nav{flex-wrap: nowrap; padding-right: 0;}
+.nav-pills{padding: 0;}
+.navbar-header{display: block;}
+.home-link{display: none;}
+.nav-item{width: 100%;text-align: center;}
+.collapse:not(.show){display: none;}
+.logged-header{height: 0px;}
+.global-header{margin: 15px 0px 0px 0px !important; width: 100% !important;}
+
+/* Home */
+.center_box{width: 100%;}
+.game_box{width: 94%; margin: 15px 3.3% 0px 0px; height: auto;}
+.top-club-bg{height: 100%; padding-top: 1px;}
+.top_club_box{margin: 0px 3% 30px 3% !important; float: none;}
+.top_club_box img{width: 65%;}
+.latest_played_box{width: unset; height: unset; margin: 30px 3% 0px 3% !important; float: none;}
+.latest_photos_box{width: unset; margin: 0px 5% 25px 5%; float: none;}
+.statistics{padding: 0px;}
+.statistics-box{width: 23%; margin: 15px 7px 0 0; float: right; height: 100px;}
+#footer{padding: 20px 0px 0px 0px;}
+
+/* Games & GamePage & ChatPage & Chats */
+.games_box{width: 45%; margin: 15px 3.3% 0px 0px;}
+.gamepage_center_box{width: 100%; padding: 3%;}
+.club-part{margin-right: 15px; width: 80%;}
+.invite_box{width: 100%; margin: 10px 0 0 0;}
+.invite-part{text-align: right !important;}
+.lblusername{text-align: right !important;}
+.lbl-withreferee{right: 17px;}
+.lbl-freegame{right: 3px;}
+.user-results{width: 100%; height:auto; left: 0px; top: 103px; text-align: left;}
+.userinfo_img{width: 100%; position: relative; left: 10%;}
+.userinfo_info{top: 20px; left: 10%;}
+.result-user-info, .sent-user-info, .receive-user-info{
+    float: none;
+    width: 100%;
+    border-bottom: #eee 1px solid;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+.list-group{padding: 0;}
+.games-body .list-group{padding-right: 5px;}
+.result-info, .sent-info, .receive-info{float: none; border-left: none; padding-left: 10px; width: 100%;}
+.sent_box{width: 100%; margin: 10px 0 10px 0;}
+.received_box{width: 100%; margin: 10px 0 20px 0;}
+.result_box{width: 100%; margin: 10px 0 0 0;}
+.result_box .card-body, .sent_box .card-body, .received_box .card-body{padding: 0;}
+.list-group-item{left: 0;}
+.btn-iAbsent, .btn-heAbsent{padding: .375rem .75rem;}
+.gamepage-buttons a{width: 100%; margin-bottom: 5px; margin-left: 0 !important;}
+#app2{width: 100% !important;}
+.btn-group>label{width: 100%; margin: 5px 0 0 0 !important;}
+.result-btn-box, .btn-submit-result{width: 100%;}
+.gamepage_box{width: 100%; margin: 20px 0 0 0;}
+.stars_box{width: 100%; height: 350px; margin: 20px 0 0 0;}
+.star-ratings-sprite{}
+.stars_value{width: 100%; display: block; clear: both; padding: 0;}
+.gamepage_stars{width: 100%;}
+.gamepage_box .list-group-item{left: 0;}
+.warn-part-two{margin-right: 5%;}
+.chats-container{padding: 0;}
+.chats-body{padding: 0;}
+.chats-photo-row{width: 30%; padding-left: 0 !important; padding-right: 10% !important;}
+.gameicon-chats{background-size: 100%; width: 55px; height: 55px;}
+
+/* Ranks Page */
+.change-games-part{width: 100%;}
+.change-games-part .btn-won, .change-games-part .btn-lost{width: 100%;}
+.change-games-part .btn-lost{margin-left: 0 !important;}
+.find-part label{width: 38%; text-align: left;}
+
+/* Profile */
+.profile, .profile-photo, .like_cnt, .profile-details, .profile-game-header,
+.profile_stars_box, .profile_scores_box, .profile_gamepage_box
+{width: 100%;}
+.profile-photo{text-align: center;}
+.profile-photo img{width: 70%;}
+.profile_stars_box{margin: 0;}
+.profile_scores_box{margin: 10px 0 0 0;}
+.profile_game_scores .card-body{padding: 5px 10px 10px 0px;}
+.profile_gamepage_box .warn-part-two{margin-right: 10%;}
+.stars_textbox{float: right; width: 40%;}
+.login-reg-header{height: 0px;}
+
+/* Edit Profile & Change Password */
+.col-md-8, .col-md-6, .col-md-5{flex: none; max-width: 90%;}
+
+/* Login Page */
+.login-page label{text-align: right;}
+
+/* Prizes */
+.prize_box{margin-right: 5% !important; float: none;}
+
+/* My Teams */
+.team_details{margin-right: 0;}
+.team_buttons{margin-right: 0; text-align: center;}
+
+/* Joined Teams */
+.reg_team .team_buttons{width: 100%; margin-right: 0;}
+
+/* Submit Quick Result */
+.fullname_results{width: 90%; direction: rtl; height: auto;}
+.fullname_results .user_photo{width: 18%;}
+.quick_submit_result .loading{left: 45%;}
+
+}
+
+
+
+@media screen and (min-width: 901px) {
+    .profile_game_scores{font-size: 11px;}
+    .profile_gamepage_box .warn-part-one, .profile_gamepage_box .warn-part-two{margin-right: 0;}
+}
+@media screen and (min-width: 927px) {
+    .profile_game_scores{font-size: 12px;}
+}
+@media screen and (min-width: 973px) {
+    .profile_game_scores{font-size: 13px;}
+}
+@media screen and (min-width: 1020px) {
+    .profile_game_scores{font-size: 14px;}
+}
+@media screen and (min-width: 1100px) {
+    .profile_gamepage_box .warn-part-two{margin-right: -7%;}
+}
+@media screen and (min-width: 1200px) {
+    .profile_gamepage_box .warn-part-two{margin-right: 0;}
+}
+
+
+
+/*  Mohebi CSS  */
+@media screen and (max-width: 520px) {
+    .ticket-td2{display: none;}  .ticket-td4{display: none;}  .ticket-td5{display: none;} .ticket-td6{display: block;}
+}
+@media screen and (max-width: 582px) {
+    .form-sm-input{width: 100%;}
+}
+@media screen and (max-width: 600px) {
+    .profile-game-btn span{float: right;}
+    .profile-game-btn i{float: left;padding-top: 5px;}
+}
+@media (max-width: 1000px) {
+    .menu-nav-right{direction: rtl;text-align: right;}
+    .menu-nav-left{direction: ltr;text-align: left;}
+}

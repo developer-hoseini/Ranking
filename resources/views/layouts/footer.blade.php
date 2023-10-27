@@ -1,5 +1,5 @@
 <div id="footer">
-    <div class="rg-logo"><img src="{{ url('/img/coin.png') }}" width="60" align="center"></div>
+    <div class="rg-logo"><img src="{{ \Storage::url('assets/images/coin.png') }}" width="60" align="center"></div>
     <div>{{ __('words.Global Center of Players Ranking') }}</div>
     
     <div class="footer-link">

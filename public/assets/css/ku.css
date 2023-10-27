@@ -1,0 +1,39 @@
+@font-face {
+    font-family: 'kchimen';
+    src: url('../webfonts/kchimen/kchimen.eot');
+    src: url('../webfonts/kchimen/kchimen.eot?#iefix') format('embedded-opentype'),
+        url('../webfonts/kchimen/kchimen.woff') format('woff'),
+        url('../webfonts/kchimen/kchimen.ttf') format('truetype');
+}
+
+html, body {
+    font-family: 'kchimen' !important;
+    direction: rtl;
+    text-align: right;
+}
+pre{font-family: 'kchimen' !important;}
+
+h1,h2,h3,h4,h5,p,span,div,a{font-family: 'kchimen' !important;}
+
+.col-form-label{font-size: 13px; padding: 0; text-align: left !important;}
+.vpd-input-group{direction: ltr;}
+.gamepage_stars{width: 280px;}
+.stars_value{padding-right: 10px;}
+.cd-timeline__block{font-family: 'kchimen' !important;}
+.btn-pass-email{font-size: 12px;}
+.team_buttons{margin-right: 30px;}
+.form-group label{text-align: right !important;}
+.team_buttons{margin-right: 0;}
+
+
+
+
+/*  Mohebi CSS  */
+.events_alert{margin-right: 58px;}
+
+
+
+@media screen and (max-width: 900px)
+{
+.auth_box{height: 60%;}
+}
