@@ -263,9 +263,4 @@ class UserResource extends Resource
     {
         return 1;
     }
-
-    public static function canDelete($user): bool
-    {
-        return $user->id !== auth()->id() && auth()->user()->can(['delete User']);
-    }
 }
