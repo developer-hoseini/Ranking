@@ -1,9 +1,9 @@
 <!doctype html>
 @php
     $app = config('app');
-
+    $locale = app()->getLocale();
 @endphp
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', $locale) }}">
 
 <head>
     <meta charset="utf-8">
@@ -12,12 +12,14 @@
     <title>
         {{ $app['name'] }} @yield('title')
     </title>
-    <meta name="description" content="Ranking - Global center of players ranking. Record your results of plays. Register in tournaments, get coins and spend it!">
-    <meta name="keywords" content="ranking, metaverse, meta sports, meta coin, games coin, sports token, blockchane, rank, tournament, tournament brackets">
-    <link rel="shortcut icon" href="{{url('/img/favicon.png')}}" type="image/x-icon">
+    <meta name="description"
+          content="Ranking - Global center of players ranking. Record your results of plays. Register in tournaments, get coins and spend it!">
+    <meta name="keywords"
+          content="ranking, metaverse, meta sports, meta coin, games coin, sports token, blockchane, rank, tournament, tournament brackets">
+    <link rel="shortcut icon" href="{{Vite::image('favicon.png')}}" type="image/x-icon">
 
-    <link rel="stylesheet" href="{{url('css/sweetalert2.min.css')}}">
-    <script type="text/javascript" src="{{url('js/sweetalert2.min.js')}}"></script>
+    <link rel="stylesheet" href="{{url('/assets/css/sweetalert2.min.css')}}">
+    <script type="text/javascript" src="{{url('/assets/js/sweetalert2.min.js')}}"></script>
     <script src="{{url('/assets/js/app.js')}}" defer></script>
     <script src="{{url('/assets/js/jquery.min.js')}}"></script>
     <script src="{{url('/assets/js/slick.min.js')}}" type="text/javascript" charset="utf-8"></script>
@@ -28,7 +30,7 @@
     <link rel="stylesheet" href="{{url('/assets/css/slick.css')}}">
     <link rel="stylesheet" href="{{url('/assets/css/slick-theme.css')}}">
     <link rel="stylesheet" href="{{url('/assets/css/app.css')}}">
-    
+
     @stack('styles')
 
 </head>
@@ -38,13 +40,14 @@
 
 @section('header')
 
-<div id="main">
-    @yield('content')
-</div>
+    <div id="main">
+        @yield('content')
+    </div>
 
-@include('layouts.footer')
+    @include('layouts.footer')
 
-@stack('scripts')
+    @stack('scripts')
+@endsection
 
 </body>
 </html>

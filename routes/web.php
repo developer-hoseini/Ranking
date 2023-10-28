@@ -17,3 +17,17 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/test', [TestController::class, 'index'])->name('test.index');
+
+Route::get('/tournament', [TestController::class, 'index'])->name('tournament.index');
+Route::get('/quick_submit', [TestController::class, 'index'])->name('quick_submit');
+Route::get('/ranks', [TestController::class, 'index'])->middleware('auth')->name('ranks');
+Route::get('/events', [TestController::class, 'index'])->name('events');
+Route::get('/quick_submitted_list', [TestController::class, 'index'])->name('quick_submitted_list');
+Route::get('/team_ranks', [TestController::class, 'index'])->middleware('auth')->name('team_ranks');
+Route::get('/games', [TestController::class, 'index'])->name('games');
+Route::view('/rules', [TestController::class, 'index'])->name('rules');
+Route::view('/tutorial', [TestController::class, 'index'])->name('tutorial');
+Route::get('/editprofile', [TestController::class, 'index'])->name('edit_profile');
+Route::get('/set_qrcode', [TestController::class, 'index'])->name('set_qrcode');
+Route::get('/logout', [TestController::class, 'index'])->name('logout');
+Route::get('/charge', [TestController::class, 'index'])->name('charge');
