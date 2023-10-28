@@ -31,3 +31,10 @@ Route::get('/editprofile', [TestController::class, 'index'])->name('edit_profile
 Route::get('/set_qrcode', [TestController::class, 'index'])->name('set_qrcode');
 Route::get('/logout', [TestController::class, 'index'])->name('logout');
 Route::get('/charge', [TestController::class, 'index'])->name('charge');
+Route::get('/my_tournament', [TestController::class, 'index'])->name('my_tournament.index');
+Route::get('/my_teams', [TestController::class, 'index'])->name('my_teams');
+Route::get('/chats', [TestController::class, 'index'])->name('chats');
+Route::get('/tickets', [TestController::class, 'index'])->name('tickets.index');
+
+Route::get('/profile/{username}', [TestController::class, 'index'])->name('profile');
+Route::get('/prizes', [TestController::class, 'index'])->name('prizes');

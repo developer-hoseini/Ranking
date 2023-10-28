@@ -21,8 +21,5 @@
 
     @include('layouts.header.menu_auth')
 @else
-    {{-- @php
-        $auth_user = collect([ 'id'=>time(), 'is_guest'=>true ]);
-    @endphp --}}
     @include('layouts.header.menu_guest')
 @endauth

@@ -47,7 +47,6 @@
     @include('layouts.footer')
 
     @stack('scripts')
-@endsection
 
 </body>
 </html>
