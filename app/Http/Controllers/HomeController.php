@@ -14,8 +14,19 @@ class HomeController extends Controller
 
         $sliders = Gallery::typeSlider()->orderBy('sort')->active()->get();
 
-        $games = Game::where('score', '>=', $setting['home_ranks_table'])
-            ->where('active', $status['Yes'])->inRandomOrder()->get();
+        $games = Game::has('scores', '>=', $setting['home_ranks_table'])
+            ->with([
+                'scores' => fn ($q) => $q->with(['user', 'user.profile'])
+                    ->orderBy('score', 'desc')
+                    ->orderBy('in_club', 'desc')
+                    ->orderBy('with_image', 'desc')
+                    ->orderBy('warning', 'asc')
+                    ->orderBy('join_dt', 'asc'),
+            ])
+            ->where('active', $status['Yes'])
+            ->take(3)
+            ->inRandomOrder()
+            ->get();
 
         $events_count = 0;
         session(

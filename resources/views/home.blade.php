@@ -49,7 +49,10 @@
                                 <div class="w-100 pt-2 border-ranking bg-light" style="border-bottom: solid 3px;">
                                     <div class="home-ranks-title col-5">
                                         <a href="{{route('gameinfo',['game_name'=>$game->name])}}"
-                                           class="text-white">{{ __('games.'.$game->name) }}</a>
+                                           class="text-white">
+                                            {{--                                            {{ __('games.'.$game->name) }}--}}
+                                            {{$game->name}}
+                                        </a>
                                     </div>
                                 </div>
                                 <div class="border-bottom d-flex flex-wrap py-2 bg-light">
@@ -62,37 +65,30 @@
                                     <div class="d-inline-block align-middle mx-auto"
                                          style="width: 15%;">{{__('words.Coin')}}</div>
                                 </div>
-                                {{--@php
-                                    $scores = \App\User_Score::with(['user','user.profile'])
-                                        ->where('game_id', $table_game->id)->orderBy('score','desc')
-                                        ->orderBy('in_club','desc')->orderBy('with_image','desc')->orderBy('warning','asc')
-                                        ->orderBy('join_dt','asc')
-                                        ->take(config('setting.home_ranks_table'))->get();
-                                @endphp
-                                @foreach($scores as $score)
+                                @foreach($game->scores->take((config('setting.home_ranks_table'))) as $score)
                                     <div class="border-bottom w-100 py-2">
                                         <div class="d-inline-block align-middle"
-                                             style="width: 7%;">{{ (int)$score->rank }}</div>
+                                             style="width: 7%;">{{ (int)$score->id }}</div>
                                         <div class="d-inline-block align-middle" style="width: 8%;">
-                                            <img img src="{{ $score->user->photo }}" width="100%"
-                                                 title="{{ $score->user->username }}"
-                                                 alt="{{$score->user->profile->fullname}}" class="rounded-circle">
+                                            <img img src="{{ $score?->user?->photo }}" width="100%"
+                                                 title="{{ $score->user?->username }}"
+                                                 alt="{{$score->user?->profile?->fullName}}" class="rounded-circle">
                                         </div>
                                         <div class="d-inline-block align-middle" style="width: 47%;">
-                                            <a href="{{ route('profile',['username'=>$score->user->username]) }}"
-                                               title="{{$score->user->profile->fullname}}" class="text-dark">
-                                                {{ $score->user->profile->fullname }}
+                                            <a href="{{ route('profile',['username'=>$score->user?->username]) }}"
+                                               title="{{$score->user?->profile?->fullName}}" class="text-dark">
+                                                {{ $score->user?->profile?->fullName??$score->user?->username }}
                                             </a>
                                         </div>
                                         <div class="d-inline-block align-middle"
                                              style="width: 15%;">{{ $score->score }}</div>
                                         <div class="d-inline-block align-middle" style="width: 15%;"><img
-                                                src="{{url('/img/coin.png')}}" width="20px"
+                                                src="{{url('assets/img/coin.png')}}" width="20px"
                                                 alt="{{__('words.rezvani_coin')}}" title="{{__('words.rezvani_coin')}}">
                                             <div>{{ $score->user->coin }}</div>
                                         </div>
                                     </div>
-                                @endforeach--}}
+                                @endforeach
                             </div>
                         </div>
                     @endforeach

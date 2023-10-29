@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * App\Models\Game
@@ -35,14 +36,41 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Game whereCoin($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Game whereScore($value)
  *
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Invite> $invites
+ * @property-read int|null $invites_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\UserScore> $joined
+ * @property-read int|null $joined_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\UserScore> $scores
+ * @property-read int|null $scores_count
+ *
+ * @method static \Database\Factories\GameFactory factory($count = null, $state = [])
+ *
  * @mixin \Eloquent
  */
 class Game extends Model
 {
     use HasFactory;
 
-    public function scores()
+    protected $fillable = [
+        'name',
+        'sort',
+        'image_updated_at',
+        'is_online',
+        'active',
+    ];
+
+    public function scores(): HasMany
     {
-        return $this->hasMany(Scor);
+        return $this->hasMany(UserScore::class, 'game_id');
+    }
+
+    public function joined(): HasMany
+    {
+        return $this->hasMany(UserScore::class, 'game_id')->where('is_join', config('status.Yes'));
+    }
+
+    public function invites(): HasMany
+    {
+        return $this->hasMany(Invite::class, 'game_id')->where('status', config('status.End_True'));
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -91,5 +92,12 @@ class Profile extends Model
     public function state(): BelongsTo
     {
         return $this->belongsTo(State::class);
+    }
+
+    protected function fullName(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this?->fname.' '.$this?->lname
+        );
     }
 }

@@ -35,6 +35,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|Notify withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Notify withoutTrashed()
  *
+ * @property-read \App\Models\User $createdBy
+ *
  * @mixin \Eloquent
  */
 class Notify extends Model
