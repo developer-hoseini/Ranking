@@ -36,9 +36,10 @@
                id="menu-nav-c-btn-4">
                 <img src="{{url('assets/img/menu/information-red.png')}}" height="20x">
             </a>
-            {{-- <div class="menu-nav-circle-btn font-weight-bold" style="font-family: IranSans_Black;" onclick="language_btn();" title="{{__('words.Language')}}" id="menu-nav-c-btn-5">
+            <div class="menu-nav-circle-btn font-weight-bold" style="font-family: IranSans_Black;"
+                 onclick="language_btn();" title="{{__('words.Language')}}" id="menu-nav-c-btn-5">
                 {{$locale}}
-            </div> --}}
+            </div>
         </div>
     </div>
 </nav>
@@ -156,8 +157,10 @@
             function language_btn() {
                 Swal.fire({
                     title: "{{ __('words.language_select') }}" + ' :',
-                    html: '<br>'
-                    ,
+                    html: '<br>' +
+                        '@foreach(LaravelLocalization::getLocalesOrder() as $localeCode => $properties)' +
+                        '<a class="btn btn-outline-primary " href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">{{ $properties['native'] }}</a> ' +
+                        '@endforeach',
                     showCancelButton: true,
                     showConfirmButton: false,
 

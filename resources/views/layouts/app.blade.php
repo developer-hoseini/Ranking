@@ -40,13 +40,21 @@
 
 @section('header')
 
-    <div id="main">
-        @yield('content')
-    </div>
 
-    @include('layouts.footer')
+@endsection
 
-    @stack('scripts')
+<div id="main">
+
+    <x-alert.alert/>
+
+    <x-alert.alert-error/>
+
+    @yield('content')
+</div>
+
+@include('layouts.footer')
+
+@stack('scripts')
 
 </body>
 </html>
