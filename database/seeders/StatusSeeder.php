@@ -2,10 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\GameResult;
-use App\Models\Invite;
+use App\Enums\StatusEnum;
 use App\Models\Status;
-use App\Models\Ticket;
 use Illuminate\Database\Seeder;
 
 class StatusSeeder extends Seeder
@@ -15,33 +13,16 @@ class StatusSeeder extends Seeder
      */
     public function run(): void
     {
-        $statuses = [
-            ['name' => 'pending'],
-            ['name' => 'accepted'],
-            ['name' => 'rejected'],
-            ['name' => 'canceled'],
-            ['name' => 'submit_result', 'model_type' => Invite::class],
-            ['name' => 'wait_opponent_result', 'model_type' => Invite::class],
-            ['name' => 'wait_image_verify', 'model_type' => Invite::class],
-            ['name' => 'wait_club_verify', 'model_type' => Invite::class],
-            ['name' => 'wait_opponent_result', 'model_type' => Invite::class],
-            ['name' => 'wait_opponent_result', 'model_type' => Invite::class],
-            ['name' => 'wait_opponent_result', 'model_type' => Invite::class],
-            ['name' => 'win', 'model_type' => GameResult::class, 'message' => 'you won'],
-            ['name' => 'lose', 'model_type' => GameResult::class, 'message' => 'you lose'],
-            ['name' => 'absent', 'model_type' => GameResult::class, 'message' => 'you absent'],
-            ['name' => 'pending', 'model_type' => Ticket::class, 'message' => ''],
-            ['name' => 'answered', 'model_type' => Ticket::class, 'message' => ''],
-            ['name' => 'closed', 'model_type' => Ticket::class, 'message' => ''],
-        ];
 
         try {
-            foreach ($statuses as $status) {
+
+            collect(StatusEnum::cases())->each(function ($item) {
                 status::updateOrCreate([
-                    'name' => $status['name'],
-                    ...isset($status['model_type']) ? ['model_type' => $status['model_type']] : [],
+                    'name' => $item->value,
+                    ...$item->getModelType() ? ['model_type' => $item->getModelType()] : [],
+                    ...$item->getMessage() ? ['message' => $item->getMessage()] : [],
                 ]);
-            }
+            });
         } catch (\Throwable $th) {
             throw $th;
         }

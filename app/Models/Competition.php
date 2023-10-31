@@ -57,6 +57,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Cup> $cups
  * @property-read int|null $cups_count
+ * @property-read \App\Models\Team|null $team
  *
  * @mixin \Eloquent
  */
@@ -64,12 +65,12 @@ class Competition extends Model
 {
     use HasFactory,SoftDeletes;
 
-    public function users()
+    public function users(): MorphToMany
     {
         return $this->morphedByMany(User::class, 'competitionable')->withPivot(['status_id']);
     }
 
-    public function teams()
+    public function teams(): MorphToMany
     {
         return $this->morphedByMany(Team::class, 'competitionable')->withPivot(['status_id']);
     }

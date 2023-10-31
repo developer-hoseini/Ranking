@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
                 GameSeeder::class,
                 CompetitionSeeder::class,
                 TicketCategorySeeder::class,
+                TempUserScoreSeeder::class,
             ]);
         }
     }

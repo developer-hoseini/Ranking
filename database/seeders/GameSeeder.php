@@ -14,13 +14,13 @@ class GameSeeder extends Seeder
     {
         $games = [
             [
-                'name' => 'footbal',
+                'name' => 'PES',
                 'score' => 2,
                 'coin' => 50,
                 'sort' => 10,
             ],
             [
-                'name' => 'valibol',
+                'name' => 'Ping Pong',
                 'score' => 1,
                 'coin' => 20,
                 'sort' => 10,

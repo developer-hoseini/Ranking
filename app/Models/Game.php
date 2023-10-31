@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -44,6 +46,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read int|null $scores_count
  *
  * @method static \Database\Factories\GameFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|Game active()
  *
  * @mixin \Eloquent
  */
@@ -72,5 +75,24 @@ class Game extends Model
     public function invites(): HasMany
     {
         return $this->hasMany(Invite::class, 'game_id')->where('status', config('status.End_True'));
+    }
+
+    public function scopeActive(Builder $query): Builder
+    {
+        return $query->where('active', true);
+    }
+
+    protected function cover(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => url('/uploads/games/solo/cover/'.$this->name.'.jpg?'.strtotime($this->image_updated))
+        );
+    }
+
+    protected function icon(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => url('/uploads/games/solo/icon/'.$this->name.'.jpg?'.strtotime($this->image_updated))
+        );
     }
 }
