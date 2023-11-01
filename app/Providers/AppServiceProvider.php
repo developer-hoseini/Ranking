@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
 
@@ -25,5 +26,7 @@ class AppServiceProvider extends ServiceProvider
         Model::unguard();
 
         Vite::macro('image', fn ($asset) => $this->asset("resources/images/{$asset}"));
+
+        Paginator::defaultView('pagination::bootstrap-5');
     }
 }

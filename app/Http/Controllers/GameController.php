@@ -14,12 +14,7 @@ class GameController extends Controller
             return redirect()->route('home');
         }
 
-        $game->loadCount(['competitions', 'invites']);
-        //        $scores = \App\User_Score::with(['user','user.profile'])
-        //            ->where('game_id', $game->id)->orderBy('score','desc')
-        //            ->orderBy('in_club','desc')->orderBy('with_image','desc')->orderBy('warning','asc')
-        //            ->orderBy('join_dt','asc')
-        //            ->paginate(config('setting.gameinfo_list'));
+        $game->loadCount(['invites']);
 
         $users = User::query()
             ->whereHas('competitions', function ($query) use ($game) {
@@ -30,6 +25,7 @@ class GameController extends Controller
                 'competitions' => fn ($q) => $q->where('game_id', $game->id),
                 'competitions.game' => fn ($q) => $q->where('id', $game->id),
             ])
+            ->orderBy('coin', 'desc')
             ->paginate(config('setting.gameinfo_list'));
 
         return view('game.show', ['game' => $game, 'users' => $users]);

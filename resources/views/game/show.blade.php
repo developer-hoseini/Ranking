@@ -12,7 +12,7 @@
     <div class="card ranks_content">
         <div class="card-header text-center gameinfo">
             <h1>{{ $game->name }}</h1>
-            <h6>{{ __('words.Total Members: ').$game->competitions_count}}</h6>
+            <h6>{{ __('words.Total Members: ').$users->total()}}</h6>
             <h6>{{ __('words.Total Played: ').$game->invites_count}}</h6>
         </div>
         <div class="card-body">
@@ -53,7 +53,7 @@
 
                                     <td class="text-center">{{ $user->coin }}</td>
 
-                                    <td class="text-center">{{ $user->profile?->likes }}</td>
+                                    <td class="text-center">{{ $user->profile?->likes??0 }}</td>
 
                                     @auth
                                         <td>
