@@ -36,7 +36,19 @@ class Tournaments extends Component
         //            ->take(12)
         //            ->get();
 
-        $tournamentImages = [];
+        $tournamentImages = Competition::query()
+            ->whereHas('teams')
+            ->whereHas('status', function ($query) {
+                $query->whereIn('name', [
+                    StatusEnum::ACTIVE->value,
+                    StatusEnum::FINISHED->value,
+                    StatusEnum::PENDING_FINISHED->value,
+                ]);
+            })
+            ->orderBy('id', 'DESC')
+            ->with([])
+            ->take(12)
+            ->get();
 
         return view('components.home.tournaments', compact('tournaments', 'tournamentImages'));
     }

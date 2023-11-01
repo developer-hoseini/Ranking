@@ -14,7 +14,7 @@
                 <div class="swiper-wrapper pt-2 pb-4" id="home-tournament-box">
                     @foreach($tournaments as $tournament)
                         <div class="swiper-slide tour-slide">
-                            <a href="{{route('tournament.show',['tour_id'=>$tournament->id , 'tour_name'=>$tournament->name])}}"
+                            <a href="{{route('tournament.show',['competition'=>$tournament->id])}}"
                                title="{{$tournament->name}}" class="text-decoration-none" style="color: #6f6f6f;">
                                 <div class="rounded-2 bg-white shadow tour-card pb-3">
                                     {{--                                    @if($tournament?->teams->count())--}}
@@ -92,14 +92,11 @@
 
             <div class="swiper-container" id="tournament-gallery-slider">
                 <div class="swiper-wrapper pt-2 pb-4" id="home-gallery-box">
-                    @foreach($tournamentImages as $image)
-                        @php
-                            $address = 'uploads/competitions/gallery/'.date('Y/m/',strtotime($image->competition->created_at)).$image->competition_id.'/'.$image->id.'.jpg';
-                        @endphp
+                    @foreach($tournamentImages as $tournamentImage)
                         <div class="swiper-slide tour-slide">
-                            <a href="{{route('tournament.show',['tour_id' => $image->competition->id , 'tour_name' => $image->competition->name])}}">
-                                <img src="{{url($address)}}" alt="{{$image->competition->name}}"
-                                     title="{{$image->competition->name}}" height="140px">
+                            <a href="{{route('tournament.show',['competition' => $tournamentImage->id])}}">
+                                <img src="{{url($tournamentImage->game->cover)}}" alt="{{$tournamentImage->name}}"
+                                     title="{{$tournamentImage->name}}" height="140px">
                             </a>
                         </div>
                     @endforeach
