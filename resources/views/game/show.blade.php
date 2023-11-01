@@ -11,7 +11,7 @@
 
     <div class="card ranks_content">
         <div class="card-header text-center gameinfo">
-            <h1>{{ __('games.'.$game->name) }}</h1>
+            <h1>{{ $game->name }}</h1>
             <h6>{{ __('words.Total Members: ').$game->competitions_count}}</h6>
             <h6>{{ __('words.Total Played: ').$game->invites_count}}</h6>
         </div>
