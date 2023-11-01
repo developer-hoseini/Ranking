@@ -21,6 +21,9 @@
     <!---------- Tournaments ---------->
     <x-home.tournaments/>
 
+    <!---------- Tournament Brackets ---------->
+    <x-home.tournament-brackets/>
+
 
 
     @push('styles')
