@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
+use App\Models\Achievement;
 use App\Models\GameResult;
 use App\Models\Invite;
 use App\Models\Ticket;
@@ -23,20 +24,26 @@ enum StatusEnum: string
     case WAIT_OPPONENT_RESULT = 'wait_opponent_result';
     case WAIT_IMAGE_VERIFY = 'wait_image_verify';
     case WAIT_CLUB_VERIFY = 'wait_club_verify';
-    case WIN = 'win';
-    case LOSE = 'lose';
-    case ABSENT = 'absent';
-    case PENDING = 'pending';
-    case ANSWERED = 'answered';
-    case CLOSED = 'closed';
+    case GAME_RESULT_WIN = 'game_result_win';
+    case GAME_RESULT_LOSE = 'game_result_lose';
+    case GAME_RESULT_ABSENT = 'game_result_absent';
+    case TICKET_PENDING = 'ticket_pending';
+    case TICKET_ANSWERED = 'ticket_answered';
+    case TICKET_CLOSED = 'ticket_closed';
+    case ACHIEVEMENT_WIN = 'achievement_win';
+    case ACHIEVEMENT_LOSE = 'achievement_lose';
+    case ACHIEVEMENT_APPROVE = 'achievement_approve';
+    case ACHIEVEMENT_SIGNUP = 'achievement_signup';
+    case ACHIEVEMENT_COMPLETE_PROFIL = 'achievement_complete-profile';
 
     public function getModelType(): ?string
     {
         return match ($this) {
             self::SUBMIT_RESULT, self::WAIT_OPPONENT_RESULT,
             self::WAIT_IMAGE_VERIFY,self::WAIT_CLUB_VERIFY => Invite::class,
-            self::WIN,self::LOSE,self::ABSENT => GameResult::class,
-            self::PENDING,self::ANSWERED,self::CLOSED => Ticket::class,
+            self::GAME_RESULT_WIN,self::GAME_RESULT_LOSE,self::GAME_RESULT_ABSENT => GameResult::class,
+            self::TICKET_PENDING,self::TICKET_ANSWERED,self::TICKET_CLOSED => Ticket::class,
+            self::ACHIEVEMENT_WIN,self::ACHIEVEMENT_LOSE,self::ACHIEVEMENT_SIGNUP,self::ACHIEVEMENT_APPROVE,self::ACHIEVEMENT_COMPLETE_PROFIL => Achievement::class,
             default => null
         };
     }
@@ -44,10 +51,10 @@ enum StatusEnum: string
     public function getMessage(): ?string
     {
         return match ($this) {
-            self::WIN => 'you won',
-            self::LOSE => 'you lose',
-            self::ABSENT => 'you absent',
-            self::PENDING,self::ANSWERED,self::CLOSED => '',
+            self::GAME_RESULT_WIN => 'you won',
+            self::GAME_RESULT_LOSE => 'you lose',
+            self::GAME_RESULT_ABSENT => 'you absent',
+            self::TICKET_PENDING,self::TICKET_ANSWERED,self::TICKET_CLOSED => '',
             default => null
         };
     }

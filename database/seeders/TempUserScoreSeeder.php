@@ -26,15 +26,17 @@ class TempUserScoreSeeder extends Seeder
                         'state_id' => State::first()->id,
                     ])->pluck('id');
 
-                    Profile::factory(7)->create([
-                        'state_id' => State::first()->id,
-                    ])->each(function (Profile $profile) use ($competitionIds) {
-                        $profile->user->addMediaFromUrl('https://www.clipartmax.com/png/middle/319-3191274_male-avatar-admin-profile.png')
-                            ->toMediaCollection('avatar');
-                        $profile->user->competitions()->attach($competitionIds->take(random_int(1, $competitionIds->count()))->toArray(), [
-                            'status_id' => Status::where('name', StatusEnum::WIN->value)->first()->id,
-                        ]);
-                    });
+                    Profile::factory(7)
+                        ->create([
+                            'state_id' => State::first()->id,
+                        ])
+                        ->each(function (Profile $profile) use ($competitionIds) {
+                            $profile->user->addMediaFromUrl('https://www.clipartmax.com/png/middle/319-3191274_male-avatar-admin-profile.png')
+                                ->toMediaCollection('avatar');
+                            $profile->user->competitions()->attach($competitionIds->take(random_int(1, $competitionIds->count()))->toArray(), [
+                                'status_id' => Status::where('name', StatusEnum::GAME_RESULT_WIN->value)->first()->id,
+                            ]);
+                        });
 
                     for ($j = random_int(0, 2); $j > 0; $j--) {
                         Team::factory(1)->create([

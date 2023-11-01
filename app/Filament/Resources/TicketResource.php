@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\StatusEnum;
 use App\Filament\Resources\TicketResource\Pages;
 use App\Models\Ticket;
 use Filament\Forms;
@@ -40,7 +41,7 @@ class TicketResource extends Resource
                     ->default(function (Select $component) {
                         $options = $component->getOptions();
                         foreach ($options as $key => $option) {
-                            if ($option === 'pending') {
+                            if ($option === StatusEnum::TICKET_PENDING->value) {
                                 return $key;
                             }
                         }
