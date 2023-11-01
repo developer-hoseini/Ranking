@@ -2,16 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Gallery;
-
 class HomeController extends Controller
 {
     public function index()
     {
-        $status = config('status');
-        $setting = config('setting');
-
-        $sliders = Gallery::typeSlider()->orderBy('sort')->active()->get();
 
         $events_count = 0;
         session(
@@ -28,7 +22,7 @@ class HomeController extends Controller
 
         $auth_user = auth()?->user();
 
-        return view('home', compact('sliders', 'events_count',
+        return view('home', compact('events_count',
             'chats_count', 'unconfirmed_quick_submitted', 'team_invites_count',
             'support_new_ticket', 'tournament_invite',
             'auth_user'
