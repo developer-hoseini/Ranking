@@ -40,10 +40,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Invite> $invites
  * @property-read int|null $invites_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\UserScore> $joined
- * @property-read int|null $joined_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\UserScore> $scores
- * @property-read int|null $scores_count
  *
  * @method static \Database\Factories\GameFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Game active()
@@ -72,7 +68,7 @@ class Game extends Model
 
     public function invites(): HasMany
     {
-        return $this->hasMany(Invite::class, 'game_id')->where('status', config('status.End_True'));
+        return $this->hasMany(Invite::class, 'game_id');
     }
 
     public function scopeActive(Builder $query): Builder

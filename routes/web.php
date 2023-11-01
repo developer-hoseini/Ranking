@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GameController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
@@ -44,5 +45,5 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
 
     Route::view('/global_ranks', [TestController::class, 'index'])->name('global_ranks');
 
-    Route::get('/game/{game}', [TestController::class, 'index'])->name('gameinfo');
+    Route::get('/game/{game}', [GameController::class, 'show'])->name('game.show');
 });

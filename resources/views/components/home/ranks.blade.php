@@ -12,7 +12,7 @@
                         <div class="w-100 shadow bg-white">
                             <div class="w-100 pt-2 border-ranking bg-light" style="border-bottom: solid 3px;">
                                 <div class="home-ranks-title col-5">
-                                    <a href="{{route('gameinfo',['game'=>$competition->game->id])}}"
+                                    <a href="{{route('game.show',['game'=>$competition->game->id])}}"
                                        class="text-white">
                                         {{$competition->game->name}}
                                     </a>
