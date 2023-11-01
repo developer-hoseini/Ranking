@@ -28,6 +28,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $message
  *
  * @method static Builder|Status whereMessage($value)
+ * @method static \Database\Factories\StatusFactory factory($count = null, $state = [])
  *
  * @mixin \Eloquent
  */

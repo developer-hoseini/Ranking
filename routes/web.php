@@ -39,10 +39,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
     Route::get('/chats', [TestController::class, 'index'])->name('chats');
     Route::get('/tickets', [TestController::class, 'index'])->name('tickets.index');
 
-    Route::get('/profile/{username}', [TestController::class, 'index'])->name('profile');
+    Route::get('/profile/{user}', [TestController::class, 'index'])->name('profile');
     Route::get('/prizes', [TestController::class, 'index'])->name('prizes');
 
     Route::view('/global_ranks', [TestController::class, 'index'])->name('global_ranks');
 
-    Route::get('/game/{game_name}', [TestController::class, 'index'])->name('gameinfo');
+    Route::get('/game/{game}', [TestController::class, 'index'])->name('gameinfo');
 });

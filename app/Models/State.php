@@ -27,6 +27,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|State whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|State whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|State whereUpdatedAt($value)
+ * @method static \Database\Factories\StateFactory factory($count = null, $state = [])
  *
  * @mixin \Eloquent
  */

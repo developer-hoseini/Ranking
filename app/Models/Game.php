@@ -48,6 +48,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Database\Factories\GameFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Game active()
  *
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Competition> $competitions
+ * @property-read int|null $competitions_count
+ *
  * @mixin \Eloquent
  */
 class Game extends Model
@@ -62,14 +65,9 @@ class Game extends Model
         'active',
     ];
 
-    public function scores(): HasMany
+    public function competitions(): HasMany
     {
-        return $this->hasMany(UserScore::class, 'game_id');
-    }
-
-    public function joined(): HasMany
-    {
-        return $this->hasMany(UserScore::class, 'game_id')->where('is_join', config('status.Yes'));
+        return $this->hasMany(Competition::class);
     }
 
     public function invites(): HasMany

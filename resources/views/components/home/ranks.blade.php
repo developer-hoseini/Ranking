@@ -7,15 +7,14 @@
         <div class="swiper-container" id="ranks-slider">
             <div class="swiper-wrapper pt-2 pb-5">
 
-                @foreach ($games as $game)
+                @foreach ($competitions as $competition)
                     <div class="swiper-slide ranks-swiper-slide rounded">
                         <div class="w-100 shadow bg-white">
                             <div class="w-100 pt-2 border-ranking bg-light" style="border-bottom: solid 3px;">
                                 <div class="home-ranks-title col-5">
-                                    <a href="{{route('gameinfo',['game_name'=>$game->name])}}"
+                                    <a href="{{route('gameinfo',['game'=>$competition->game->id])}}"
                                        class="text-white">
-                                        {{--                                            {{ __('games.'.$game->name) }}--}}
-                                        {{$game->name}}
+                                        {{$competition->game->name}}
                                     </a>
                                 </div>
                             </div>
@@ -29,27 +28,27 @@
                                 <div class="d-inline-block align-middle mx-auto"
                                      style="width: 15%;">{{__('words.Coin')}}</div>
                             </div>
-                            @foreach($game->scores->take((config('setting.home_ranks_table'))) as $score)
+                            @foreach($competition->users->take((config('setting.home_ranks_table'))) as $row=>$user)
                                 <div class="border-bottom w-100 py-2">
                                     <div class="d-inline-block align-middle"
-                                         style="width: 7%;">{{ (int)$score->id }}</div>
+                                         style="width: 7%;">{{ $row+1 }}</div>
                                     <div class="d-inline-block align-middle" style="width: 8%;">
-                                        <img img src="{{ $score?->user?->photo }}" width="100%"
-                                             title="{{ $score->user?->username }}"
-                                             alt="{{$score->user?->profile?->fullName}}" class="rounded-circle">
+                                        <img img src="{{ $user?->avatar }}" width="100%"
+                                             title="{{ $user?->username }}"
+                                             alt="{{$user?->profile?->fullName}}" class="rounded-circle">
                                     </div>
                                     <div class="d-inline-block align-middle" style="width: 47%;">
-                                        <a href="{{ route('profile',['username'=>$score->user?->username]) }}"
-                                           title="{{$score->user?->profile?->fullName}}" class="text-dark">
-                                            {{ $score->user?->profile?->fullName??$score->user?->username }}
+                                        <a href="{{ route('profile',['user'=>$user?->id]) }}"
+                                           title="{{$user?->profile?->fullName}}" class="text-dark">
+                                            {{ $user?->profile?->fullName??$user?->username }}
                                         </a>
                                     </div>
                                     <div class="d-inline-block align-middle"
-                                         style="width: 15%;">{{ $score->score }}</div>
+                                         style="width: 15%;">{{ $competition?->game?->score }}</div>
                                     <div class="d-inline-block align-middle" style="width: 15%;"><img
                                             src="{{url('assets/img/coin.png')}}" width="20px"
                                             alt="{{__('words.rezvani_coin')}}" title="{{__('words.rezvani_coin')}}">
-                                        <div>{{ $score->user->coin }}</div>
+                                        <div>{{ $competition->coin }}</div>
                                     </div>
                                 </div>
                             @endforeach

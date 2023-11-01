@@ -59,11 +59,26 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read int|null $cups_count
  * @property-read \App\Models\Team|null $team
  *
+ * @method static \Database\Factories\CompetitionFactory factory($count = null, $state = [])
+ *
  * @mixin \Eloquent
  */
 class Competition extends Model
 {
     use HasFactory,SoftDeletes;
+
+    protected $fillable = [
+        'name',
+        'coin',
+        'capacity',
+        'description',
+        'game_id',
+        'state_id',
+        'status_id',
+        'created_by_user_id',
+        'end_register_at',
+        'start_at',
+    ];
 
     public function users(): MorphToMany
     {
