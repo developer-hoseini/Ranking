@@ -2,7 +2,6 @@
 
 namespace App\View\Components\Home;
 
-use App\Enums\StatusEnum;
 use App\Models\Competition;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
@@ -14,7 +13,6 @@ class Tournaments extends Component
         ////////// Tournaments //////////
         $tournaments = Competition::query()
             ->statusTournament()
-            ->where('end_register_at', '>=', now())
             ->orderBy('id', 'DESC')
             ->with(['users', 'game', 'teams', 'state.country'])
             ->take(12)
@@ -22,13 +20,8 @@ class Tournaments extends Component
 
         $tournamentImages = Competition::query()
             ->whereHas('teams')
-            ->whereHas('status', function ($query) {
-                $query->whereIn('name', [
-                    StatusEnum::COMPETITION_TOURNAMENT->value,
-                ]);
-            })
+            ->statusTournament()
             ->orderBy('id', 'DESC')
-            ->with([])
             ->take(12)
             ->get();
 

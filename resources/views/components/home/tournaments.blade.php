@@ -51,7 +51,7 @@
                                     {{--                                    @endif--}}
                                     <div class="text-center text-dark">
                                         {{mb_substr($tournament->name, 0 , 21 ,'UTF-8')}}
-                                        @if($tournament->status->name == \App\Enums\StatusEnum::FINISHED->value)
+                                        @if($tournament->end_regesterd_at > now())
                                             <i class="fa fa-flag-checkered mx-1" style="font-size: 14px;"
                                                title="{{__('words.finished')}}"></i>
                                         @endif

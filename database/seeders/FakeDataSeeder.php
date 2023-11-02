@@ -110,9 +110,8 @@ class FakeDataSeeder extends Seeder
         $acceptedStatuse = Status::modelType(null)->where('name', StatusEnum::ACCEPTED->value)->first();
 
         $competitions->loadMissing(['users', 'teams']);
+        $forModel = User::class;
         foreach ($competitions as $competition) {
-            $forModel = User::class;
-
             if ($forModel == User::class) {
                 $isWin = true;
                 foreach ($users->shuffle()->take(2) as $user) {
