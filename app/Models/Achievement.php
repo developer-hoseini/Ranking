@@ -7,47 +7,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-/**
- * App\Models\Achievement
- *
- * @property int $id
- * @property string $achievmentable_type
- * @property int $achievmentable_id
- * @property string $type
- * @property int $count
- * @property int|null $occurred_model_id
- * @property string|null $occurred_model_type
- * @property int|null $status_id
- * @property int|null $created_by_user_id
- * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read Model|\Eloquent $achievmentable
- * @property-read \App\Models\User|null $createdByUser
- * @property-read Model|\Eloquent $occurredModel
- * @property-read \App\Models\Status|null $status
- *
- * @method static \Illuminate\Database\Eloquent\Builder|Achievement newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Achievement newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Achievement onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder|Achievement query()
- * @method static \Illuminate\Database\Eloquent\Builder|Achievement whereAchievmentableId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Achievement whereAchievmentableType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Achievement whereCount($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Achievement whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Achievement whereCreatedByUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Achievement whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Achievement whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Achievement whereOccurredModelId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Achievement whereOccurredModelType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Achievement whereStatusId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Achievement whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Achievement whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Achievement withTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder|Achievement withoutTrashed()
- *
- * @mixin \Eloquent
- */
 class Achievement extends Model
 {
     use SoftDeletes;

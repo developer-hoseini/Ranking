@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Enums;
 
 use App\Models\Achievement;
+use App\Models\Competition;
 use App\Models\GameResult;
 use App\Models\Invite;
 use App\Models\Ticket;
@@ -14,9 +15,6 @@ enum StatusEnum: string
 {
     use BaseEnum;
 
-    case ACTIVE = 'active';
-    case FINISHED = 'finished';
-    case PENDING_FINISHED = 'pending_finished';
     case ACCEPTED = 'accepted';
     case REJECTED = 'rejected';
     case CANCELED = 'canceled';
@@ -35,6 +33,10 @@ enum StatusEnum: string
     case ACHIEVEMENT_APPROVE = 'achievement_approve';
     case ACHIEVEMENT_SIGNUP = 'achievement_signup';
     case ACHIEVEMENT_COMPLETE_PROFIL = 'achievement_complete-profile';
+    case COMPETITION_TOURNAMENT = 'competition_tournament';
+    case COMPETITION_ONE_PLAYER = 'competition_one-player';
+    case COMPETITION_TWO_PLAYERS = 'competition_two-players';
+    case COMPETITION_MULTI_PLAYERS = 'competition_multi-players';
 
     public function getModelType(): ?string
     {
@@ -44,6 +46,7 @@ enum StatusEnum: string
             self::GAME_RESULT_WIN,self::GAME_RESULT_LOSE,self::GAME_RESULT_ABSENT => GameResult::class,
             self::TICKET_PENDING,self::TICKET_ANSWERED,self::TICKET_CLOSED => Ticket::class,
             self::ACHIEVEMENT_WIN,self::ACHIEVEMENT_LOSE,self::ACHIEVEMENT_SIGNUP,self::ACHIEVEMENT_APPROVE,self::ACHIEVEMENT_COMPLETE_PROFIL => Achievement::class,
+            self::COMPETITION_TOURNAMENT,self::COMPETITION_ONE_PLAYER,self::COMPETITION_TWO_PLAYERS,self::COMPETITION_MULTI_PLAYERS => Competition::class,
             default => null
         };
     }
