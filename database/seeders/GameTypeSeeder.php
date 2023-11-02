@@ -15,6 +15,10 @@ class GameTypeSeeder extends Seeder
         $gameTypes = [
             ['name' => 'in_club'],
             ['name' => 'with_image'],
+            ['name' => 'online'],
+            ['name' => 'one player'],
+            ['name' => 'two player'],
+            ['name' => 'team'],
         ];
 
         try {

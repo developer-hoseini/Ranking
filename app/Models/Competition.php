@@ -97,6 +97,11 @@ class Competition extends Model
         return $this->belongsTo(Game::class);
     }
 
+    public function gameResults(): MorphMany
+    {
+        return $this->morphMany(GameResult::class, 'gameresultable');
+    }
+
     public function status(): BelongsTo
     {
         return $this->belongsTo(Status::class)->modelType(null);
