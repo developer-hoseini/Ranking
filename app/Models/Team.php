@@ -43,6 +43,7 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @method static \Illuminate\Database\Eloquent\Builder|Team whereStateId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Team whereStatusId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Team whereUpdatedAt($value)
+ * @method static \Database\Factories\TeamFactory factory($count = null, $state = [])
  *
  * @mixin \Eloquent
  */

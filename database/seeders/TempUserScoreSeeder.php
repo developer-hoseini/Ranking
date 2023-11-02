@@ -31,8 +31,7 @@ class TempUserScoreSeeder extends Seeder
                             'state_id' => State::first()->id,
                         ])
                         ->each(function (Profile $profile) use ($competitionIds) {
-                            $profile->user->addMediaFromUrl('https://www.clipartmax.com/png/middle/319-3191274_male-avatar-admin-profile.png')
-                                ->toMediaCollection('avatar');
+
                             $profile->user->competitions()->attach($competitionIds->take(random_int(1, $competitionIds->count()))->toArray(), [
                                 'status_id' => Status::where('name', StatusEnum::GAME_RESULT_WIN->value)->first()->id,
                             ]);
