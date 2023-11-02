@@ -14,7 +14,7 @@ class Ranks extends Component
 
         $competitions = Competition::query()
             ->has('users', '>=', config('setting.home_ranks_table'))
-            ->with(['game' => fn ($q) => $q->orderBy('score', 'desc')])
+            ->with(['game'])
             ->whereHas('status', fn ($q) => $q->where('name', StatusEnum::FINISHED->value))
             ->take(config('setting.home_ranks'))
             ->get();
