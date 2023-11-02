@@ -32,6 +32,15 @@ class UserFactory extends Factory
         ];
     }
 
+    public function configure()
+    {
+        return $this->afterCreating(function (User $user) {
+            //add avatar for user
+            $user->addMediaFromUrl('https://www.clipartmax.com/png/middle/319-3191274_male-avatar-admin-profile.png')
+                ->toMediaCollection('avatar');
+        });
+    }
+
     /**
      * Indicate that the model's email address should be unverified.
      */

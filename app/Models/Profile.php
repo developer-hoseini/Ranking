@@ -58,6 +58,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @property-read \App\Models\State|null $state
  *
+ * @method static \Database\Factories\ProfileFactory factory($count = null, $state = [])
+ *
  * @mixin \Eloquent
  */
 class Profile extends Model
