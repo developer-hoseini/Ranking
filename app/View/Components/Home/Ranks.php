@@ -16,7 +16,6 @@ class Ranks extends Component
             ->has('users', '>=', config('setting.home_ranks_table'))
             ->with(['game' => fn ($q) => $q->orderBy('score', 'desc')])
             ->whereHas('status', fn ($q) => $q->where('name', StatusEnum::FINISHED->value))
-            ->orderBy('coin', 'desc')
             ->take(config('setting.home_ranks'))
             ->get();
 

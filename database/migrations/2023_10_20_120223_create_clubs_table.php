@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->string('tel', 50)->nullable();
             $table->boolean('is_rezvani')->default(0);
-            $table->unsignedInteger('coin')->default(0);
             $table->unsignedSmallInteger('sort')->default(0);
             $table->boolean('active')->default(true);
             $table->timestamps();

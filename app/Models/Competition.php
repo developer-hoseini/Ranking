@@ -72,7 +72,6 @@ class Competition extends Model
 
     protected $fillable = [
         'name',
-        'coin',
         'capacity',
         'description',
         'game_id',

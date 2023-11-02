@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('competitions', function (Blueprint $table) {
             $table->id();
             $table->string('name', 80)->unique();
-            $table->unsignedInteger('coin')->default(0);
             $table->unsignedInteger('capacity')->default(2);
             $table->text('description')->nullable();
 

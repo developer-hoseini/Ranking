@@ -48,10 +48,7 @@ class ClubResource extends Resource
                 Forms\Components\TextInput::make('tel')
                     ->tel()
                     ->maxLength(50),
-                Forms\Components\TextInput::make('coin')
-                    ->required()
-                    ->numeric()
-                    ->default(0),
+
                 Forms\Components\TextInput::make('sort')
                     ->required()
                     ->numeric()
@@ -76,10 +73,6 @@ class ClubResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('tel')
                     ->searchable(),
-
-                Tables\Columns\TextColumn::make('coin')
-                    ->numeric()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('sort')
                     ->numeric()
                     ->sortable(),

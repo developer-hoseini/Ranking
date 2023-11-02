@@ -18,16 +18,15 @@ class CompetitionFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
-            'coin' => $this->faker->randomNumber(2),
             'capacity' => $this->faker->randomNumber(2),
             'description' => $this->faker->text(),
-            'end_register_at' => $this->faker->dateTime,
-            'start_at' => Carbon::parse($this->faker->dateTime)->subDays($this->faker->randomNumber(2)),
+            'end_register_at' => $this->faker->dateTimeBetween('-1 years', 'now', $timezone = null)->format('Y-m-d H:i:s'),
+            'start_at' => Carbon::parse($this->faker->dateTimeBetween('-1 years', 'now', $timezone = null))->subDays($this->faker->randomNumber(2))->format('Y-m-d H:i:s'),
 
-            'game_id' => Game::factory(),
-            'state_id' => State::factory(),
-            'status_id' => Status::factory(),
-            'created_by_user_id' => User::factory(),
+            'game_id' => Game::inRandomOrder()->first()->id,
+            'state_id' => State::inRandomOrder()->first()->id,
+            'status_id' => Status::modelType(null)->inRandomOrder()->first()->id,
+            'created_by_user_id' => User::inRandomOrder()->first()->id,
         ];
     }
 }

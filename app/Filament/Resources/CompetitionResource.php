@@ -55,10 +55,7 @@ class CompetitionResource extends Resource
                     ->relationship('status', 'name')
                     ->default(2)
                     ->required(),
-                Forms\Components\TextInput::make('coin')
-                    ->required()
-                    ->numeric()
-                    ->default(0),
+
                 Forms\Components\TextInput::make('capacity')
                     ->required()
                     ->numeric()
@@ -97,9 +94,6 @@ class CompetitionResource extends Resource
                     ->dateTime('Y-m-d')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status.name')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('coin')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('capacity')

@@ -15,7 +15,7 @@ class CompetitionSeeder extends Seeder
         $competitions = [
             [
                 'name' => 'Footbale Sery A 2023',
-                'coin' => 500,
+
                 'game_id' => 1,
                 'status_id' => 2,
                 'state_id' => 1,
@@ -23,7 +23,7 @@ class CompetitionSeeder extends Seeder
             ],
             [
                 'name' => 'Footbale Sery B 2023',
-                'coin' => 250,
+
                 'game_id' => 1,
                 'status_id' => 1,
                 'state_id' => 1,
@@ -31,7 +31,7 @@ class CompetitionSeeder extends Seeder
             ],
             [
                 'name' => 'Valibal Sery A 2023',
-                'coin' => 150,
+
                 'game_id' => 2,
                 'status_id' => 1,
                 'state_id' => 1,
@@ -39,7 +39,7 @@ class CompetitionSeeder extends Seeder
             ],
             [
                 'name' => 'Valibal Sery B 2023',
-                'coin' => 50,
+
                 'game_id' => 2,
                 'status_id' => 2,
                 'state_id' => 1,
