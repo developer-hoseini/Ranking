@@ -164,18 +164,15 @@ class RoleAndPermissionSeeder extends Seeder
                 }
             }
 
-            //            if (! $user->getMedia('avatar')->first()) {
-            //                $user->addMediaFromUrl('https://www.clipartmax.com/png/middle/319-3191274_male-avatar-admin-profile.png')
-            //                    ->toMediaCollection('avatar');
+            $user->roles()->sync($adminRole);
+            $allPermissions = Permission::where('guard_name', 'web')->get();
+            $adminRole->givePermissionTo($allPermissions);
+
+            \Artisan::call('cache:clear');
             //            }
         } catch (\Throwable $th) {
             // throw $th;
         }
 
-        $user->roles()->sync($adminRole);
-        $allPermissions = Permission::where('guard_name', 'web')->get();
-        $adminRole->givePermissionTo($allPermissions);
-
-        \Artisan::call('cache:clear');
     }
 }

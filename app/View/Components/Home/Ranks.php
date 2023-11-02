@@ -3,7 +3,6 @@
 namespace App\View\Components\Home;
 
 use App\Enums\AchievementTypeEnum;
-use App\Enums\StatusEnum;
 use App\Models\Achievement;
 use App\Models\Game;
 use App\Models\User;
@@ -17,9 +16,7 @@ class Ranks extends Component
 
         $games = Game::query()
             ->whereHas('competitions', function ($q) {
-                $q->whereHas('status', function ($q) {
-                    $q->where('name', StatusEnum::FINISHED->value);
-                });
+                $q->has('gameResults');
             })
             ->with([
                 'gameCompetitionsUsers.profile',

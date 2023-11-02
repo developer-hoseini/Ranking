@@ -19,9 +19,9 @@ class TeamFactory extends Factory
             'about' => $this->faker->word(),
             'likes' => $this->faker->randomNumber(3),
 
-            'status_id' => Status::factory(),
-            'capitan_user_id' => User::factory(),
-            'state_id' => State::factory(),
+            'capitan_user_id' => User::inRandomOrder()->first()->id,
+            'state_id' => State::inRandomOrder()->first()->id,
+            'status_id' => Status::query()->modelType(null)->inRandomOrder()->first()->id,
         ];
     }
 }

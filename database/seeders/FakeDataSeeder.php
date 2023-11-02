@@ -26,12 +26,8 @@ class FakeDataSeeder extends Seeder
     public function run(): void
     {
         try {
-            $gameTypes = GameType::inRandomOrder()->get();
 
-            Game::factory()
-                ->count(40)
-                ->hasAttached($gameTypes)
-                ->create();
+            $this->createGames();
 
             $teams = Team::factory()->count(20)->create();
 
@@ -46,6 +42,33 @@ class FakeDataSeeder extends Seeder
         } catch (\Throwable $th) {
             throw $th;
         }
+    }
+
+    private function createGames()
+    {
+
+        $gameTypes = GameType::inRandomOrder()->get();
+
+        $games = Game::all();
+
+        $dataCollect = collect([]);
+        foreach ($games as $game) {
+            $dataCollect->push([
+                'game_id' => $game->id,
+                'game_type_id' => $gameTypes->shuffle()->first()->id,
+            ]);
+
+            $dataCollect->push([
+                'game_id' => $game->id,
+                'game_type_id' => $gameTypes->shuffle()->first()->id,
+            ]);
+        }
+
+        DB::table('game_game_type')->upsert($dataCollect->toArray(), [
+            'game_id',
+            'game_type_id',
+        ]);
+
     }
 
     private function createUsers(): Collection

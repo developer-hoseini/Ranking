@@ -35,7 +35,7 @@ class UserFactory extends Factory
     {
         return $this->afterCreating(function (User $user) {
             //add avatar for user
-            $user->addMediaFromUrl('https://www.clipartmax.com/png/middle/319-3191274_male-avatar-admin-profile.png')
+            $user->addMediaFromUrl(url('storage/assets/images/male-avatar.png'))
                 ->toMediaCollection('avatar');
         });
     }

@@ -25,7 +25,7 @@ class CompetitionFactory extends Factory
 
             'game_id' => Game::inRandomOrder()->first()->id,
             'state_id' => State::inRandomOrder()->first()->id,
-            'status_id' => Status::modelType(null)->inRandomOrder()->first()->id,
+            'status_id' => Status::modelType(Competition::class, false)->inRandomOrder()->first()->id,
             'created_by_user_id' => User::inRandomOrder()->first()->id,
         ];
     }
