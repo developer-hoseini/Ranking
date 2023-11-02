@@ -127,12 +127,12 @@ class Competition extends Model
         return $this->morphMany(Achievement::class, 'achievementable');
     }
 
-    public function achievementScore(): MorphOne
+    public function scoreAchievement(): MorphOne
     {
         return $this->morphOne(Achievement::class, 'achievementable')->where('type', AchievementTypeEnum::SCORE->value);
     }
 
-    public function achievementCoin(): MorphOne
+    public function coinAchievement(): MorphOne
     {
         return $this->morphOne(Achievement::class, 'achievementable')->where('type', AchievementTypeEnum::COIN->value);
     }

@@ -53,6 +53,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Game extends Model
 {
     use HasFactory;
+    use \Staudenmeir\EloquentEagerLimit\HasEagerLimit;
+    use \Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
     protected $fillable = [
         'name',
@@ -65,6 +67,11 @@ class Game extends Model
     public function competitions(): HasMany
     {
         return $this->hasMany(Competition::class);
+    }
+
+    public function gameCompetitionsUsers()
+    {
+        return $this->hasManyDeepFromRelations($this->competitions(), (new Competition)->users());
     }
 
     public function invites(): HasMany

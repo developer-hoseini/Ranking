@@ -7,14 +7,14 @@
         <div class="swiper-container" id="ranks-slider">
             <div class="swiper-wrapper pt-2 pb-5">
 
-                @foreach ($competitions as $competition)
+                @foreach ($games as $game)
                     <div class="swiper-slide ranks-swiper-slide rounded">
                         <div class="w-100 shadow bg-white">
                             <div class="w-100 pt-2 border-ranking bg-light" style="border-bottom: solid 3px;">
                                 <div class="home-ranks-title col-5">
-                                    <a href="{{route('game.show',['game'=>$competition->game->id])}}"
-                                       class="text-white">
-                                        {{$competition->game->name}}
+                                    <a href="{{route('game.show',['game'=>$game->id])}}"
+                                       class="text-white text-truncate" title="{{ $game->name }}">
+                                        {{$game->name}}
                                     </a>
                                 </div>
                             </div>
@@ -28,8 +28,12 @@
                                 <div class="d-inline-block align-middle mx-auto"
                                      style="width: 15%;">{{__('words.Coin')}}</div>
                             </div>
-                            @foreach($competition->users->take((config('setting.home_ranks_table'))) as $row=>$user)
-                                <div class="border-bottom w-100 py-2">
+                            
+                            @for ($row = 0; $row < 3; $row++)
+                                @php
+                                    $user = $game->gameCompetitionsUsers[$row] ?? null;
+                                @endphp
+                                <div class="border-bottom w-100 py-2" style="height: 70px">
                                     <div class="d-inline-block align-middle"
                                          style="width: 7%;">{{ $row+1 }}</div>
                                     <div class="d-inline-block align-middle" style="width: 8%;">
@@ -38,20 +42,22 @@
                                              alt="{{$user?->profile?->fullName}}" class="rounded-circle">
                                     </div>
                                     <div class="d-inline-block align-middle" style="width: 47%;">
-                                        <a href="{{ route('profile',['user'=>$user?->id]) }}"
+                                        <a @if($user) href="{{ route('profile',['user'=>$user?->id]) }}" @endif
                                            title="{{$user?->profile?->fullName}}" class="text-dark">
                                             {{ $user?->profile?->fullName??$user?->username }}
                                         </a>
                                     </div>
                                     <div class="d-inline-block align-middle"
-                                         style="width: 15%;">{{ $competition?->game?->score }}</div>
+                                         style="width: 15%;">{{ $user?->score_achievements_sum_count }}</div>
                                     <div class="d-inline-block align-middle" style="width: 15%;"><img
                                             src="{{url('assets/img/coin.png')}}" width="20px"
                                             alt="{{__('words.rezvani_coin')}}" title="{{__('words.rezvani_coin')}}">
-                                        <div>{{ $competition->coin }}</div>
+                                        <div>{{ $user?->coin_achievements_sum_count }}</div>
                                     </div>
                                 </div>
-                            @endforeach
+                            @endfor
+                             
+                           
                         </div>
                     </div>
                 @endforeach

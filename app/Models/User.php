@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Enums\AchievementTypeEnum;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;
 use Filament\Panel;
@@ -88,6 +89,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia
 {
     use HasApiTokens, HasFactory, HasRoles,Notifiable;
     use InteractsWithMedia,SoftDeletes;
+    use \Staudenmeir\EloquentEagerLimit\HasEagerLimit;
 
     /**
      * The attributes that are mass assignable.
@@ -141,6 +143,16 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia
     public function achievements(): MorphMany
     {
         return $this->morphMany(Achievement::class, 'achievementable');
+    }
+
+    public function scoreAchievements(): MorphMany
+    {
+        return $this->morphMany(Achievement::class, 'achievementable')->where('type', AchievementTypeEnum::SCORE->value);
+    }
+
+    public function coinAchievements(): MorphMany
+    {
+        return $this->morphMany(Achievement::class, 'achievementable')->where('type', AchievementTypeEnum::COIN->value);
     }
 
     //for panel

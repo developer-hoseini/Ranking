@@ -185,7 +185,7 @@ class FakeDataSeeder extends Seeder
 
     private function createAchievements()
     {
-        $competitions = Competition::with(['users', 'gameResults.status', 'achievements', 'achievementCoin', 'achievementScore'])->get();
+        $competitions = Competition::with(['users', 'gameResults.status', 'achievements', 'scoreAchievement', 'coinAchievement'])->get();
         $dataCollect = collect([]);
 
         $acheivementsStatuses = Status::modelType(Achievement::class, false)->get();
@@ -215,7 +215,7 @@ class FakeDataSeeder extends Seeder
                             'achievementable_type' => User::class,
                             'achievementable_id' => $user->id,
                             'type' => $isCoin ? AchievementTypeEnum::COIN->value : AchievementTypeEnum::SCORE->value,
-                            'count' => $isCoin ? $competition->achievementCoin->count : $competition->achievementScore->count,
+                            'count' => $isCoin ? $competition->coinAchievement->count : $competition->scoreAchievement->count,
                             'occurred_model_id' => $competition->id,
                             'occurred_model_type' => Competition::class,
                             'status_id' => $achievementStatusId,
