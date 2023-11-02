@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use App\Enums\AchievementTypeEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -113,5 +116,20 @@ class Competition extends Model
     public function cups(): MorphToMany
     {
         return $this->morphToMany(Cup::class, 'cupable');
+    }
+
+    public function achievements(): MorphMany
+    {
+        return $this->morphMany(Achievement::class, 'achievementable');
+    }
+
+    public function achievementScore(): MorphOne
+    {
+        return $this->morphOne(Achievement::class, 'achievementable')->where('type', AchievementTypeEnum::SCORE->value);
+    }
+
+    public function achievementCoin(): MorphOne
+    {
+        return $this->morphOne(Achievement::class, 'achievementable')->where('type', AchievementTypeEnum::COIN->value);
     }
 }

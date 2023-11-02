@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 /**
@@ -72,5 +73,10 @@ class Team extends Model
     public function competitions(): MorphToMany
     {
         return $this->morphToMany(Competition::class, 'competitionable')->withPivot(['status_id']);
+    }
+
+    public function achievements(): MorphMany
+    {
+        return $this->morphMany(Achievement::class, 'achievementable');
     }
 }

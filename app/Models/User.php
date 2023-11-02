@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -135,6 +136,11 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia
     public function competitions(): MorphToMany
     {
         return $this->morphToMany(Competition::class, 'competitionable');
+    }
+
+    public function achievements(): MorphMany
+    {
+        return $this->morphMany(Achievement::class, 'achievementable');
     }
 
     //for panel
