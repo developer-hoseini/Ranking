@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CupController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TestController;
@@ -46,4 +47,9 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
     Route::view('/global_ranks', [TestController::class, 'index'])->name('global_ranks');
 
     Route::get('/game/{game}', [GameController::class, 'show'])->name('game.show');
+
+    Route::prefix('cups')->name('cup.')->group(function () {
+        Route::get('/{cup}', [CupController::class, 'show'])->name('show');
+    });
+
 });

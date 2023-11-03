@@ -1113,12 +1113,11 @@ textarea:focus, input:focus{
 .tor_end_box{position: relative; top: 3px; display: inline-block;}
 .bracket_cup_icon{
     position: relative;
-    right: 10px;
-    display: inline-block;
-    background: url('/img/cup.png') no-repeat;
+    background: url('/storage/assets/images/cup.png') no-repeat;
     background-size: 38px;
     width: 38px;
     height: 38px;
+    margin-top: -25px;
 }
 .tor_end_box a{color: #000;}
 .tor_end_box a:hover{text-decoration: none;}

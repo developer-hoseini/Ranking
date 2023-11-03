@@ -16,10 +16,26 @@ class CupFactory extends Factory
      */
     public function definition(): array
     {
+        $capacity = $this->faker->numberBetween(4, 16);
+        $capacity = $this->getCapacity($capacity);
+
         return [
             'name' => $this->faker->name,
-            'capacity' => $this->faker->numberBetween(4, 16),
+            'capacity' => $capacity,
             'description' => $this->faker->text(50),
         ];
+    }
+
+    private function getCapacity($capacity)
+    {
+        if (($capacity % 2) == 0) {
+            return $capacity;
+        } else {
+            $capacity = $capacity + 1;
+        }
+
+        $capacity = $this->getCapacity($capacity);
+
+        return $capacity;
     }
 }
