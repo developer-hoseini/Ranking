@@ -25,8 +25,8 @@ class ProfileFactory extends Factory
             'bank_account' => $this->faker->word(),
             'account_holder_name' => $this->faker->name(),
             'show_mobile' => $this->faker->boolean(),
-            'user_id' => User::factory(),
-            'state_id' => State::factory(),
+            'user_id' => User::inRandomOrder()->first()?->id,
+            'state_id' => State::inRandomOrder()->first()?->id,
         ];
     }
 }

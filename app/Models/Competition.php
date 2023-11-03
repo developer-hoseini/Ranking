@@ -123,7 +123,7 @@ class Competition extends Model
 
     public function cups(): MorphToMany
     {
-        return $this->morphToMany(Cup::class, 'cupable');
+        return $this->morphToMany(Cup::class, 'cupable')->withPivot(['step']);
     }
 
     public function achievements(): MorphMany

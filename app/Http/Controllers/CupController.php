@@ -10,6 +10,10 @@ class CupController extends Controller
     {
         $cup = Cup::whereId($cupId)
             ->withWhereHas('competitions')
+            ->with([
+                'competitions.gameResults.gameResultStatus',
+                'competitions.users.media',
+            ])
             ->firstOrFail();
 
         return view('cups.show', compact('cup'));

@@ -198,11 +198,14 @@ class FakeDataSeeder extends Seeder
         $cups = Cup::factory()->count(40)->create();
 
         foreach ($cups as $cup) {
-            for ($i = 0; $i < $cup->capacity; $i++) {
+            $competionCount = $cup->capacity / 2;
+
+            for ($i = 0; $i < $competionCount; $i++) {
                 $dataCollect->push([
                     'cup_id' => $cup->id,
                     'cupable_type' => Competition::class,
                     'cupable_id' => $competitions->shuffle()->first()->id,
+                    'step' => 1,
                 ]);
             }
         }
