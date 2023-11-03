@@ -201,7 +201,15 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia
     protected function avatar(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->getFirstMediaUrl('avatar')
+            get: function () {
+                $avatar = $this->getFirstMediaUrl('avatar');
+
+                if ($avatar) {
+                    return $avatar;
+                }
+
+                return asset('assets/images/default-profile.png');
+            }
         );
     }
 }
