@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\AchievementTypeEnum;
+use App\Models\Achievement;
 use App\Models\Game;
 use App\Models\User;
 
@@ -17,14 +19,22 @@ class GameController extends Controller
         $game->loadCount(['invites']);
 
         $users = User::query()
+            ->withSum('scoreAchievements', 'count')
+            ->withSum('coinAchievements', 'count')
             ->whereHas('competitions', function ($query) use ($game) {
                 $query->where('game_id', $game->id);
             })
             ->with([
                 'profile',
-                'competitions' => fn ($q) => $q->where('game_id', $game->id),
-                'competitions.game' => fn ($q) => $q->where('id', $game->id),
+                'media',
             ])
+            ->orderByDesc(
+                Achievement::selectRaw('sum(count) as total_scores')
+                    ->where('achievementable_type', User::class)
+                    ->where('type', AchievementTypeEnum::SCORE->value)
+                    ->whereColumn('achievementable_id', 'users.id')
+                    ->groupBy('achievementable_id')
+            )
             ->paginate(config('setting.gameinfo_list'));
 
         return view('game.show', ['game' => $game, 'users' => $users]);

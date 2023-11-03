@@ -49,9 +49,9 @@
                                         </a>
                                     </td>
 
-                                    <td>{{ $user->competitions->pluck('game')?->sum('score') }}</td>
+                                    <td>{{ $user->score_achievements_sum_count }}</td>
 
-                                    <td class="text-center">{{ $user->coin }}</td>
+                                    <td class="text-center">{{ $user->coin_achievements_sum_count }}</td>
 
                                     <td class="text-center">{{ $user->profile?->likes??0 }}</td>
 
