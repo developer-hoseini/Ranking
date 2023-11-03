@@ -19,21 +19,24 @@ class Ranks extends Component
                 $q->has('gameResults');
             })
             ->with([
+                'gameCompetitionsUsers' => function ($q) {
+                    $q->orderByDesc(
+                        Achievement::selectRaw('sum(count) as total_scores')
+                            ->where('achievementable_type', User::class)
+                            ->where('type', AchievementTypeEnum::SCORE->value)
+                            ->whereColumn('achievementable_id', 'users.id')
+                            ->groupBy('achievementable_id')
+                    )
+                        ->withSum('scoreAchievements', 'count')
+                        ->withSum('coinAchievements', 'count')
+                        ->limit(3);
+                },
                 'gameCompetitionsUsers.profile',
                 'gameCompetitionsUsers.media',
             ])
-            ->withWhereHas('gameCompetitionsUsers', function ($q) {
-                $q->orderByDesc(
-                    Achievement::selectRaw('sum(count) as total_scores')
-                        ->where('achievementable_type', User::class)
-                        ->where('type', AchievementTypeEnum::SCORE->value)
-                        ->whereColumn('achievementable_id', 'users.id')
-                        ->groupBy('achievementable_id')
-                )
-                    ->withSum('scoreAchievements', 'count')
-                    ->withSum('coinAchievements', 'count')
-                    ->limit(3);
-            })
+            ->has('gameCompetitionsUsers', '>=', 4)
+            ->take(4)
+            ->inRandomOrder()
             ->get();
 
         return view('components.home.ranks', compact('games'));
