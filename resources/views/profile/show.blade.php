@@ -16,7 +16,7 @@
                     <div class="profile-photo">
                         <img src="{{ $user->avatar }}" class="user_photo" alt="{{ $user->username }}"
                              title="{{$user?->profile?->fullname??$user->name}}" width="180">
-                        @if($isMyProfile)
+                        @if(auth()?->id() === $user->id)
                             <div class="edit_profile_mob">
                                 <a href="{{ route('edit_profile') }}" class="nav-link"><i
                                         class="fa fa-edit"></i> {{ __('words.Edit Profile') }}</a>
@@ -41,24 +41,17 @@
                         <div>
                             @if($user->profile?->state_id!=null)
                                 <img
-                                    src="{{ asset('assets/img/flags/').'/'.$user->profile?->state?->country?->name.'.png' }}">
-                                @if( \Lang::has('country.'.$user?->profile?->state?->country?->name) )
-                                    {{ __('country.'.$user->profile?->state?->country?->name) }}
-                                    @if( \Lang::has('state.'.$user->profile?->state?->name) )
-                                        - {{ __('state.'.$user->profile?->state?->name) }}
-                                    @endif
-                                @else
-                                    {{ $user->profile?->state?->country?->name }}
-                                @endif
+                                    src="{{ $user->profile?->state?->country?->icon }}">
+                                {{ $user->profile?->state?->country?->name }}
                             @endif
                         </div>
                         <div class="like_cnt">
                             @if(auth()->check())
                                 <profile like-route="{{route('like')}}" report-route="{{route('report')}}"
-                                         is-liked="{{$is_liked==0?false:true}}"
+                                         is-liked="{{!$user?->is_like}}"
                                          user-id="{{$user->id}}"
-                                         like-count="{{$user->profile->likes}}"
-                                         coin-count="{{$user->coin}}"
+                                         like-count="{{$user->likes_count}}"
+                                         coin-count="{{$user->coin_achievements_sum_count}}"
                                          lbl-like="{{__('')}}"
                                          lbl-likes="{{__('')}}"
                                          lbl-report="{{__('words.Report')}}"
@@ -84,15 +77,15 @@
                 <div class="container text-center">
                     <div class="p-3 profile-menu-item d-inline-block" btn_value="joined-games"
                          style="border-bottom: solid 1px #636b6f ;">
-                        <img src="{{url('img/game-dark.png')}}" class="profile-menu-img">
+                        <img src="{{asset('assets/img/game-dark.png')}}" class="profile-menu-img">
                         <div class="profile-menu-responsive">{{__('words.Joined_Games')}}</div>
                     </div>
                     <div class="p-3 profile-menu-item d-inline-block" btn_value="competitions">
-                        <img src="{{url('img/cup-dark.png')}}" class="profile-menu-img">
+                        <img src="{{asset('assets/img/cup-dark.png')}}" class="profile-menu-img">
                         <div class="profile-menu-responsive">{{__('words.tournament_joined')}}</div>
                     </div>
                     <div class="p-3 profile-menu-item d-inline-block" btn_value="certificates">
-                        <img src="{{url('img/certificate-dark.png')}}" class="profile-menu-img">
+                        <img src="{{asset('assets/img/certificate-dark.png')}}" class="profile-menu-img">
                         <div class="profile-menu-responsive">{{__('words.championship_certificates')}}</div>
                     </div>
                 </div>
@@ -103,7 +96,7 @@
                 <div class="profile">
                     <div class="w-100 profile-options joined-games">
                         <div class="text-center"><h2>{{__('words.Joined_Games')}}</h2></div>
-                        {{--                        @php $status = config('status'); $setting = config('setting');$count = 0; @endphp--}}
+                        @php $count = 0; @endphp
                         {{--@foreach($scores as $score)
                             <div class="profile_game_scores">
                                 <h3 class="btn btn-light p-2 w-100 mt-2 border profile-game-btn"
@@ -231,7 +224,8 @@
                 <div class="profile profile-options competitions" style="display: none;">
                     <div class="text-center"><h2>{{__('words.tournament_registered')}}</h2></div>
                     <div class="w-100 pt-2" id="competitions-div">
-                        <div class="w-100 text-center"><img src="{{url('img/loading_spinner.gif')}}" width="100px">
+                        <div class="w-100 text-center"><img src="{{asset('assets/img/loading_spinner.gif')}}"
+                                                            width="100px">
                         </div>
                     </div>
                 </div>
@@ -285,7 +279,7 @@
     </div>
 
 
-    @push('links')
+    @push('styles')
         <style type="text/css">
             .profile-menu-item {
                 cursor: pointer;

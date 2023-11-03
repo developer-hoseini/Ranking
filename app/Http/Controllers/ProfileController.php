@@ -9,15 +9,10 @@ class ProfileController extends Controller
 {
     public function show(User $user)
     {
-
-        $status = config('status');
-
         $user->load('profile.state.country')
             ->loadSum('scoreAchievements', 'count')
             ->loadSum('coinAchievements', 'count')
             ->loadCount('likes');
-
-        $isMyProfile = auth()?->id() === $user->id;
 
         if (auth()->check()) {
             $user->loadCount([
@@ -32,7 +27,6 @@ class ProfileController extends Controller
 
         return view('profile.show', [
             'user' => $user,
-            'isMyProfile' => $isMyProfile,
             'daysAgo' => $daysAgo,
             //            'certificates' => $certificates,
         ]);

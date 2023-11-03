@@ -190,7 +190,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia
     }
 
     //scope
-    public function scopeRoleUser(Builder $builder)
+    public function scopeRoleUser(Builder $builder): Builder
     {
         return $builder->whereHas('roles', function (Builder $query) {
             $query->where('name', 'user');
