@@ -24,7 +24,7 @@
     <div class="w-100 d-flex flex-wrap">
         <div class="menu-nav-right mx-auto">
             <div title="{{ __('words.menu') }}" onclick="menu_item();"
-                class="text-decoration-none menu-toggler-btn mx-1 d-inline-block">
+                 class="text-decoration-none menu-toggler-btn mx-1 d-inline-block">
                 @if (
                     $chats_count > 0 ||
                         $unconfirmed_quick_submitted > 0 ||
@@ -39,9 +39,9 @@
                 @endif
             </div>
             <a href="{{ route('quick_submit') }}" title="{{ __('words.quick_submit_result') }}"
-                class="text-decoration-none d-inline-block mx-1">
+               class="text-decoration-none d-inline-block mx-1">
                 <img src="{{ url('assets/img/menu/submit_result.png') }}" height="28px" class="menu-white-icons"
-                    style="position: relative;bottom: 2px;">
+                     style="position: relative;bottom: 2px;">
                 <img src="{{ url('assets/img/menu/submit_result-dark.png') }}" height="28px" class="menu-dark-icons">
             </a>
         </div>
@@ -51,28 +51,28 @@
         </div>
         <div class="menu-nav-left mx-auto">
             <div title="{{ session('fullname') }}" onclick="profile_item();"
-                class="text-decoration-none menu-toggler-btn d-inline-block mx-1">
+                 class="text-decoration-none menu-toggler-btn d-inline-block mx-1">
                 <img src="{{ url(session('photo')) }}" height="29px" class="rounded-circle bg-white ml-1">
             </div>
             <div title="{{ __('words.coin_count') }}" class="text-decoration-none menu-toggler-btn d-inline-block mx-1"
-                onclick="coin_item();">
+                 onclick="coin_item();">
                 <img src="{{ url('assets/img/menu/coin.png?c=1') }}" height="31px">
             </div>
         </div>
         <div class="w-100 text-center menu-nav-btns">
             <a href="{{ route('tournament.index') }}" title="{{ __('words.matches') }}" class="menu-nav-circle-btn"
-                id="menu-nav-c-btn-1">
+               id="menu-nav-c-btn-1">
                 <img src="{{ url('assets/img/menu/tournament-red.png') }}" width="20px">
             </a>
             <a href="{{ route('ranks') }}" title="{{ __('words.ranks_table') }}" class="menu-nav-circle-btn"
-                id="menu-nav-c-btn-2">
+               id="menu-nav-c-btn-2">
                 <img src="{{ url('assets/img/menu/ranks-red.png') }}" width="20px">
             </a>
             <a href="{{ route('home') }}" title="{{ __('words.home') }}" class="menu-nav-home-btn">
                 <img src="{{ url('assets/img/menu/home.png') }}" height="25px">
             </a>
             <a href="{{ route('events') }}" title="{{ __('words.Events') }}" class="menu-nav-circle-btn"
-                id="menu-nav-c-btn-4">
+               id="menu-nav-c-btn-4">
                 @if ($events_count > 0)
                     <img src="{{ url('assets/img/menu/notify/events-red.png') }}" width="25px">
                 @else
@@ -112,7 +112,7 @@
             </div>
         </a>
         <a href="{{ route('my_tournament.index') }}@if ($tournament_invite > 0) #invited @endif"
-            style="text-decoration: none;">
+           style="text-decoration: none;">
             <div class="menu-list-item text-center">
                 @if ($tournament_invite > 0)
                     <img src="{{ url('assets/img/menu/notify/my_tournament.png') }}" width="45px" class="mt-1">
@@ -123,7 +123,7 @@
             </div>
         </a>
         <a href="@if ($team_invites_count > 0) {{ route('joined_teams') }} @else {{ route('my_teams') }} @endif"
-            style="text-decoration: none;">
+           style="text-decoration: none;">
             <div class="menu-list-item text-center">
                 @if ($team_invites_count > 0)
                     <img src="{{ url('assets/img/menu/notify/team.png') }}" width="45px" class="mt-1">
@@ -175,7 +175,7 @@
             <div class="font-weight-bold mt-2" style="font-size: 20px;">{{ session('fullname') }}</div>
         </div>
         <div class="mt-3 py-2" style="width: 100%; border-top: solid 1px #bbb;">
-            <a href="{{ route('profile', ['username' => $auth_user->username]) }}" style="text-decoration: none;">
+            <a href="{{ route('profile.show', ['user' => $auth_user->username]) }}" style="text-decoration: none;">
                 <div class="menu-list-item text-center">
                     <img src="{{ url('assets/img/menu/show_profile.png') }}" width="45px" class="mt-1">
                     <div class="text-dark mt-1">{{ __('words.View Profile') }}</div>
@@ -215,14 +215,14 @@
         </div>
         <div class="mt-3 py-2" style="display: flex;width: 100%; border-top: solid 1px #bbb;">
             <a href="https://ranking.metagamescoin.io/forms/?page_id=130"
-                style="text-decoration: none;margin: 0 auto;">
+               style="text-decoration: none;margin: 0 auto;">
                 <div class="menu-list-item text-center">
                     <img src="{{ url('assets/img/menu/coin_buy.png?c=2') }}" width="45px" class="mt-1">
                     <div class="text-dark mt-1">{{ __('words.buy_coin') }}</div>
                 </div>
             </a>
             <a href="https://ranking.metagamescoin.io/forms/?page_id=140"
-                style="text-decoration: none;margin: 0 auto;">
+               style="text-decoration: none;margin: 0 auto;">
                 <div class="menu-list-item text-center">
                     <img src="{{ url('assets/img/menu/coin_buy.png?c=2') }}" width="45px" class="mt-1">
                     <div class="text-dark mt-1">{{ __('words.card_charge') }}</div>
@@ -250,8 +250,8 @@
 
 @push('scripts')
     <script type="text/javascript">
-        $(document).ready(function() {
-            $(document).scroll(function() {
+        $(document).ready(function () {
+            $(document).scroll(function () {
                 scrollfun()
             });
         });
@@ -282,8 +282,8 @@
             $('#coin-item').toggle();
         }
 
-        $('document').ready(function() {
-            $(document).mouseup(function(e) {
+        $('document').ready(function () {
+            $(document).mouseup(function (e) {
                 var menu_list_box = $(".menu-list-box");
                 var menu_toggler_btn = $(".menu-toggler-btn");
                 var menu_list = $(".menu-list");

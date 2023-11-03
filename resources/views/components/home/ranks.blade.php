@@ -30,10 +30,7 @@
                                     {{ __('words.Coin') }}</div>
                             </div>
 
-                            @for ($row = 0; $row < 3; $row++)
-                                @php
-                                    $user = $game->gameCompetitionsUsers[$row] ?? null;
-                                @endphp
+                            @foreach ($game->gameCompetitionsUsers as  $row => $user)
                                 <div class="border-bottom w-100 py-2" style="height: 70px">
                                     <div class="d-inline-block align-middle" style="width: 7%;">{{ $row + 1 }}
                                     </div>
@@ -43,21 +40,20 @@
                                             class="rounded-circle">
                                     </div>
                                     <div class="d-inline-block align-middle" style="width: 47%;">
-                                        <a @if ($user) href="{{ route('profile', ['user' => $user?->id]) }}" @endif
-                                            title="{{ $user?->profile?->fullName }}" class="text-dark">
-                                            {{ $user?->profile?->fullName ?? $user?->username }}
+                                        <a @if($user) href="{{ route('profile.show',['user'=>$user?->id]) }}" @endif
+                                        title="{{$user?->profile?->fullName}}" class="text-dark">
+                                            {{ $user?->profile?->fullName??$user?->username }}
                                         </a>
                                     </div>
                                     <div class="d-inline-block align-middle" style="width: 15%;">
                                         {{ $user?->score_achievements_sum_count }}</div>
                                     <div class="d-inline-block align-middle" style="width: 15%;"><img
-                                            src="{{ url('assets/img/coin.png') }}" width="20px"
-                                            alt="{{ __('words.rezvani_coin') }}"
-                                            title="{{ __('words.rezvani_coin') }}">
+                                            src="{{asset('assets/img/coin.png')}}" width="20px"
+                                            alt="{{__('words.rezvani_coin')}}" title="{{__('words.rezvani_coin')}}">
                                         <div>{{ $user?->coin_achievements_sum_count }}</div>
                                     </div>
                                 </div>
-                            @endfor
+                            @endforeach
 
 
                         </div>

@@ -119,7 +119,7 @@ class AchievementResource extends Resource
                 Tables\Columns\TextColumn::make('status.name')
                     ->label('Reason')
                     ->state(function (Model $record): string {
-                        return $record->status->nameWithoutModelPrefix;
+                        return $record?->status?->nameWithoutModelPrefix ?? '';
                     })
                     ->sortable(),
                 Tables\Columns\TextColumn::make('occurredModel.name')

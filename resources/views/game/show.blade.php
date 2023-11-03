@@ -41,7 +41,7 @@
                                     <td>{{ $row+1 }}</td>
 
                                     <td class="photo-name">
-                                        <a href="{{ route('profile',['user'=>$user->id]) }}"
+                                        <a href="{{ route('profile.show',['user'=>$user->id]) }}"
                                            title="{{$user->profile?->fullname??$user->name}}">
                                             <img src="{{ $user->avatar }}" class="user_photo" width="40"
                                                  alt="{{ $user->profile?->fullname }}">
@@ -49,11 +49,11 @@
                                         </a>
                                     </td>
 
-                                    <td>{{ $user->competitions->pluck('game')?->sum('score') }}</td>
+                                    <td>{{ $user->score_achievements_sum_count }}</td>
 
-                                    <td class="text-center">{{ $user->coin }}</td>
+                                    <td class="text-center">{{ $user->coin_achievements_sum_count }}</td>
 
-                                    <td class="text-center">{{ $user->profile?->likes??0 }}</td>
+                                    <td class="text-center">{{ $user->likes_count }}</td>
 
                                     @auth
                                         <td>
