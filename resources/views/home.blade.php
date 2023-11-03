@@ -26,6 +26,12 @@
         <!---------- Tournament Brackets ---------->
         <x-home.tournament-brackets />
 
+
+        <!---------- Games ---------->
+        <div class="container d-flex flex-wrap">
+            <x-home.latest-played />
+        </div>
+        
     </div>
 
     @push('styles')
