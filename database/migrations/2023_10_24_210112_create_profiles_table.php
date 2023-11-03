@@ -23,7 +23,6 @@ return new class extends Migration
             $table->string('bank_account', 100)->nullable();
             $table->string('account_holder_name', 100)->nullable();
             $table->tinyInteger('show_mobile')->nullable();
-            $table->mediumInteger('likes')->default(0);
             $table->softDeletes();
             $table->timestamps();
         });

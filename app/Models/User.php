@@ -83,6 +83,11 @@ use Spatie\Permission\Traits\HasRoles;
  * @method static Builder|User withTrashed()
  * @method static Builder|User withoutTrashed()
  *
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Like> $likes
+ * @property-read int|null $likes_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Like> $likesBy
+ * @property-read int|null $likes_by_count
+ *
  * @mixin \Eloquent
  */
 class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia
@@ -143,6 +148,16 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia
     public function achievements(): MorphMany
     {
         return $this->morphMany(Achievement::class, 'achievementable');
+    }
+
+    public function likes(): MorphMany
+    {
+        return $this->morphMany(Like::class, 'likeable');
+    }
+
+    public function likesBy(): BelongsToMany
+    {
+        return $this->belongsToMany(Like::class, 'liked_by_user_id');
     }
 
     public function scoreAchievements(): MorphMany

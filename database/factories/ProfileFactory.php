@@ -25,7 +25,6 @@ class ProfileFactory extends Factory
             'bank_account' => $this->faker->word(),
             'account_holder_name' => $this->faker->name(),
             'show_mobile' => $this->faker->boolean(),
-            'likes' => $this->faker->randomNumber(2),
             'user_id' => User::factory(),
             'state_id' => State::factory(),
         ];

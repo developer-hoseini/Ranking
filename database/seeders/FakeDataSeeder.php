@@ -10,6 +10,7 @@ use App\Models\Cup;
 use App\Models\Game;
 use App\Models\GameResult;
 use App\Models\GameType;
+use App\Models\Profile;
 use App\Models\Role;
 use App\Models\Status;
 use App\Models\Team;
@@ -31,7 +32,7 @@ class FakeDataSeeder extends Seeder
 
             $teams = Team::factory()->count(20)->create();
 
-            $users = $this->createUsers();
+            $users = $this->createUsersWithProfile();
 
             $compeations = $this->createCompetitions($users, $teams);
 
@@ -71,7 +72,7 @@ class FakeDataSeeder extends Seeder
 
     }
 
-    private function createUsers(): Collection
+    private function createUsersWithProfile(): Collection
     {
 
         if (User::count() > 100) {
@@ -85,6 +86,12 @@ class FakeDataSeeder extends Seeder
         $roleClient = Role::where('name', 'client')->first();
         $dataCollect = collect([]);
         foreach ($users as $user) {
+            Profile::factory(1)->create([
+                'user_id' => $user->id,
+            ]);
+            $user->likes()->createMany(
+                User::inRandomOrder()->limit(random_int(0, 300))->get('id as liked_by_user_id')->toArray()
+            );
             $dataCollect->push(['role_id' => $roleClient->id, 'model_type' => User::class, 'model_id' => $user->id]);
         }
 

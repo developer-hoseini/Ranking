@@ -39,7 +39,7 @@
                                              alt="{{$user?->profile?->fullName}}" class="rounded-circle">
                                     </div>
                                     <div class="d-inline-block align-middle" style="width: 47%;">
-                                        <a @if($user) href="{{ route('profile',['user'=>$user?->id]) }}" @endif
+                                        <a @if($user) href="{{ route('profile.show',['user'=>$user?->id]) }}" @endif
                                         title="{{$user?->profile?->fullName}}" class="text-dark">
                                             {{ $user?->profile?->fullName??$user?->username }}
                                         </a>

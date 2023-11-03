@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,8 +18,18 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
+
+    //home
     Route::get('/', [HomeController::class, 'index'])->name('home');
+
+    //test
     Route::get('/test', [TestController::class, 'index'])->name('test.index');
+
+    //game
+    Route::get('/game/{game}', [GameController::class, 'show'])->name('game.show');
+
+    //profile
+    Route::get('/profile/{user}', [ProfileController::class, 'show'])->name('profile.show');
 
     Route::get('/tournament', [TestController::class, 'index'])->name('tournament.index');
     Route::get('/tournament/{competition}', [TestController::class, 'index'])->name('tournament.show');
@@ -40,10 +51,12 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
     Route::get('/chats', [TestController::class, 'index'])->name('chats');
     Route::get('/tickets', [TestController::class, 'index'])->name('tickets.index');
 
-    Route::get('/profile/{user}', [TestController::class, 'index'])->name('profile');
     Route::get('/prizes', [TestController::class, 'index'])->name('prizes');
 
     Route::view('/global_ranks', [TestController::class, 'index'])->name('global_ranks');
 
-    Route::get('/game/{game}', [GameController::class, 'show'])->name('game.show');
+    Route::post('/profile_competitions', [TestController::class, 'index'])->name('profile.competitions');
+
+    Route::get('/profile_team_certificates', [TestController::class, 'index'])->name('profile_team_certificates');
+
 });

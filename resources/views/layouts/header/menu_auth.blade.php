@@ -175,7 +175,7 @@
             <div class="font-weight-bold mt-2" style="font-size: 20px;">{{ session('fullname') }}</div>
         </div>
         <div class="mt-3 py-2" style="width: 100%; border-top: solid 1px #bbb;">
-            <a href="{{ route('profile', ['user' => $auth_user->username]) }}" style="text-decoration: none;">
+            <a href="{{ route('profile.show', ['user' => $auth_user->username]) }}" style="text-decoration: none;">
                 <div class="menu-list-item text-center">
                     <img src="{{ url('assets/img/menu/show_profile.png') }}" width="45px" class="mt-1">
                     <div class="text-dark mt-1">{{ __('words.View Profile') }}</div>

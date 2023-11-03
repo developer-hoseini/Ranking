@@ -78,7 +78,6 @@ class Profile extends Model
         'bank_account',
         'account_holder_name',
         'show_mobile',
-        'likes',
     ];
 
     protected $casts = [
