@@ -7,7 +7,30 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-
+/**
+ * App\Models\Status
+ *
+ * @property int $id
+ * @property string $name
+ * @property string|null $model_type
+ * @property string|null $message
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ *
+ * @method static \Database\Factories\StatusFactory factory($count = null, $state = [])
+ * @method static Builder|Status modelType(?string $type, ?bool $withNull = true)
+ * @method static Builder|Status newModelQuery()
+ * @method static Builder|Status newQuery()
+ * @method static Builder|Status query()
+ * @method static Builder|Status whereCreatedAt($value)
+ * @method static Builder|Status whereId($value)
+ * @method static Builder|Status whereMessage($value)
+ * @method static Builder|Status whereModelType($value)
+ * @method static Builder|Status whereName($value)
+ * @method static Builder|Status whereUpdatedAt($value)
+ *
+ * @mixin \Eloquent
+ */
 class Status extends Model
 {
     use HasFactory;
