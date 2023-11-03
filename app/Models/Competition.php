@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\AchievementTypeEnum;
 use App\Enums\StatusEnum;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -144,5 +145,33 @@ class Competition extends Model
     public function scopeStatusTournament(Builder $builder)
     {
         return $builder->whereHas('status', fn ($q) => $q->where('name', StatusEnum::COMPETITION_TOURNAMENT->value));
+    }
+
+    protected function loserUser(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                $gameResult = $this->gameResults->where('gameResultStatus.name', StatusEnum::GAME_RESULT_LOSE->value)->first();
+                if ($gameResult) {
+                    return $this->users->where('id', $gameResult->playerable_id)->first();
+                }
+
+                return null;
+            }
+        );
+    }
+
+    protected function winerUser(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                $gameResult = $this->gameResults->where('gameResultStatus.name', StatusEnum::GAME_RESULT_WIN->value)->first();
+                if ($gameResult) {
+                    return $this->users->where('id', $gameResult->playerable_id)->first();
+                }
+
+                return null;
+            }
+        );
     }
 }

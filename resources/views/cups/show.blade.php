@@ -27,7 +27,6 @@
             <div class="p-5 bracket_holder" style="margin-top: 150px !important">
                 @foreach ($steps as $key => $step)
                     @php
-                        
                         $winerPlayer = null;
 
                         if ($key > 0) {
@@ -40,11 +39,7 @@
                         
                         if($isEnd) {
                             $competition = $cup->competitions->where('pivot.step',$key)->first();
-                            $users = $competition?->users;
-                            $gameResultWiner = $competition?->gameResults?->where('gameResultStatus.name', \App\Enums\StatusEnum::GAME_RESULT_WIN->value)->first();
-                            if($gameResultWiner) {
-                                $winerPlayer = $users->where('id',$gameResultWiner->playerable_id)->first();
-                            }
+                            $winerPlayer = $competition?->winerUser;
                             $height = 0;
                         }
 
