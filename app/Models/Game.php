@@ -67,6 +67,11 @@ class Game extends Model
         return $this->hasManyDeepFromRelations($this->competitions(), (new Competition)->users());
     }
 
+    public function gameCompetitionsTeams()
+    {
+        return $this->hasManyDeepFromRelations($this->competitions(), (new Competition)->teams());
+    }
+
     public function invites(): HasMany
     {
         return $this->hasMany(Invite::class, 'game_id');

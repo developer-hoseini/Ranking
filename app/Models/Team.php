@@ -2,12 +2,17 @@
 
 namespace App\Models;
 
+use App\Enums\AchievementTypeEnum;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * App\Models\Team
@@ -49,9 +54,12 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  *
  * @mixin \Eloquent
  */
-class Team extends Model
+class Team extends Model implements HasMedia
 {
     use HasFactory;
+    use InteractsWithMedia;
+    use SoftDeletes;
+    use \Staudenmeir\EloquentEagerLimit\HasEagerLimit;
 
     public function status(): BelongsTo
     {
@@ -81,5 +89,43 @@ class Team extends Model
     public function achievements(): MorphMany
     {
         return $this->morphMany(Achievement::class, 'achievementable');
+    }
+
+    public function scoreAchievements(): MorphMany
+    {
+        return $this->morphMany(Achievement::class, 'achievementable')->where('type', AchievementTypeEnum::SCORE->value);
+    }
+
+    public function coinAchievements(): MorphMany
+    {
+        return $this->morphMany(Achievement::class, 'achievementable')->where('type', AchievementTypeEnum::COIN->value);
+    }
+
+    public function getFilamentAvatarUrl(): ?string
+    {
+        return $this->getMedia('avatar')?->first()?->getUrl() ?? '';
+    }
+
+    //for media
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('avatar')
+            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/gif', 'image/jpg'])
+            ->singleFile();
+    }
+
+    protected function avatar(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                $avatar = $this->getFirstMediaUrl('avatar');
+
+                if ($avatar) {
+                    return $avatar;
+                }
+
+                return asset('assets/images/default-profile.png');
+            }
+        );
     }
 }

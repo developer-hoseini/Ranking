@@ -51,6 +51,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
     Route::get('/my_teams', [TestController::class, 'index'])->name('my_teams');
     Route::get('/chats', [TestController::class, 'index'])->name('chats');
     Route::get('/tickets', [TestController::class, 'index'])->name('tickets.index');
+    Route::get('/teams/{team}', [TestController::class, 'index'])->name('teams.show');
+    Route::get('/tickets', [TestController::class, 'index'])->name('tickets.index');
 
     Route::get('/prizes', [TestController::class, 'index'])->name('prizes');
 
