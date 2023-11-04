@@ -30,6 +30,8 @@
         <!---------- Games ---------->
         <div class="container d-flex flex-wrap">
             <x-home.latest-played />
+            
+            <x-home.latest-photos />
         </div>
         
     </div>
