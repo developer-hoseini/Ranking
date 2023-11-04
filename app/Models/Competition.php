@@ -13,6 +13,8 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * App\Models\Competition
@@ -71,9 +73,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @mixin \Eloquent
  */
-class Competition extends Model
+class Competition extends Model implements HasMedia
 {
     use HasFactory,SoftDeletes;
+    use InteractsWithMedia;
 
     protected $fillable = [
         'name',
@@ -155,6 +158,12 @@ class Competition extends Model
     public function scopeStatusTournament(Builder $builder)
     {
         return $builder->whereHas('status', fn ($q) => $q->where('name', StatusEnum::COMPETITION_TOURNAMENT->value));
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('images')
+            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/gif', 'image/jpg']);
     }
 
     protected function loserUser(): Attribute

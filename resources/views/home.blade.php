@@ -31,16 +31,20 @@
         <div class="container d-flex flex-wrap">
 
             <x-home.latest-played />
-            
             <x-home.latest-photos />
             
         </div>
 
+        <!---------- Team Ranks && Top Club Players ---------->
         <div class="container d-flex flex-wrap">
             
             <x-home.top-teams />
+            <x-home.top-club-players />
 
         </div>
+
+        <x-home.statistics />
+
         
     </div>
 

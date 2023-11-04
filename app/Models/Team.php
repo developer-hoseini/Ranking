@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\AchievementTypeEnum;
+use Filament\Models\Contracts\HasAvatar;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -54,7 +55,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  *
  * @mixin \Eloquent
  */
-class Team extends Model implements HasMedia
+class Team extends Model implements HasAvatar, HasMedia
 {
     use HasFactory;
     use InteractsWithMedia;
