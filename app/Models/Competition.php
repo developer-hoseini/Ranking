@@ -109,7 +109,7 @@ class Competition extends Model
 
     public function status(): BelongsTo
     {
-        return $this->belongsTo(Status::class)->modelType(Competition::class, null);
+        return $this->belongsTo(Status::class)->modelType(__CLASS__, null);
     }
 
     public function state(): BelongsTo
@@ -140,6 +140,16 @@ class Competition extends Model
     public function coinAchievement(): MorphOne
     {
         return $this->morphOne(Achievement::class, 'achievementable')->where('type', AchievementTypeEnum::COIN->value);
+    }
+
+    public function scoreOccurredModel(): MorphOne
+    {
+        return $this->morphOne(Achievement::class, 'occurred_model')->where('type', AchievementTypeEnum::SCORE->value);
+    }
+
+    public function coinOccurredModel(): MorphOne
+    {
+        return $this->morphOne(Achievement::class, 'occurred_model')->where('type', AchievementTypeEnum::COIN->value);
     }
 
     public function scopeStatusTournament(Builder $builder)

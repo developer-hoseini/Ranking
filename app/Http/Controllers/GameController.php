@@ -19,7 +19,11 @@ class GameController extends Controller
         $game->loadCount(['invites']);
 
         $users = User::query()
-            ->withSum('scoreAchievements', 'count')
+            ->withSum([
+                'scoreAchievements' => function ($query) use ($game) {
+                    $query->whereHas('occurredModel', fn ($q) => $q->where('game_id', $game->id));
+                },
+            ], 'count')
             ->withSum('coinAchievements', 'count')
             ->withCount('likes')
             ->whereHas('competitions', function ($query) use ($game) {
@@ -34,6 +38,7 @@ class GameController extends Controller
                     ->where('achievementable_type', User::class)
                     ->where('type', AchievementTypeEnum::SCORE->value)
                     ->whereColumn('achievementable_id', 'users.id')
+                    ->whereHas('occurredModel', fn ($q) => $q->where('game_id', $game->id))
                     ->groupBy('achievementable_id')
             )
             ->paginate(config('setting.gameinfo_list'));
