@@ -96,21 +96,22 @@
                 <div class="profile">
                     <div class="w-100 profile-options joined-games">
                         <div class="text-center"><h2>{{__('words.Joined_Games')}}</h2></div>
-                        @php $count = 0; @endphp
-                        {{--@foreach($scores as $score)
+                        @foreach( $user->scoreAchievements as $row =>$scoreAchievement)
                             <div class="profile_game_scores">
                                 <h3 class="btn btn-light p-2 w-100 mt-2 border profile-game-btn"
                                     style="font-size: 20px;cursor: pointer;color: #555;"
-                                    btn_value="{{$count}}"><span>{{ __('games.'.$score->game->name) }}</span><i
-                                        class="fa fa-chevron-down mx-2 game-btn-i-{{$count}}" rotate="down"></i></h3>
-                                <div class="profile-game-div" id="profile-game-div-{{$count}}" style="display: none;">
+                                    btn_value="{{$row}}"><span>
+                                       {{ $scoreAchievement?->occurredModel?->game?->name}}
+                                    </span>
+                                    <i class="fa fa-chevron-down mx-2 game-btn-i-{{$row}}" rotate="down"></i></h3>
+                                <div class="profile-game-div" id="profile-game-div-{{$row}}" style="display: none;">
                                     <div class="card profile_stars_box">
                                         <div class="card-header text-center"><h5>{{ __('words.Stars') }}</h5></div>
                                         <div class="card-body">
-                                            @php
+                                            {{--@php
                                                 $game_id = $score->game->id;
-                                                $inclub_stars = \App\Invite::inclub_stars($user->id, $game_id, $status, $setting);
-                                                $image_stars = \App\Invite::image_stars($user->id, $game_id, $status, $setting);
+                                                $inclub_stars = \App\Models\Invite::inclub_stars($user->id, $game_id, $status, $setting);
+                                                $image_stars = \App\Models\Invite::image_stars($user->id, $game_id, $status, $setting);
 
                                                 $team_played_stars = \App\Team_Played_User::whereHas('team' , function($query) use ($game_id){
                                                     $query->where('game_id', $game_id);
@@ -130,8 +131,8 @@
                                                 }
                                                 else
                                                   $warning_per = 0;
-                                            @endphp
-                                            <ul class="list-group list-group-flush">
+                                            @endphp--}}
+                                            {{--<ul class="list-group list-group-flush">
                                                 <li class="list-group-item">
                                                     <div class="stars_textbox">{{ __('words.In Club: ') }}</div>
                                                     <div class="stars_starbox">
@@ -173,7 +174,7 @@
                                                                 title="{{ __('message.warnings_in_played',['warning_num'=>$score['warning'], 'play_num'=>$total_played]) }}"></button>
                                                     </div>
                                                 </li>
-                                            </ul>
+                                            </ul>--}}
                                         </div>
                                     </div>
 
@@ -181,13 +182,15 @@
                                         <div class="card-header text-center"><h5>{{ __('words.Scores') }}</h5></div>
                                         <div class="card-body">
                                             <ul class="list-group list-group-flush">
-                                                <li class="list-group-item">{{ __('words.Score: ').$score['score'] }}</li>
-                                                @php
+                                                <li class="list-group-item">
+                                                    {{ __('words.Score: ').$scoreAchievement?->count }}
+                                                </li>
+                                                {{--@php
                                                     $rank = \App\User_Score::rank($score['user_id'],$score['game_id']);
                                                     $country_rank = \App\User_Score::country_rank($score['user_id'],$score['game_id']);
                                                 @endphp
                                                 <li class="list-group-item">{{ __('words.Global Rank: ').$rank }}</li>
-                                                <li class="list-group-item">{{ __('words.Country Rank: ').$country_rank }}</li>
+                                                <li class="list-group-item">{{ __('words.Country Rank: ').$country_rank }}</li>--}}
                                             </ul>
                                         </div>
                                     </div>
@@ -196,7 +199,7 @@
                                         <div class="card-header text-center"><h5>{{ __('words.competitions') }}</h5>
                                         </div>
                                         <div class="card-body">
-                                            <ul class="list-group list-group-flush warn-part-one">
+                                            {{--<ul class="list-group list-group-flush warn-part-one">
                                                 <li class="list-group-item">{{ __('words.In Club: ').$score['in_club'] }}</li>
                                                 <li class="list-group-item">{{ __('words.With Referee: ').$score['with_image'] }}</li>
                                                 <li class="list-group-item"
@@ -207,13 +210,12 @@
                                                     style="border-top: none;">{{ __('words.Win: ').$score['win'] }}</li>
                                                 <li class="list-group-item">{{ __('words.Lose: ').$score['lose'] }}</li>
                                                 <li class="list-group-item">{{ __('words.all_competitions: ').$total_played }}</li>
-                                            </ul>
+                                            </ul>--}}
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            @php $count ++; @endphp
-                        @endforeach--}}
+                        @endforeach
                         {{--@if($count == 0)
                             <div class="w-100 text-center pt-2">{{__('words.dont_yet_any_game')}} ...</div>
                         @endif--}}

@@ -9,9 +9,11 @@ class ProfileController extends Controller
 {
     public function show(User $user)
     {
-        $user->load('profile.state.country')
-            ->loadSum('scoreAchievements', 'count')
-            ->loadSum('coinAchievements', 'count')
+        $user->load([
+            'profile.state.country',
+            'scoreAchievements' => fn ($q) => $q->orderBy('count', 'desc'),
+            'scoreAchievements.occurredModel.game',
+        ])->loadSum('coinAchievements', 'count')
             ->loadCount('likes');
 
         if (auth()->check()) {
@@ -20,16 +22,17 @@ class ProfileController extends Controller
             ]);
         }
 
+        //        dd($user->toArray(), $user->scoreAchievements->sum('count'));
+
+        //        $scores = \App\User_Score::with(['game'])
+        //            ->where(['user_id'=>$user->id, 'is_join'=>config('status.Yes')])->orderBy('score','desc')->get();
+
         $daysAgo = Carbon::now()->subDays(config('setting.days_ago'));
 
         // Certificates
         //        $certificates = Certificate::where(['exported' => $status['Yes'], 'user_id' => $user->id])->with('bracket.competition')->get();
 
-        return view('profile.show', [
-            'user' => $user,
-            'daysAgo' => $daysAgo,
-            //            'certificates' => $certificates,
-        ]);
+        return view('profile.show', compact('user', 'daysAgo'));
 
     }
 }
