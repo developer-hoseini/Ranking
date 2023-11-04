@@ -23,6 +23,9 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
     //home
     Route::get('/', [HomeController::class, 'index'])->name('home');
 
+    //about
+    Route::view('/about', 'pages.about')->name('pages.about');
+
     //test
     Route::get('/test', [TestController::class, 'index'])->name('test.index');
 

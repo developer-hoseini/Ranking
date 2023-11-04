@@ -31,7 +31,7 @@
             <a href="{{ route('home') }}" title="{{ __('words.home') }}" class="menu-nav-home-btn">
                 <img src="{{ url('assets/img/menu/home.png') }}" height="25px">
             </a>
-            <a href="('about_ranking')}}" title="{{ __('words.About_Ranking') }}" class="menu-nav-circle-btn"
+            <a href="{{ route('pages.about') }}" title="{{ __('words.About_Ranking') }}" class="menu-nav-circle-btn"
                 id="menu-nav-c-btn-4">
                 <img src="{{ url('assets/img/menu/information-red.png') }}" height="20x">
             </a>
