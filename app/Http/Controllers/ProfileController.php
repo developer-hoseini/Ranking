@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\ReasonReportEnum;
+use App\Enums\StatusEnum;
 use App\Models\Like;
+use App\Models\Report;
+use App\Models\Status;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -39,7 +43,7 @@ class ProfileController extends Controller
 
     }
 
-    public function like(Request $request)
+    public function like(Request $request): bool
     {
         if ($request->ajax() && Auth::check() && $request->has('liked_id')) {
             $likedId = $request->get('liked_id');
@@ -75,22 +79,22 @@ class ProfileController extends Controller
 
     public function report(Request $request)
     {
-        if ($request->ajax() && Auth::check()) {
-            $user_id = $request->get('user_id');
+        if ($request->ajax() && Auth::check() && $request->has('user_id')) {
 
-            $report = \App\Report::where([
-                'reporter_id' => Auth::user()->id,
-                'reported_id' => $user_id,
-                'status' => config('status.Pending'),
+            $userId = $request->get('user_id');
+
+            $report = Report::where([
+                'reporter_id' => Auth::id(),
+                'reported_id' => $userId,
+                'status_id' => Status::where('name', StatusEnum::PENDING->value)->first()?->id,
             ])->get();
 
-            if ($report->count() == 0) {
-                \App\Report::create([
-                    'reporter_id' => Auth::user()->id,
-                    'reported_id' => $user_id,
-                    'reason' => config('reason.Profile_Photo'),
-                    'dt' => date('Y-m-d H:i:s', time()),
-                    'status' => config('status.Pending'),
+            if ($report->count() === 0) {
+                Report::create([
+                    'reporter_id' => Auth::id(),
+                    'reported_id' => $userId,
+                    'status_id' => Status::where('name', StatusEnum::PENDING->value)->first()?->id,
+                    'reason' => ReasonReportEnum::PROFILE_PHOTO->value,
                 ]);
             }
         }
