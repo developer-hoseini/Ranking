@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
@@ -160,9 +161,9 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia
         return $this->morphMany(Like::class, 'likeable');
     }
 
-    public function likesBy(): BelongsToMany
+    public function likesBy(): HasMany
     {
-        return $this->belongsToMany(Like::class, 'liked_by_user_id');
+        return $this->hasMany(Like::class, 'liked_by_user_id');
     }
 
     public function scoreAchievements(): MorphMany

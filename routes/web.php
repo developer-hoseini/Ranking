@@ -45,7 +45,11 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
     Route::get('/game/{game}', [GameController::class, 'show'])->name('game.show');
 
     //profile
-    Route::get('/profile/{user}', [ProfileController::class, 'show'])->name('profile.show');
+    Route::group(['prefix' => '/profile', 'as' => 'profile.'], function () {
+        Route::get('/{user}', [ProfileController::class, 'show'])->name('show');
+        Route::post('/like', [ProfileController::class, 'like'])->name('like');
+        Route::post('/report', [ProfileController::class, 'report'])->name('report');
+    });
 
     Route::get('/tournament', [TestController::class, 'index'])->name('tournament.index');
     Route::get('/tournament/{competition}', [TestController::class, 'index'])->name('tournament.show');

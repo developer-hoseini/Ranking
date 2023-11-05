@@ -13,7 +13,7 @@ class GameController extends Controller
     {
 
         if (! $game->active) {
-            return redirect()->route('home');
+            return redirect()->route('page.home');
         }
 
         $game->loadCount(['invites']);
