@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Competition;
 use App\Models\Cup;
+use App\Models\Game;
 use App\Models\Invite;
 use App\Models\Status;
 use App\Models\Team;
@@ -13,6 +14,9 @@ class TestController extends Controller
 {
     public function index()
     {
+
+        $game = Game::with('gameCompetitionsUsers')->find(32);
+        dd($game->toArray(), $game->gameCompetitionsUsers->where('id', 229)->keys()->first());
 
         return request()->all();
 

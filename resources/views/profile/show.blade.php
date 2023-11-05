@@ -172,12 +172,12 @@
                                                 <li class="list-group-item">
                                                     {{ __('words.Score: ').$scoreAchievement?->count }}
                                                 </li>
-                                                {{--@php
-                                                    $rank = \App\User_Score::rank($score['user_id'],$score['game_id']);
-                                                    $country_rank = \App\User_Score::country_rank($score['user_id'],$score['game_id']);
+                                                @php
+                                                    $rank = \App\Services\Actions\User\GetGameRank::handle($user->id,$scoreAchievement?->occurredModel?->game?->id);
+//                                                    $country_rank = \App\User_Score::country_rank($score['user_id'],$score['game_id']);
                                                 @endphp
                                                 <li class="list-group-item">{{ __('words.Global Rank: ').$rank }}</li>
-                                                <li class="list-group-item">{{ __('words.Country Rank: ').$country_rank }}</li>--}}
+                                                {{--                                                <li class="list-group-item">{{ __('words.Country Rank: ').$country_rank }}</li>--}}
                                             </ul>
                                         </div>
                                     </div>
