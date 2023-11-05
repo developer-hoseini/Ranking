@@ -68,6 +68,10 @@ class CompetitionResource extends Resource
                 Forms\Components\DateTimePicker::make('start_at')
                     ->afterOrEqual('end_register_at')
                     ->required(),
+                Forms\Components\SpatieMediaLibraryFileUpload::make('images')
+                    ->collection('images')
+                    ->multiple()
+                    ->nullable(),
 
             ]);
     }

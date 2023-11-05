@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestController;
 use App\Livewire\Pages\Ranks;
+use App\Livewire\Pages\Tournaments;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,8 +30,11 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
         //about
         Route::view('/about', 'pages.about')->name('about');
 
-        //about
+        //ranks
         Route::get('/ranks', Ranks::class)->name('ranks');
+
+        //ranks
+        Route::get('/tournaments', Tournaments::class)->name('tournaments');
     });
     /* End Pages */
 

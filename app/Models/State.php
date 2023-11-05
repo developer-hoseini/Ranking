@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\StatusEnum;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -43,5 +45,14 @@ class State extends Model
     public function clubs(): HasMany
     {
         return $this->hasMany(Club::class);
+    }
+
+    protected function isAccepted(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                return $this->name == StatusEnum::ACCEPTED->value;
+            }
+        );
     }
 }

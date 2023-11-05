@@ -20,64 +20,117 @@
 
 @endphp --}}
 
-<nav class="px-0 top-menu-nav">
+<nav class="top-menu-nav px-0">
     <div class="w-100 d-flex flex-wrap">
         <div class="menu-nav-right mx-auto">
-            <div title="{{ __('words.menu') }}" onclick="menu_item();"
-                 class="text-decoration-none menu-toggler-btn mx-1 d-inline-block">
-                {{-- @if (
-                     $chats_count > 0 ||
-                         $unconfirmed_quick_submitted > 0 ||
-                         $team_invites_count > 0 ||
-                         $support_new_ticket > 0 ||
-                         $tournament_invite > 0)
+            <div
+                class="text-decoration-none menu-toggler-btn d-inline-block mx-1"
+                title="{{ __('words.menu') }}"
+                onclick="menu_item();"
+            >
+                {{-- @if ($chats_count > 0 || $unconfirmed_quick_submitted > 0 || $team_invites_count > 0 || $support_new_ticket > 0 || $tournament_invite > 0)
                      <img src="{{ url('assets/img/menu/notify/menu.png') }}" height="32px" class="menu-white-icons">
                      <img src="{{ url('assets/img/menu/notify/menu-dark.png') }}" height="32px" class="menu-dark-icons">
                  @else
                      <img src="{{ url('assets/img/menu/menu.png') }}" height="32px" class="menu-white-icons">
                      <img src="{{ url('assets/img/menu/menu-dark.png') }}" height="32px" class="menu-dark-icons">
-                 @endif--}}
+                 @endif --}}
             </div>
-            <a href="{{ route('quick_submit') }}" title="{{ __('words.quick_submit_result') }}"
-               class="text-decoration-none d-inline-block mx-1">
-                <img src="{{ url('assets/img/menu/submit_result.png') }}" height="28px" class="menu-white-icons"
-                     style="position: relative;bottom: 2px;">
-                <img src="{{ url('assets/img/menu/submit_result-dark.png') }}" height="28px" class="menu-dark-icons">
+            <a
+                class="text-decoration-none d-inline-block mx-1"
+                href="{{ route('quick_submit') }}"
+                title="{{ __('words.quick_submit_result') }}"
+            >
+                <img
+                    class="menu-white-icons"
+                    src="{{ url('assets/img/menu/submit_result.png') }}"
+                    style="position: relative;bottom: 2px;"
+                    height="28px"
+                >
+                <img
+                    class="menu-dark-icons"
+                    src="{{ url('assets/img/menu/submit_result-dark.png') }}"
+                    height="28px"
+                >
             </a>
         </div>
         <div class="menu-nav-center mx-auto">
-            <a href="{{ route('home') }}" title="{{ __('words.Ranking') }}"><img
-                    src="{{ url('assets/img/white-ranking.png') }}" height="40px" class="responsive-logo"></a>
+            <a
+                href="{{ route('page.home') }}"
+                title="{{ __('words.Ranking') }}"
+            ><img
+                    class="responsive-logo"
+                    src="{{ url('assets/img/white-ranking.png') }}"
+                    height="40px"
+                ></a>
         </div>
         <div class="menu-nav-left mx-auto">
-            <div title="{{ session('fullname') }}" onclick="profile_item();"
-                 class="text-decoration-none menu-toggler-btn d-inline-block mx-1">
-                <img src="{{ url(session('photo')) }}" height="29px" class="rounded-circle bg-white ml-1">
+            <div
+                class="text-decoration-none menu-toggler-btn d-inline-block mx-1"
+                title="{{ session('fullname') }}"
+                onclick="profile_item();"
+            >
+                <img
+                    class="rounded-circle ml-1 bg-white"
+                    src="{{ url(session('photo')) }}"
+                    height="29px"
+                >
             </div>
-            <div title="{{ __('words.coin_count') }}" class="text-decoration-none menu-toggler-btn d-inline-block mx-1"
-                 onclick="coin_item();">
-                <img src="{{ url('assets/img/menu/coin.png?c=1') }}" height="31px">
+            <div
+                class="text-decoration-none menu-toggler-btn d-inline-block mx-1"
+                title="{{ __('words.coin_count') }}"
+                onclick="coin_item();"
+            >
+                <img
+                    src="{{ url('assets/img/menu/coin.png?c=1') }}"
+                    height="31px"
+                >
             </div>
         </div>
-        <div class="w-100 text-center menu-nav-btns">
-            <a href="{{ route('tournament.index') }}" title="{{ __('words.matches') }}" class="menu-nav-circle-btn"
-               id="menu-nav-c-btn-1">
-                <img src="{{ url('assets/img/menu/tournament-red.png') }}" width="20px">
+        <div class="w-100 menu-nav-btns text-center">
+            <a
+                class="menu-nav-circle-btn"
+                id="menu-nav-c-btn-1"
+                href="{{ route('page.tournaments') }}"
+                title="{{ __('words.matches') }}"
+            >
+                <img
+                    src="{{ url('assets/img/menu/tournament-red.png') }}"
+                    width="20px"
+                >
             </a>
-            <a href="{{ route('ranks') }}" title="{{ __('words.ranks_table') }}" class="menu-nav-circle-btn"
-               id="menu-nav-c-btn-2">
-                <img src="{{ url('assets/img/menu/ranks-red.png') }}" width="20px">
+            <a
+                class="menu-nav-circle-btn"
+                id="menu-nav-c-btn-2"
+                href="{{ route('page.ranks') }}"
+                title="{{ __('words.ranks_table') }}"
+            >
+                <img
+                    src="{{ url('assets/img/menu/ranks-red.png') }}"
+                    width="20px"
+                >
             </a>
-            <a href="{{ route('home') }}" title="{{ __('words.home') }}" class="menu-nav-home-btn">
-                <img src="{{ url('assets/img/menu/home.png') }}" height="25px">
+            <a
+                class="menu-nav-home-btn"
+                href="{{ route('page.home') }}"
+                title="{{ __('words.home') }}"
+            >
+                <img
+                    src="{{ url('assets/img/menu/home.png') }}"
+                    height="25px"
+                >
             </a>
-            <a href="{{ route('events') }}" title="{{ __('words.Events') }}" class="menu-nav-circle-btn"
-               id="menu-nav-c-btn-4">
-                {{--@if ($events_count > 0)
+            <a
+                class="menu-nav-circle-btn"
+                id="menu-nav-c-btn-4"
+                href="{{ route('events') }}"
+                title="{{ __('words.Events') }}"
+            >
+                {{-- @if ($events_count > 0)
                     <img src="{{ url('assets/img/menu/notify/events-red.png') }}" width="25px">
                 @else
                     <img src="{{ url('assets/img/menu/events-red.png') }}" width="22px">
-                @endif--}}
+                @endif --}}
             </a>
         </div>
     </div>
@@ -86,32 +139,54 @@
 <div class="menu-right-Corner"></div>
 <div class="menu-left-Corner"></div>
 
-
-<div class="menu-list" id="menu-item">
-    <div class="menu-list-box bg-white" id="profile-menu-box">
-        <a href="{{ route('quick_submitted_list') }}" style="text-decoration: none;">
+<div
+    class="menu-list"
+    id="menu-item"
+>
+    <div
+        class="menu-list-box bg-white"
+        id="profile-menu-box"
+    >
+        <a
+            href="{{ route('quick_submitted_list') }}"
+            style="text-decoration: none;"
+        >
             <div class="menu-list-item text-center">
-                {{--@if ($unconfirmed_quick_submitted > 0)
+                {{-- @if ($unconfirmed_quick_submitted > 0)
                     <img src="{{ url('assets/img/menu/notify/result_submit.png') }}" width="45px" class="mt-1">
                 @else
                     <img src="{{ url('assets/img/menu/result_submit.png') }}" width="45px" class="mt-1">
-                @endif--}}
+                @endif --}}
                 <div class="text-dark mt-1">{{ __('words.submitted_results') }}</div>
             </div>
         </a>
-        <a href="{{ route('team_ranks') }}" style="text-decoration: none;">
+        <a
+            href="{{ route('team_ranks') }}"
+            style="text-decoration: none;"
+        >
             <div class="menu-list-item text-center">
-                <img src="{{ url('assets/img/menu/team_ranks.png') }}" width="45px" class="mt-1">
+                <img
+                    class="mt-1"
+                    src="{{ url('assets/img/menu/team_ranks.png') }}"
+                    width="45px"
+                >
                 <div class="text-dark mt-1">{{ __('words.Team_Ranks') }}</div>
             </div>
         </a>
-        <a href="{{ route('games') }}" style="text-decoration: none;">
+        <a
+            href="{{ route('games') }}"
+            style="text-decoration: none;"
+        >
             <div class="menu-list-item text-center">
-                <img src="{{ url('assets/img/menu/game.png') }}" width="45px" class="mt-1">
+                <img
+                    class="mt-1"
+                    src="{{ url('assets/img/menu/game.png') }}"
+                    width="45px"
+                >
                 <div class="text-dark mt-1">{{ __('words.Games') }}</div>
             </div>
         </a>
-        {{--<a href="{{ route('my_tournament.index') }}@if ($tournament_invite > 0) #invited @endif"
+        {{-- <a href="{{ route('my_tournament.index') }}@if ($tournament_invite > 0) #invited @endif"
            style="text-decoration: none;">
             <div class="menu-list-item text-center">
                 @if ($tournament_invite > 0)
@@ -154,78 +229,153 @@
             </div>
         </a>
 --}}
-        <a href="{{ route('rules') }}" style="text-decoration: none;">
+        <a
+            href="{{ route('rules') }}"
+            style="text-decoration: none;"
+        >
             <div class="menu-list-item text-center">
-                <img src="{{ url('assets/img/menu/rules.png') }}" width="45px" class="mt-1">
+                <img
+                    class="mt-1"
+                    src="{{ url('assets/img/menu/rules.png') }}"
+                    width="45px"
+                >
                 <div class="text-dark mt-1">{{ __('words.Rules') }}</div>
             </div>
         </a>
-        <a href="{{ route('tutorial') }}" style="text-decoration: none;">
+        <a
+            href="{{ route('tutorial') }}"
+            style="text-decoration: none;"
+        >
             <div class="menu-list-item text-center">
-                <img src="{{ url('assets/img/menu/tutorial.png') }}" width="45px" class="mt-1">
+                <img
+                    class="mt-1"
+                    src="{{ url('assets/img/menu/tutorial.png') }}"
+                    width="45px"
+                >
                 <div class="text-dark mt-1">{{ __('words.Tutorial') }}</div>
             </div>
         </a>
     </div>
 </div>
-<div class="menu-list" id="profile-item">
-    <div class="menu-list-box bg-white menu-left-list-box">
+<div
+    class="menu-list"
+    id="profile-item"
+>
+    <div class="menu-list-box menu-left-list-box bg-white">
         <div class="text-center">
-            <img src="{{ url(session('photo')) }}" width="150px" height="150px" class="mt-2 rounded-circle">
-            <div class="font-weight-bold mt-2" style="font-size: 20px;">{{ session('fullname') }}</div>
+            <img
+                class="rounded-circle mt-2"
+                src="{{ url(session('photo')) }}"
+                width="150px"
+                height="150px"
+            >
+            <div
+                class="font-weight-bold mt-2"
+                style="font-size: 20px;"
+            >{{ session('fullname') }}</div>
         </div>
-        <div class="mt-3 py-2" style="width: 100%; border-top: solid 1px #bbb;">
-            <a href="{{ route('profile.show', ['user' => auth()?->user()?->username]) }}"
-               style="text-decoration: none;">
+        <div
+            class="mt-3 py-2"
+            style="width: 100%; border-top: solid 1px #bbb;"
+        >
+            <a
+                href="{{ route('profile.show', ['user' => auth()?->user()?->username]) }}"
+                style="text-decoration: none;"
+            >
                 <div class="menu-list-item text-center">
-                    <img src="{{ url('assets/img/menu/show_profile.png') }}" width="45px" class="mt-1">
+                    <img
+                        class="mt-1"
+                        src="{{ url('assets/img/menu/show_profile.png') }}"
+                        width="45px"
+                    >
                     <div class="text-dark mt-1">{{ __('words.View Profile') }}</div>
                 </div>
             </a>
-            <a href="{{ route('edit_profile') }}" style="text-decoration: none;">
+            <a
+                href="{{ route('edit_profile') }}"
+                style="text-decoration: none;"
+            >
                 <div class="menu-list-item text-center">
-                    <img src="{{ url('assets/img/menu/edit_profile.png') }}" width="45px" class="mt-1">
+                    <img
+                        class="mt-1"
+                        src="{{ url('assets/img/menu/edit_profile.png') }}"
+                        width="45px"
+                    >
                     <div class="text-dark mt-1">{{ __('words.Edit Profile') }}</div>
                 </div>
             </a>
-            <a href="{{ route('set_qrcode') }}" style="text-decoration: none;">
+            <a
+                href="{{ route('set_qrcode') }}"
+                style="text-decoration: none;"
+            >
                 <div class="menu-list-item text-center">
-                    <img src="{{ url('assets/img/menu/set_card.png') }}" width="45px" class="mt-1">
+                    <img
+                        class="mt-1"
+                        src="{{ url('assets/img/menu/set_card.png') }}"
+                        width="45px"
+                    >
                     <div class="text-dark mt-1">{{ __('words.set_card') }}</div>
                 </div>
             </a>
         </div>
         <div class="text-center">
-            <a href="{{ route('logout') }}" title="{{ __('words.Logout') }}" class="mt-1" style="padding: 7px;">
-                <i class="fa fa-power-off btn btn-outline-danger rounded-circle py-2 px-2 mb-2"></i>
+            <a
+                class="mt-1"
+                href="{{ route('logout') }}"
+                title="{{ __('words.Logout') }}"
+                style="padding: 7px;"
+            >
+                <i class="fa fa-power-off btn btn-outline-danger rounded-circle mb-2 px-2 py-2"></i>
             </a>
         </div>
     </div>
 </div>
-<div class="menu-list" id="coin-item">
-    <div class="menu-list-box bg-white menu-left-list-box">
+<div
+    class="menu-list"
+    id="coin-item"
+>
+    <div class="menu-list-box menu-left-list-box bg-white">
         <div class="text-center">
             <a href="{{ route('charge') }}">
-                <img src="{{ url('assets/img/menu/coin.png?c=1') }}" width="130px" class="mt-2 rounded-circle">
+                <img
+                    class="rounded-circle mt-2"
+                    src="{{ url('assets/img/menu/coin.png?c=1') }}"
+                    width="130px"
+                >
             </a>
             <div class="font-weight-bold mt-3">
                 {{ __('words.cash:') }}
-                {{ number_format( auth()?->user()?->coin) }}
+                {{ number_format(auth()?->user()?->coin) }}
                 {{ __('words.Coin') }}
             </div>
         </div>
-        <div class="mt-3 py-2" style="display: flex;width: 100%; border-top: solid 1px #bbb;">
-            <a href="https://ranking.metagamescoin.io/forms/?page_id=130"
-               style="text-decoration: none;margin: 0 auto;">
+        <div
+            class="mt-3 py-2"
+            style="display: flex;width: 100%; border-top: solid 1px #bbb;"
+        >
+            <a
+                href="https://ranking.metagamescoin.io/forms/?page_id=130"
+                style="text-decoration: none;margin: 0 auto;"
+            >
                 <div class="menu-list-item text-center">
-                    <img src="{{ url('assets/img/menu/coin_buy.png?c=2') }}" width="45px" class="mt-1">
+                    <img
+                        class="mt-1"
+                        src="{{ url('assets/img/menu/coin_buy.png?c=2') }}"
+                        width="45px"
+                    >
                     <div class="text-dark mt-1">{{ __('words.buy_coin') }}</div>
                 </div>
             </a>
-            <a href="https://ranking.metagamescoin.io/forms/?page_id=140"
-               style="text-decoration: none;margin: 0 auto;">
+            <a
+                href="https://ranking.metagamescoin.io/forms/?page_id=140"
+                style="text-decoration: none;margin: 0 auto;"
+            >
                 <div class="menu-list-item text-center">
-                    <img src="{{ url('assets/img/menu/coin_buy.png?c=2') }}" width="45px" class="mt-1">
+                    <img
+                        class="mt-1"
+                        src="{{ url('assets/img/menu/coin_buy.png?c=2') }}"
+                        width="45px"
+                    >
                     <div class="text-dark mt-1">{{ __('words.card_charge') }}</div>
                 </div>
             </a>
@@ -251,8 +401,8 @@
 
 @push('scripts')
     <script type="text/javascript">
-        $(document).ready(function () {
-            $(document).scroll(function () {
+        $(document).ready(function() {
+            $(document).scroll(function() {
                 scrollfun()
             });
         });
@@ -283,8 +433,8 @@
             $('#coin-item').toggle();
         }
 
-        $('document').ready(function () {
-            $(document).mouseup(function (e) {
+        $('document').ready(function() {
+            $(document).mouseup(function(e) {
                 var menu_list_box = $(".menu-list-box");
                 var menu_toggler_btn = $(".menu-toggler-btn");
                 var menu_list = $(".menu-list");

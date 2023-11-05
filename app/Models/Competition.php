@@ -193,4 +193,15 @@ class Competition extends Model implements HasMedia
             }
         );
     }
+
+    protected function image(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                $image = $this->getFirstMediaUrl('images');
+
+                return $image;
+            }
+        );
+    }
 }
