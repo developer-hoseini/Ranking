@@ -71,6 +71,11 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @method static Builder|Competition withTrashed()
  * @method static Builder|Competition withoutTrashed()
  *
+ * @property-read \App\Models\Achievement|null $coinOccurredModel
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
+ * @property-read int|null $media_count
+ * @property-read \App\Models\Achievement|null $scoreOccurredModel
+ *
  * @mixin \Eloquent
  */
 class Competition extends Model implements HasMedia

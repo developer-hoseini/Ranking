@@ -53,6 +53,17 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @method static \Illuminate\Database\Eloquent\Builder|Team whereStatusId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Team whereUpdatedAt($value)
  *
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Achievement> $coinAchievements
+ * @property-read int|null $coin_achievements_count
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
+ * @property-read int|null $media_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Achievement> $scoreAchievements
+ * @property-read int|null $score_achievements_count
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder|Team onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Team withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Team withoutTrashed()
+ *
  * @mixin \Eloquent
  */
 class Team extends Model implements HasAvatar, HasMedia

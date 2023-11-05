@@ -32,8 +32,10 @@
                         </div>
                         <div class="like_cnt">
                             @if(auth()->check())
-                                <profile like-route="{{route('like')}}" report-route="{{route('report')}}"
-                                         is-liked="{{!$user?->is_like}}"
+                                {{--TODO: Change to livewire--}}
+                                <profile like-route="{{route('profile.like')}}"
+                                         report-route="{{route('profile.report')}}"
+                                         is-liked="{{(bool)$user?->is_like}}"
                                          user-id="{{$user->id}}"
                                          like-count="{{$user->likes_count}}"
                                          coin-count="{{$user->coin_achievements_sum_count}}"
