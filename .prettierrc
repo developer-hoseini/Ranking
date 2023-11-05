@@ -10,10 +10,10 @@
             "options": {
                 "printWidth": 120,
                 "tabWidth": 4,
-                "wrapAttributes": "auto",
+                "wrapAttributes": "force-expand-multiline",
                 "wrapAttributesMinAttrs": 2,
                 "sortTailwindcssClasses": true,
-                "sortHtmlAttributes": "none",
+                "sortHtmlAttributes": "code-guide",
                 "noPhpSyntaxCheck": false,
                 "indentInnerHtml": true,
                 "extraLiners": "",

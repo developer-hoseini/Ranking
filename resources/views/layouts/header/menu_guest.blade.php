@@ -8,7 +8,7 @@
             </div>
         </div>
         <div class="mx-auto menu-nav-center">
-            <a href="{{ route('home') }}" title="{{ __('words.Ranking') }}"><img
+            <a href="{{ route('page.home') }}" title="{{ __('words.Ranking') }}"><img
                     src="{{ url('assets/img/white-ranking.png') }}" height="40px" class="responsive-logo"></a>
         </div>
         <div class="mx-auto menu-nav-left">
@@ -24,14 +24,14 @@
                 id="menu-nav-c-btn-1">
                 <img src="{{ url('assets/img/menu/tournament-red.png') }}" height="20x">
             </a>
-            <a href="('global_ranks')}}" title="{{ __('words.ranks_table') }}" class="menu-nav-circle-btn"
+            <a href="{{ route('page.ranks') }}" title="{{ __('words.ranks_table') }}" class="menu-nav-circle-btn"
                 id="menu-nav-c-btn-2">
                 <img src="{{ url('assets/img/menu/ranks-red.png') }}" height="20x">
             </a>
-            <a href="{{ route('home') }}" title="{{ __('words.home') }}" class="menu-nav-home-btn">
+            <a href="{{ route('page.home') }}" title="{{ __('words.home') }}" class="menu-nav-home-btn">
                 <img src="{{ url('assets/img/menu/home.png') }}" height="25px">
             </a>
-            <a href="{{ route('pages.about') }}" title="{{ __('words.About_Ranking') }}" class="menu-nav-circle-btn"
+            <a href="{{ route('page.about') }}" title="{{ __('words.About_Ranking') }}" class="menu-nav-circle-btn"
                 id="menu-nav-c-btn-4">
                 <img src="{{ url('assets/img/menu/information-red.png') }}" height="20x">
             </a>

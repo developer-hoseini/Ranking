@@ -5,6 +5,7 @@ use App\Http\Controllers\GameController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestController;
+use App\Livewire\Pages\Ranks;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,11 +21,18 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
 
-    //home
-    Route::get('/', [HomeController::class, 'index'])->name('home');
+    /* Start Pages */
+    Route::name('page.')->group(function () {
+        //home
+        Route::get('/', [HomeController::class, 'index'])->name('home');
 
-    //about
-    Route::view('/about', 'pages.about')->name('pages.about');
+        //about
+        Route::view('/about', 'pages.about')->name('about');
+
+        //about
+        Route::get('/ranks', Ranks::class)->name('ranks');
+    });
+    /* End Pages */
 
     //test
     Route::get('/test', [TestController::class, 'index'])->name('test.index');
@@ -39,7 +47,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
     Route::get('/tournament/{competition}', [TestController::class, 'index'])->name('tournament.show');
 
     Route::get('/quick_submit', [TestController::class, 'index'])->name('quick_submit');
-    Route::get('/ranks', [TestController::class, 'index'])->middleware('auth')->name('ranks');
+    // Route::get('/ranks', [TestController::class, 'index'])->middleware('auth')->name('ranks');
     Route::get('/events', [TestController::class, 'index'])->name('events');
     Route::get('/quick_submitted_list', [TestController::class, 'index'])->name('quick_submitted_list');
     Route::get('/team_ranks', [TestController::class, 'index'])->middleware('auth')->name('team_ranks');
