@@ -81,6 +81,7 @@ class Ranks extends Component
 
         if ($game) {
             $this->game = $game->toArray();
+            $this->filters['rank'] = '';
         }
 
     }
