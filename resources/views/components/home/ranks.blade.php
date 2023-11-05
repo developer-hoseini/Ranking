@@ -1,7 +1,8 @@
 <div class="mt-2">
     <div class="rounded-1 bg-white p-2 border">
         <div class="border-bottom px-2 pb-1 d-flex flex-wrap"><a
-                href="@auth {{ route('ranks') }} @else {{ route('global_ranks') }} @endauth" class="home-box-title-a"
+                href="@auth {{ route('page.ranks') }} @else {{ route('global_ranks') }} @endauth"
+                class="home-box-title-a"
                 title="{{ __('words.ranks_table') }}">
                 <h2 class="home-box-title-h2">{{ __('words.ranks_table') }}</h2>
             </a></div>
@@ -14,7 +15,7 @@
                             <div class="w-100 pt-2 border-ranking bg-light" style="border-bottom: solid 3px;">
                                 <div class="home-ranks-title col-5">
                                     <a href="{{ route('game.show', ['game' => $game->id]) }}"
-                                        class="text-white text-truncate" title="{{ $game->name }}">
+                                       class="text-white text-truncate" title="{{ $game->name }}">
                                         {{ $game->name }}
                                     </a>
                                 </div>
@@ -36,8 +37,8 @@
                                     </div>
                                     <div class="d-inline-block align-middle" style="width: 8%;">
                                         <img img src="{{ $user?->avatar }}" width="100%"
-                                            title="{{ $user?->username }}" alt="{{ $user?->profile?->fullName }}"
-                                            class="rounded-circle">
+                                             title="{{ $user?->username }}" alt="{{ $user?->profile?->fullName }}"
+                                             class="rounded-circle">
                                     </div>
                                     <div class="d-inline-block align-middle" style="width: 47%;">
                                         <a @if($user) href="{{ route('profile.show',['user'=>$user?->id]) }}" @endif

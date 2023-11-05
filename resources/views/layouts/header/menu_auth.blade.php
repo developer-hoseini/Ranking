@@ -46,7 +46,7 @@
             </a>
         </div>
         <div class="menu-nav-center mx-auto">
-            <a href="{{ route('home') }}" title="{{ __('words.Ranking') }}"><img
+            <a href="{{ route('page.home') }}" title="{{ __('words.Ranking') }}"><img
                     src="{{ url('assets/img/white-ranking.png') }}" height="40px" class="responsive-logo"></a>
         </div>
         <div class="menu-nav-left mx-auto">
@@ -64,11 +64,11 @@
                id="menu-nav-c-btn-1">
                 <img src="{{ url('assets/img/menu/tournament-red.png') }}" width="20px">
             </a>
-            <a href="{{ route('ranks') }}" title="{{ __('words.ranks_table') }}" class="menu-nav-circle-btn"
+            <a href="{{ route('page.ranks') }}" title="{{ __('words.ranks_table') }}" class="menu-nav-circle-btn"
                id="menu-nav-c-btn-2">
                 <img src="{{ url('assets/img/menu/ranks-red.png') }}" width="20px">
             </a>
-            <a href="{{ route('home') }}" title="{{ __('words.home') }}" class="menu-nav-home-btn">
+            <a href="{{ route('page.home') }}" title="{{ __('words.home') }}" class="menu-nav-home-btn">
                 <img src="{{ url('assets/img/menu/home.png') }}" height="25px">
             </a>
             <a href="{{ route('events') }}" title="{{ __('words.Events') }}" class="menu-nav-circle-btn"
