@@ -25,18 +25,18 @@
         <div class="menu-nav-right mx-auto">
             <div title="{{ __('words.menu') }}" onclick="menu_item();"
                  class="text-decoration-none menu-toggler-btn mx-1 d-inline-block">
-                @if (
-                    $chats_count > 0 ||
-                        $unconfirmed_quick_submitted > 0 ||
-                        $team_invites_count > 0 ||
-                        $support_new_ticket > 0 ||
-                        $tournament_invite > 0)
-                    <img src="{{ url('assets/img/menu/notify/menu.png') }}" height="32px" class="menu-white-icons">
-                    <img src="{{ url('assets/img/menu/notify/menu-dark.png') }}" height="32px" class="menu-dark-icons">
-                @else
-                    <img src="{{ url('assets/img/menu/menu.png') }}" height="32px" class="menu-white-icons">
-                    <img src="{{ url('assets/img/menu/menu-dark.png') }}" height="32px" class="menu-dark-icons">
-                @endif
+                {{-- @if (
+                     $chats_count > 0 ||
+                         $unconfirmed_quick_submitted > 0 ||
+                         $team_invites_count > 0 ||
+                         $support_new_ticket > 0 ||
+                         $tournament_invite > 0)
+                     <img src="{{ url('assets/img/menu/notify/menu.png') }}" height="32px" class="menu-white-icons">
+                     <img src="{{ url('assets/img/menu/notify/menu-dark.png') }}" height="32px" class="menu-dark-icons">
+                 @else
+                     <img src="{{ url('assets/img/menu/menu.png') }}" height="32px" class="menu-white-icons">
+                     <img src="{{ url('assets/img/menu/menu-dark.png') }}" height="32px" class="menu-dark-icons">
+                 @endif--}}
             </div>
             <a href="{{ route('quick_submit') }}" title="{{ __('words.quick_submit_result') }}"
                class="text-decoration-none d-inline-block mx-1">
@@ -73,11 +73,11 @@
             </a>
             <a href="{{ route('events') }}" title="{{ __('words.Events') }}" class="menu-nav-circle-btn"
                id="menu-nav-c-btn-4">
-                @if ($events_count > 0)
+                {{--@if ($events_count > 0)
                     <img src="{{ url('assets/img/menu/notify/events-red.png') }}" width="25px">
                 @else
                     <img src="{{ url('assets/img/menu/events-red.png') }}" width="22px">
-                @endif
+                @endif--}}
             </a>
         </div>
     </div>
@@ -91,11 +91,11 @@
     <div class="menu-list-box bg-white" id="profile-menu-box">
         <a href="{{ route('quick_submitted_list') }}" style="text-decoration: none;">
             <div class="menu-list-item text-center">
-                @if ($unconfirmed_quick_submitted > 0)
+                {{--@if ($unconfirmed_quick_submitted > 0)
                     <img src="{{ url('assets/img/menu/notify/result_submit.png') }}" width="45px" class="mt-1">
                 @else
                     <img src="{{ url('assets/img/menu/result_submit.png') }}" width="45px" class="mt-1">
-                @endif
+                @endif--}}
                 <div class="text-dark mt-1">{{ __('words.submitted_results') }}</div>
             </div>
         </a>
@@ -111,7 +111,7 @@
                 <div class="text-dark mt-1">{{ __('words.Games') }}</div>
             </div>
         </a>
-        <a href="{{ route('my_tournament.index') }}@if ($tournament_invite > 0) #invited @endif"
+        {{--<a href="{{ route('my_tournament.index') }}@if ($tournament_invite > 0) #invited @endif"
            style="text-decoration: none;">
             <div class="menu-list-item text-center">
                 @if ($tournament_invite > 0)
@@ -153,7 +153,7 @@
                 <div class="text-dark mt-1">{{ __('words.support') }}</div>
             </div>
         </a>
-
+--}}
         <a href="{{ route('rules') }}" style="text-decoration: none;">
             <div class="menu-list-item text-center">
                 <img src="{{ url('assets/img/menu/rules.png') }}" width="45px" class="mt-1">
@@ -175,7 +175,8 @@
             <div class="font-weight-bold mt-2" style="font-size: 20px;">{{ session('fullname') }}</div>
         </div>
         <div class="mt-3 py-2" style="width: 100%; border-top: solid 1px #bbb;">
-            <a href="{{ route('profile.show', ['user' => $auth_user->username]) }}" style="text-decoration: none;">
+            <a href="{{ route('profile.show', ['user' => auth()?->user()?->username]) }}"
+               style="text-decoration: none;">
                 <div class="menu-list-item text-center">
                     <img src="{{ url('assets/img/menu/show_profile.png') }}" width="45px" class="mt-1">
                     <div class="text-dark mt-1">{{ __('words.View Profile') }}</div>
@@ -209,7 +210,7 @@
             </a>
             <div class="font-weight-bold mt-3">
                 {{ __('words.cash:') }}
-                {{ number_format($auth_user->coin) }}
+                {{ number_format( auth()?->user()?->coin) }}
                 {{ __('words.Coin') }}
             </div>
         </div>

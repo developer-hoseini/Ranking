@@ -64,6 +64,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
     Route::get('/tickets', [TestController::class, 'index'])->name('tickets.index');
     Route::get('/teams/{team}', [TestController::class, 'index'])->name('teams.show');
     Route::get('/tickets', [TestController::class, 'index'])->name('tickets.index');
+    Route::get('/gamepage/{game_id}/{opponent_id}', [TestController::class, 'index'])->name('select_opponent');
 
     Route::get('/prizes', [TestController::class, 'index'])->name('prizes');
 
@@ -72,8 +73,6 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
     Route::post('/profile_competitions', [TestController::class, 'index'])->name('profile.competitions');
 
     Route::get('/profile_team_certificates', [TestController::class, 'index'])->name('profile_team_certificates');
-
-    Route::get('/game/{game}', [GameController::class, 'show'])->name('game.show');
 
     Route::prefix('cups')->name('cup.')->group(function () {
         Route::get('/{cup}', [CupController::class, 'show'])->name('show');
