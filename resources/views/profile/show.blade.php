@@ -16,21 +16,6 @@
                     <div class="profile-photo">
                         <img src="{{ $user->avatar }}" class="user_photo" alt="{{ $user->username }}"
                              title="{{$user?->profile?->fullname??$user->name}}" width="180">
-                        @if(auth()?->id() === $user->id)
-                            <div class="edit_profile_mob">
-                                <a href="{{ route('edit_profile') }}" class="nav-link"><i
-                                        class="fa fa-edit"></i> {{ __('words.Edit Profile') }}</a>
-                                <div>
-                                    <a href="{{ route('set_qrcode') }}" class="nav-link"><i
-                                            class="fa fa-qrcode"></i> {{ __('words.set_club_card') }}</a>
-                                </div>
-                            </div>
-                        @else
-                            {{--                            <div class="profile_chat">--}}
-                            {{--                                <a href="{{ route('chatpage',['user_id'=>$user->id]) }}" class="nav-link"><i--}}
-                            {{--                                        class="fa fa-comments"></i> {{ __('words.Chat') }}</a>--}}
-                            {{--                            </div>--}}
-                        @endif
                     </div>
 
                     <div class="profile-details">
@@ -62,7 +47,7 @@
                             @else
                                 <i class="fa fa-heart liked-color no-pointer"></i>
                                 <span>{{ $user->likes_count }}</span>
-                                <img src="{{url('assets/img/coin.png')}}" class="profile_coin">
+                                <img src="{{asset('assets/img/coin.png')}}" class="profile_coin">
                                 <span>{{$user->coin_achievements_sum_count}}</span>
                             @endif
                         </div>

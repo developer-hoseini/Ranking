@@ -71,6 +71,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
     Route::view('/global_ranks', [TestController::class, 'index'])->name('global_ranks');
 
     Route::post('/profile_competitions', [TestController::class, 'index'])->name('profile.competitions');
+    Route::post('/profile/like', [TestController::class, 'index'])->name('like');
+    Route::post('/profile/report', [TestController::class, 'index'])->name('report');
 
     Route::get('/profile_team_certificates', [TestController::class, 'index'])->name('profile_team_certificates');
 

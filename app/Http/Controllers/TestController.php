@@ -14,6 +14,8 @@ class TestController extends Controller
     public function index()
     {
 
+        return request()->all();
+
         $competition = Competition::find(1);
         dd($competition->load('team')->toArray());
 
