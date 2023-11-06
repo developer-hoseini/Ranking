@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Enums\AchievementTypeEnum;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Staudenmeir\EloquentHasManyDeep\HasManyDeep;
 
 /**
  * App\Models\Game
@@ -62,12 +64,18 @@ class Game extends Model
         return $this->hasMany(Competition::class);
     }
 
-    public function gameCompetitionsUsers()
+    public function gameCompetitionsUsers(): HasManyDeep
     {
         return $this->hasManyDeepFromRelations($this->competitions(), (new Competition)->users());
     }
 
-    public function gameCompetitionsTeams()
+    public function gameCompetitionsScoreOccurredModel(): HasManyDeep
+    {
+        return $this->hasManyDeepFromRelations($this->competitions(), (new Competition)->scoreOccurredModel())
+            ->where('type', AchievementTypeEnum::SCORE->value);
+    }
+
+    public function gameCompetitionsTeams(): HasManyDeep
     {
         return $this->hasManyDeepFromRelations($this->competitions(), (new Competition)->teams());
     }

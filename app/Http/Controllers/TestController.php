@@ -15,6 +15,12 @@ class TestController extends Controller
     public function index()
     {
 
+        if (request()->has('userId')) {
+            \Auth::login(User::find(request('userId')));
+
+            return \Auth::user()->toArray();
+        }
+
         $game = Game::with('gameCompetitionsUsers')->find(32);
         dd($game->toArray(), $game->gameCompetitionsUsers->where('id', 229)->keys()->first());
 

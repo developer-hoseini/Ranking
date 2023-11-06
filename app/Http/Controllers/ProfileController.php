@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\ReasonReportEnum;
 use App\Enums\StatusEnum;
+use App\Models\Game;
 use App\Models\Like;
 use App\Models\Report;
 use App\Models\Status;
@@ -18,8 +19,6 @@ class ProfileController extends Controller
     {
         $user->load([
             'profile.state.country',
-            'scoreAchievements' => fn ($q) => $q->orderBy('count', 'desc'),
-            'scoreAchievements.occurredModel.game',
         ])->loadSum('coinAchievements', 'count')
             ->loadCount('likes');
 
@@ -36,10 +35,22 @@ class ProfileController extends Controller
 
         $daysAgo = Carbon::now()->subDays(config('setting.days_ago'));
 
+        $userGames = Game::query()
+            ->whereHas('gameCompetitionsUsers', function ($query) use ($user) {
+                $query->where('users.id', $user->id);
+            })
+            ->withSum([
+                'gameCompetitionsScoreOccurredModel' => function ($q) use ($user) {
+                    $q->where('achievementable_type', User::class)
+                        ->where('achievementable_id', $user->id);
+                },
+            ], 'count')
+            ->get();
+
         // Certificates
         //        $certificates = Certificate::where(['exported' => $status['Yes'], 'user_id' => $user->id])->with('bracket.competition')->get();
 
-        return view('profile.show', compact('user', 'daysAgo'));
+        return view('profile.show', compact('user', 'daysAgo', 'userGames'));
 
     }
 

@@ -31,11 +31,16 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|State whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|State whereUpdatedAt($value)
  *
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Competition> $Competition
+ * @property-read int|null $competition_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Competition> $competition
+ *
  * @mixin \Eloquent
  */
 class State extends Model
 {
     use HasFactory;
+    use \Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
     public function country(): BelongsTo
     {
@@ -45,6 +50,11 @@ class State extends Model
     public function clubs(): HasMany
     {
         return $this->hasMany(Club::class);
+    }
+
+    public function competition(): HasMany
+    {
+        return $this->hasMany(Competition::class, 'state_id');
     }
 
     protected function isAccepted(): Attribute
