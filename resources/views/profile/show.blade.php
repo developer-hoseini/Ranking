@@ -177,7 +177,6 @@
                                                 </li>
                                                 @php
                                                     $rank = \App\Services\Actions\User\GetGameRank::handle($user->id,$game?->id);
-//                                                    $country_rank = \App\User_Score::country_rank($score['user_id'],$score['game_id']);
                                                     $countryRank = \App\Services\Actions\User\GetCountryRank::handle($user->id,$user?->profile?->state?->country_id,$game?->id);
                                                 @endphp
                                                 <li class="list-group-item">{{ __('words.Global Rank: ').$rank }}</li>
