@@ -2,7 +2,7 @@
     <div class="rounded-1 border bg-white p-2">
         <div class="border-bottom d-flex flex-wrap px-2 pb-1"><a
                 class="home-box-title-a"
-                href="@auth {{ route('ranks') }} @else {{ route('global_ranks') }} @endauth"
+                href="@auth {{ route('ranks.index') }} @else {{ route('global_ranks') }} @endauth"
                 title="{{ __('words.ranks_table') }}"
             >
                 <h2 class="home-box-title-h2">{{ __('words.ranks_table') }}</h2>

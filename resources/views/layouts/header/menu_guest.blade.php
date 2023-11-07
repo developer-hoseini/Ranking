@@ -62,7 +62,7 @@
             <a
                 class="menu-nav-circle-btn"
                 id="menu-nav-c-btn-2"
-                href="{{ route('ranks') }}"
+                href="{{ route('ranks.index') }}"
                 title="{{ __('words.ranks_table') }}"
             >
                 <img
