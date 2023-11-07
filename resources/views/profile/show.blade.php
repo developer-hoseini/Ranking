@@ -207,9 +207,9 @@
                                 </div>
                             </div>
                         @endforeach
-                        {{--@if($count == 0)
+                        @if($userGames->count() == 0)
                             <div class="w-100 text-center pt-2">{{__('words.dont_yet_any_game')}} ...</div>
-                        @endif--}}
+                        @endif
                     </div>
                 </div>
 

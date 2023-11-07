@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\ReasonReportEnum;
 use App\Enums\StatusEnum;
+use App\Models\Competition;
 use App\Models\Game;
 use App\Models\GameResult;
 use App\Models\Like;
@@ -105,7 +106,7 @@ class ProfileController extends Controller
         return false;
     }
 
-    public function report(Request $request)
+    public function report(Request $request): void
     {
         if ($request->ajax() && Auth::check() && $request->has('user_id')) {
 
@@ -125,6 +126,56 @@ class ProfileController extends Controller
                     'reason' => ReasonReportEnum::PROFILE_PHOTO->value,
                 ]);
             }
+        }
+    }
+
+    public function competitions(Request $request)
+    {
+        if ($request->ajax() && $request->has('user_id')) {
+            $userId = $request->input('user_id');
+            $data = null;
+
+            $tournaments = Competition::whereHas('users', function ($query) use ($userId) {
+                $query->where('users.id', $userId);
+            })->orwhereHas('teams', function ($query) use ($userId) {
+                $query->where('teams.id', $userId);
+            })->with([
+                'teams', 'users',
+            ])->orderBy('start_at', 'DESC')->get();
+
+            foreach ($tournaments as $tournament) {
+                if ($tournament->teams->count()) {
+                    //                    $bracketRoute = 'bracket';
+                    $tournamentType = '<span class="mx-2">'.__('words.only').'</span><i class="fa fa-user"></i>';
+                } else {
+                    //                    $bracketRoute = 'team_bracket';
+                    $tournamentType = '<span class="mx-2">'.__('words.team').'</span><i class="fa fa-users"></i>';
+                }
+
+                $bracket = '';
+
+                //                if ($tournament->final_bracket_id != null) {
+                //                    if ($tournament->is_team == $status['No']) {
+                //                        $bracket_title = $tournament->final_bracket->title;
+                //                    } else {
+                //                        $bracket_title = $tournament->team_final_bracket->title;
+                //                    }
+                //                    $bracket = '<a href="'.route($bracket_route, ['bracket_id' => $tournament->final_bracket_id, 'tour_name' => $tournament->name, 'bracket_title' => $bracket_title]).'" class="float-right-rtl profile-menu-responsive mx-2 mx-md-4 mx-lg-4" style="color: #ff4800;"><img src="'.url('img/tournament_icon.png').'" width="18px" class="mx-1">'.__('words.tournament_bracket').'</a>';
+                //                } else {
+                //                    $bracket = '';
+                //                }
+
+                $data .= '<div class="bg-light border rounded px-3 py-2 mt-2" style="height: 40px;"><a href="'.route('tournament.show', ['competition' => $tournament->id]).'" class="float-right-rtl">'.$tournament->name.'</a>'.$bracket.'<div class="float-left-rtl">'.$tournamentType.'</div></div>';
+            }
+            /*foreach ($tournaments_teams as $tournament){
+                $data .= '<div class="bg-light border rounded px-3 py-2 mt-2" style="height: 40px;"><a href="'.route('tournament.show',['tournament'=>$tournament->id]).'" class="float-right-rtl">'.$tournament->name.'</a><div class="float-left-rtl"><span class="mx-2">'.$tournament->team_name.'</span><i class="fa fa-users"></i></div></div>';
+            }*/
+
+            if ($data == '') {
+                $data = '<div class="w-100 text-center pt-2">'.__('words.dont_yet_any_tournament_register').' ...</div>';
+            }
+
+            return response()->json($data);
         }
     }
 }
