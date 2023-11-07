@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Pages\Tournaments\Index;
 
-
 use Livewire\Component;
 
 class SliderTournaments extends Component
