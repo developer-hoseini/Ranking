@@ -29,7 +29,9 @@ class Ranks extends Component
                     )
                         ->withSum('scoreAchievements', 'count')
                         ->withSum('coinAchievements', 'count')
+                        ->groupBy(['competitions.game_id'])
                         ->limit(3);
+
                 },
                 'gameCompetitionsUsers.profile',
                 'gameCompetitionsUsers.media',

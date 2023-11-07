@@ -38,9 +38,12 @@ class TopTeams extends Component
                             ->where('type', AchievementTypeEnum::SCORE->value)
                             ->whereColumn('achievementable_id', 'teams.id')
                             ->groupBy('achievementable_id')
-                    )->limit(3);
+
+                    )
+                        ->groupBy('competitions.game_id')
+                        ->limit(3);
                 },
-                'gameCompetitionsTeams',
+
             ])
             ->has('gameCompetitionsTeams', '>=', 3)
             ->take(4)
