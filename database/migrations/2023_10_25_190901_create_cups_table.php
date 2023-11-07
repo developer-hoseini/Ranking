@@ -15,7 +15,16 @@ return new class extends Migration
             $table->id();
             $table->string('name', 70);
             $table->smallInteger('capacity');
+            $table->unsignedInteger('register_cost_coin')->nullable();
             $table->text('description')->nullable();
+
+            $table->foreignId('created_by_user_id')->nullable()->constrained('users', 'id');
+
+            $table->foreignId('state_id')->nullable()->constrained();
+            $table->foreignId('game_id')->nullable()->constrained();
+
+            $table->timestamp('end_register_at')->nullable();
+            $table->timestamp('start_at')->nullable();
 
             $table->softDeletes();
             $table->timestamps();

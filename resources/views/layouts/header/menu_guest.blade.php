@@ -20,7 +20,7 @@
         </div>
         <div class="menu-nav-center mx-auto">
             <a
-                href="{{ route('page.home') }}"
+                href="{{ route('home') }}"
                 title="{{ __('words.Ranking') }}"
             ><img
                     class="responsive-logo"
@@ -51,7 +51,7 @@
             <a
                 class="menu-nav-circle-btn"
                 id="menu-nav-c-btn-1"
-                href="{{ route('page.tournaments') }}"
+                href="{{ route('tournaments.index') }}"
                 title="{{ __('words.matches') }}"
             >
                 <img
@@ -62,7 +62,7 @@
             <a
                 class="menu-nav-circle-btn"
                 id="menu-nav-c-btn-2"
-                href="{{ route('page.ranks') }}"
+                href="{{ route('ranks') }}"
                 title="{{ __('words.ranks_table') }}"
             >
                 <img
@@ -72,7 +72,7 @@
             </a>
             <a
                 class="menu-nav-home-btn"
-                href="{{ route('page.home') }}"
+                href="{{ route('home') }}"
                 title="{{ __('words.home') }}"
             >
                 <img
@@ -83,7 +83,7 @@
             <a
                 class="menu-nav-circle-btn"
                 id="menu-nav-c-btn-4"
-                href="{{ route('page.about') }}"
+                href="{{ route('about') }}"
                 title="{{ __('words.About_Ranking') }}"
             >
                 <img

@@ -1,24 +1,19 @@
 <?php
 
-namespace App\Livewire\Pages\Tournaments;
+namespace App\Livewire\Pages\Tournaments\Index;
 
 use App\Models\Competition;
 use Livewire\Component;
 
-class SoloTournaments extends Component
+class GalaryTournaments extends Component
 {
     #[\Livewire\Attributes\Computed]
     public function competitions()
     {
         $competitions = Competition::query()
             ->statusTournament()
-            ->has('users', '<=', 2)
-            ->doesntHave('teams')
             ->with([
-                'users',
-                'game',
-                'state.country',
-                'gameResults.status',
+                'media',
             ])
             ->latest()
             ->take(12)
@@ -29,6 +24,6 @@ class SoloTournaments extends Component
 
     public function render()
     {
-        return view('livewire.pages.tournaments.solo-tournaments');
+        return view('livewire.pages.tournaments.index.galary-tournaments');
     }
 }

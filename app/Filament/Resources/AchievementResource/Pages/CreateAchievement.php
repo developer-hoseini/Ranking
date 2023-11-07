@@ -15,8 +15,8 @@ class CreateAchievement extends CreateRecord
     {
         $data['created_by_user_id'] = auth()->id();
 
-        if (isset($data['achievmentable_id'])) {
-            $data['achievmentable_type'] = User::class;
+        if (isset($data['achievementable_id'])) {
+            $data['achievementable_type'] = User::class;
         }
 
         if (isset($data['occurred_model_id'])) {

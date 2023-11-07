@@ -1,19 +1,19 @@
 <div>
 
-    <livewire:pages.tournaments.slider-tournaments />
+    <livewire:pages.tournaments.index.slider-tournaments />
 
-    <livewire:pages.tournaments.search-tournaments />
+    <livewire:pages.tournaments.index.search-tournaments />
 
     <div class="container">
 
-        <livewire:pages.tournaments.solo-tournaments />
-        <livewire:pages.tournaments.team-tournaments />
+        <livewire:pages.tournaments.index.solo-tournaments />
+        <livewire:pages.tournaments.index.team-tournaments />
 
     </div>
 
-    <livewire:pages.tournaments.galary-tournaments />
+    <livewire:pages.tournaments.index.galary-tournaments />
 
-    <livewire:pages.tournaments.bracket-tournaments />
+    <livewire:pages.tournaments.index.bracket-tournaments />
 
 </div>
 

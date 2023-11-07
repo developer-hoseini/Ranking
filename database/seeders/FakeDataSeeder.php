@@ -80,7 +80,7 @@ class FakeDataSeeder extends Seeder
         }
 
         $users = User::factory()
-            ->count(300)
+            ->count(50)
             ->create();
 
         $roleClient = Role::where('name', 'client')->first();
@@ -90,7 +90,7 @@ class FakeDataSeeder extends Seeder
                 'user_id' => $user->id,
             ]);
             $user->likes()->createMany(
-                User::inRandomOrder()->limit(random_int(0, 300))->get('id as liked_by_user_id')->toArray()
+                User::inRandomOrder()->limit(random_int(0, 50))->get('id as liked_by_user_id')->toArray()
             );
             $dataCollect->push(['role_id' => $roleClient->id, 'model_type' => User::class, 'model_id' => $user->id]);
         }

@@ -26,21 +26,21 @@ class AchievementResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('achievmentable_type')
-                    ->label('Achievmentable Type')
+                Forms\Components\Select::make('achievementable_type')
+                    ->label('Achievementable Type')
                     ->options([
                         User::class => 'user',
                     ])
                     ->afterStateUpdated(function (callable $set) {
-                        $set('achievmentable_id', null);
+                        $set('achievementable_id', null);
                     })
                     ->default(User::class)
                     ->hidden() // hidden set default value to User::class in create function
                     ->required(),
-                Forms\Components\Select::make('achievmentable_id')
+                Forms\Components\Select::make('achievementable_id')
                     ->label('User')
                     ->options(function (callable $get) {
-                        $playerType = $get('achievmentable_type');
+                        $playerType = $get('achievementable_type');
 
                         $options = [];
                         if (! $playerType) {
@@ -107,7 +107,7 @@ class AchievementResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('achievmentable.name')
+                Tables\Columns\TextColumn::make('achievementable.name')
                     ->label('User')
                     ->numeric()
                     ->sortable(),

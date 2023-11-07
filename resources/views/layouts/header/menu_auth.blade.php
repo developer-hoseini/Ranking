@@ -20,6 +20,10 @@
 
 @endphp --}}
 
+@php
+    $authUser = auth()->user();
+@endphp
+
 <nav class="top-menu-nav px-0">
     <div class="w-100 d-flex flex-wrap">
         <div class="menu-nav-right mx-auto">
@@ -56,7 +60,7 @@
         </div>
         <div class="menu-nav-center mx-auto">
             <a
-                href="{{ route('page.home') }}"
+                href="{{ route('home') }}"
                 title="{{ __('words.Ranking') }}"
             ><img
                     class="responsive-logo"
@@ -72,7 +76,7 @@
             >
                 <img
                     class="rounded-circle ml-1 bg-white"
-                    src="{{ url(session('photo')) }}"
+                    src="{{ $authUser->avatar }}"
                     height="29px"
                 >
             </div>
@@ -91,7 +95,7 @@
             <a
                 class="menu-nav-circle-btn"
                 id="menu-nav-c-btn-1"
-                href="{{ route('page.tournaments') }}"
+                href="{{ route('tournaments.index') }}"
                 title="{{ __('words.matches') }}"
             >
                 <img
@@ -102,7 +106,7 @@
             <a
                 class="menu-nav-circle-btn"
                 id="menu-nav-c-btn-2"
-                href="{{ route('page.ranks') }}"
+                href="{{ route('ranks') }}"
                 title="{{ __('words.ranks_table') }}"
             >
                 <img
@@ -112,12 +116,23 @@
             </a>
             <a
                 class="menu-nav-home-btn"
-                href="{{ route('page.home') }}"
+                href="{{ route('home') }}"
                 title="{{ __('words.home') }}"
             >
                 <img
                     src="{{ url('assets/img/menu/home.png') }}"
                     height="25px"
+                >
+            </a>
+            <a
+                class="menu-nav-circle-btn"
+                id="menu-nav-c-btn-4"
+                href="{{ route('about') }}"
+                title="{{ __('words.About_Ranking') }}"
+            >
+                <img
+                    src="{{ url('assets/img/menu/information-red.png') }}"
+                    height="20x"
                 >
             </a>
             <a
@@ -265,7 +280,7 @@
         <div class="text-center">
             <img
                 class="rounded-circle mt-2"
-                src="{{ url(session('photo')) }}"
+                src="{{ $authUser->avatar }}"
                 width="150px"
                 height="150px"
             >
@@ -279,7 +294,7 @@
             style="width: 100%; border-top: solid 1px #bbb;"
         >
             <a
-                href="{{ route('profile.show', ['user' => auth()?->user()?->username]) }}"
+                href="{{ route('profile.show', $authUser?->id) }}"
                 style="text-decoration: none;"
             >
                 <div class="menu-list-item text-center">
@@ -345,7 +360,7 @@
             </a>
             <div class="font-weight-bold mt-3">
                 {{ __('words.cash:') }}
-                {{ number_format(auth()?->user()?->coin) }}
+                {{ number_format($authUser?->coin) }}
                 {{ __('words.Coin') }}
             </div>
         </div>

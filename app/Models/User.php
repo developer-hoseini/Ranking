@@ -146,6 +146,11 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia
         return $this->morphToMany(Competition::class, 'competitionable');
     }
 
+    public function cups(): MorphToMany
+    {
+        return $this->morphToMany(Cup::class, 'cupable');
+    }
+
     public function userCompetitionsGame()
     {
         return $this->hasManyDeepFromRelations($this->competitions(), (new Competition)->game());

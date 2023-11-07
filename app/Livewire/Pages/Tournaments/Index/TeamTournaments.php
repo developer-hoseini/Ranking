@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Livewire\Pages\Tournaments;
+namespace App\Livewire\Pages\Tournaments\Index;
 
 use App\Models\Competition;
+use App\Models\Cup;
 use Livewire\Component;
 
 class TeamTournaments extends Component
@@ -27,8 +28,25 @@ class TeamTournaments extends Component
         return $competitions ?? [];
     }
 
+    #[\Livewire\Attributes\Computed]
+    public function cups()
+    {
+        $cups = Cup::query()
+            ->with([
+                'game',
+                'state.country',
+                'competitions.gameResults.status',
+            ])
+            ->withCount(['cupRegisteredTeamsUsers'])
+            ->latest()
+            ->take(12)
+            ->get();
+
+        return $cups ?? [];
+    }
+
     public function render()
     {
-        return view('livewire.pages.tournaments.team-tournaments');
+        return view('livewire.pages.tournaments.index.team-tournaments');
     }
 }

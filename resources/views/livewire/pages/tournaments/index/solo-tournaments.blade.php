@@ -27,20 +27,23 @@
       <div class="swiper-container solo-tour-slider px-2 py-3">
           <div class="swiper-wrapper">
 
-              @foreach ($this?->competitions as $competition)
+              @foreach ($this?->cups as $cup)
+                  @php
+                      $game = $cup->competitions?->first()?->game;
+                  @endphp
                   <div class="swiper-slide tour-slide">
                       {{-- TODO: add tournoment show page and fix this route --}}
                       <a
                           class="text-decoration-none"
-                          title="{{ $competition?->name }}"
+                          href="{{ route('tournaments.show', $cup->id) }}"
+                          title="{{ $cup->name }}"
                           style="color: #6f6f6f;"
-                          {{-- href="{{ route('tournament.show', ['tour_id' => $competition?->id, 'tour_name' => $competition?->name]) }}" --}}
                       >
                           <div class="rounded-2 tour-card bg-white pb-3 shadow">
                               <img
                                   class="tour-card-img"
-                                  src="{{ $competition?->game?->cover }}"
-                                  alt="{{ $competition?->game?->name }}"
+                                  src="{{ $cup->game?->cover }}"
+                                  alt="{{ $cup->game?->name }}"
                               >
                               <div
                                   class="position-relative d-flex flex-wrap"
@@ -49,25 +52,23 @@
                                   <div class="rounded-pill text-truncate mx-auto bg-white px-2 py-1 text-center">
                                       <img
                                           class="rounded-circle mx-1"
-                                          src="{{ $competition?->game?->icon }}"
-                                          title="{{ $competition?->game?->name }}"
-                                          alt="{{ $competition?->game?->name }}"
+                                          src="{{ $cup->game?->icon }}"
+                                          title="{{ $cup->game?->name }}"
+                                          alt="{{ $cup->game?->name }}"
                                           width="20px"
                                           height="20px"
                                       >
-                                      <span>{{ $competition?->game?->name }}</span>
+                                      <span>{{ $cup->game?->name }}</span>
                                   </div>
                               </div>
                               <div class="text-dark text-truncate text-center">
-                                  {{ mb_substr($competition?->name, 0, 21, 'UTF-8') }}
-                                  @if ($competition?->gameResults?->count() > 0)
-                                      @if ($competition?->gameResults?->last()?->stats?->isAccepted)
-                                          <i
-                                              class="fa fa-flag-checkered mx-1"
-                                              title="{{ __('words.finished') }}"
-                                              style="font-size: 14px;"
-                                          ></i>
-                                      @endif
+                                  {{ $cup->name }}
+                                  @if ($cup->isFinished)
+                                      <i
+                                          class="fa fa-flag-checkered mx-1"
+                                          title="{{ __('words.finished') }}"
+                                          style="font-size: 14px;"
+                                      ></i>
                                   @endif
                               </div>
                               <div
@@ -77,17 +78,13 @@
                                   <div class="w-50 text-truncate text-center">
                                       <img
                                           class="mx-1"
-                                          src="{{ $competition?->state?->country?->icon }}"
+                                          src="{{ $cup->cupCompetitionsState?->country?->icon }}"
                                           height="20px"
                                       >
-                                      @if (\Lang::has('state.' . $competition?->state?->name))
-                                          {{ mb_substr(__('state.' . $competition?->state?->name), 0, 10, 'UTF-8') }}
-                                      @else
-                                          {{ mb_substr($competition?->state?->name, 0, 8, 'UTF-8') }}
-                                      @endif
+                                      {{ $cup->cupCompetitionsState?->name }}
                                   </div>
                                   <div class="w-50 text-center">
-                                      {{ trans_choice('words.tour_members', $competition?->users?->count(), ['member' => $competition?->users?->count()]) }}
+                                      {{ trans_choice('words.tour_members', $cup->registered_users_count, ['member' => $cup->registered_users_count]) }}
                                   </div>
                               </div>
                           </div>

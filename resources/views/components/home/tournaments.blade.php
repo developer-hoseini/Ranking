@@ -7,7 +7,7 @@
             <div class="border-bottom d-flex flex-wrap px-2 pb-1">
                 <a
                     class="home-box-title-a"
-                    href="{{ route('page.tournaments') }}"
+                    href="{{ route('tournaments.index') }}"
                     title="{{ __('words.matches') }}"
                 >
                     <h2 class="home-box-title-h2">{{ __('words.matches') }}</h2>

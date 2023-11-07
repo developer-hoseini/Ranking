@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Pages\Tournaments;
+namespace App\Livewire\Pages\Tournaments\Index;
 
 use App\Models\Cup;
 use Livewire\Component;
@@ -21,6 +21,6 @@ class BracketTournaments extends Component
 
     public function render()
     {
-        return view('livewire.pages.tournaments.bracket-tournaments');
+        return view('livewire.pages.tournaments.index.bracket-tournaments');
     }
 }

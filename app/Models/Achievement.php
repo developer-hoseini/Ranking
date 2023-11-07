@@ -52,9 +52,9 @@ class Achievement extends Model
 {
     use SoftDeletes;
 
-    public function achievmentable(): MorphTo
+    public function achievementable(): MorphTo
     {
-        return $this->morphTo('achievmentable');
+        return $this->morphTo('achievementable');
     }
 
     public function occurredModel(): MorphTo

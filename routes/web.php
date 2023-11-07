@@ -1,12 +1,15 @@
 <?php
 
-use App\Http\Controllers\CupController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestController;
+use App\Livewire\Pages\Cups\ShowCup;
 use App\Livewire\Pages\Ranks;
 use App\Livewire\Pages\Tournaments;
+use App\Livewire\Pages\Tournaments\RegisterTournaments;
+use App\Livewire\Pages\Tournaments\ShowTournaments;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,8 +25,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
 
+    Route::prefix('auth')->name('auth.')->group(function () {
+        Route::get('/login', [AuthController::class, 'login'])->name('login');
+    });
+
     /* Start Pages */
-    Route::name('page.')->group(function () {
+    Route::name('')->group(function () {
         //home
         Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -33,8 +40,18 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
         //ranks
         Route::get('/ranks', Ranks::class)->name('ranks');
 
-        //ranks
-        Route::get('/tournaments', Tournaments::class)->name('tournaments');
+        Route::prefix('cups')->name('cup.')->group(function () {
+            Route::get('/{id}', ShowCup::class)->name('show');
+        });
+
+        //tournaments
+        Route::prefix('tournaments')->name('tournaments.')->group(function () {
+            Route::get('/', Tournaments::class)->name('index');
+            Route::get('/{id}', ShowTournaments::class)->name('show');
+            /* TODO: complete this register */
+            Route::get('/{id}/register', RegisterTournaments::class)->name('register');
+        });
+
     });
     /* End Pages */
 
@@ -81,9 +98,5 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
     Route::post('/profile_competitions', [TestController::class, 'index'])->name('profile.competitions');
 
     Route::get('/profile_team_certificates', [TestController::class, 'index'])->name('profile_team_certificates');
-
-    Route::prefix('cups')->name('cup.')->group(function () {
-        Route::get('/{cup}', [CupController::class, 'show'])->name('show');
-    });
 
 });

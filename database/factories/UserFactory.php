@@ -35,9 +35,9 @@ class UserFactory extends Factory
     {
         return $this->afterCreating(function (User $user) {
             //add avatar for user
-            $image = $this->faker->image(storage_path('app/temp'), 50, 50, $user->name);
-            $user->addMedia($image)
-                ->toMediaCollection('avatar');
+            // $image = $this->faker->image(storage_path('app/temp'), 50, 50, $user->name);
+            // $user->addMedia($image)
+            //     ->toMediaCollection('avatar');
         });
     }
 

@@ -209,4 +209,27 @@ class Competition extends Model implements HasMedia
             }
         );
     }
+
+    protected function isRegisterable(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                $isCapacityAvailable = $this->capacity < ($this->users->count() + $this->teams->count());
+                $isNotEnd = $this->end_register_at < now();
+
+                return $isCapacityAvailable && $isNotEnd;
+            }
+        );
+    }
+
+    protected function isFinished(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                $hasGameResult = $this->gameResults->where('status.name', StatusEnum::ACCEPTED->value)->first();
+
+                return $hasGameResult ? true : false;
+            }
+        );
+    }
 }

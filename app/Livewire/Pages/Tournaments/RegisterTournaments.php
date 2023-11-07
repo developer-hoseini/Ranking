@@ -4,10 +4,10 @@ namespace App\Livewire\Pages\Tournaments;
 
 use Livewire\Component;
 
-class SearchTournaments extends Component
+class RegisterTournaments extends Component
 {
     public function render()
     {
-        return view('livewire.pages.tournaments.search-tournaments');
+        return view('livewire.pages.tournaments.register-tournaments');
     }
 }
