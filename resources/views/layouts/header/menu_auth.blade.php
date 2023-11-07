@@ -197,7 +197,7 @@
             </div>
         </a>
         <a
-            href="{{ route('games') }}"
+            href="{{ route('games.index') }}"
             style="text-decoration: none;"
         >
             <div class="menu-list-item text-center">

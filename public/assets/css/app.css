@@ -924,7 +924,7 @@ textarea:focus, input:focus {
 }
 
 .change-games-part .btn-won, .change-games-part .btn-lost {
-    width: 48%;
+    width: 30%;
 }
 
 .change-games-part .btn-lost {

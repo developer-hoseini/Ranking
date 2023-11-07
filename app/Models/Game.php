@@ -44,6 +44,7 @@ use Staudenmeir\EloquentHasManyDeep\HasManyDeep;
  * @method static Builder|Game whereUpdatedAt($value)
  *
  * @mixin \Eloquent
+ * @mixin IdeHelperGame
  */
 class Game extends Model
 {
@@ -66,7 +67,12 @@ class Game extends Model
 
     public function gameCompetitionsUsers(): HasManyDeep
     {
-        return $this->hasManyDeepFromRelations($this->competitions(), (new Competition)->users());
+        return $this->hasManyDeepFromRelations($this->competitions(), (new Competition)->users())->groupBy('users.id');
+    }
+
+    public function gameCompetitionsTeams(): HasManyDeep
+    {
+        return $this->hasManyDeepFromRelations($this->competitions(), (new Competition)->teams())->groupBy('teams.id');
     }
 
     public function gameCompetitionsGameResults(): HasManyDeep
@@ -78,11 +84,6 @@ class Game extends Model
     {
         return $this->hasManyDeepFromRelations($this->competitions(), (new Competition)->scoreOccurredModel())
             ->where('type', AchievementTypeEnum::SCORE->value);
-    }
-
-    public function gameCompetitionsTeams(): HasManyDeep
-    {
-        return $this->hasManyDeepFromRelations($this->competitions(), (new Competition)->teams());
     }
 
     public function invites(): HasMany

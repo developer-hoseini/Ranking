@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestController;
 use App\Livewire\Pages\Cups\ShowCup;
+use App\Livewire\Pages\Games;
 use App\Livewire\Pages\Ranks;
 use App\Livewire\Pages\Tournaments;
 use App\Livewire\Pages\Tournaments\RegisterTournaments;
@@ -38,8 +39,11 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
         Route::view('/about', 'pages.about')->name('about');
 
         //ranks
-        Route::get('/ranks', Ranks::class)->name('ranks');
+        Route::prefix('ranks')->name('ranks.')->group(function () {
+            Route::get('/', Ranks::class)->name('index');
+        });
 
+        //cups
         Route::prefix('cups')->name('cup.')->group(function () {
             Route::get('/{id}', ShowCup::class)->name('show');
         });
@@ -50,6 +54,11 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::get('/{id}', ShowTournaments::class)->name('show');
             /* TODO: complete this register */
             Route::get('/{id}/register', RegisterTournaments::class)->name('register');
+        });
+
+        //games
+        Route::prefix('games')->name('games.')->group(function () {
+            Route::get('/', Games::class)->name('index');
         });
 
     });
@@ -78,7 +87,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
     Route::get('/events', [TestController::class, 'index'])->name('events');
     Route::get('/quick_submitted_list', [TestController::class, 'index'])->name('quick_submitted_list');
     Route::get('/team_ranks', [TestController::class, 'index'])->middleware('auth')->name('team_ranks');
-    Route::get('/games', [TestController::class, 'index'])->name('games');
+    Route::get('/games/show', [TestController::class, 'index'])->name('games.show');
     Route::view('/rules', [TestController::class, 'index'])->name('rules');
     Route::view('/tutorial', [TestController::class, 'index'])->name('tutorial');
     Route::get('/editprofile', [TestController::class, 'index'])->name('edit_profile');

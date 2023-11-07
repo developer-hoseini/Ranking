@@ -106,7 +106,7 @@
     >
         <div class="menu-list-box bg-white">
             <a
-                href="('select_game')}}"
+                href="{{ route('games.index') }}"
                 style="text-decoration: none;"
             >
                 <div class="menu-list-item text-center">
