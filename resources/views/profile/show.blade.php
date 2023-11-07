@@ -89,9 +89,7 @@
                                     style="font-size: 20px;cursor: pointer;color: #555;"
                                     btn_value="{{$row}}">
                                     <span>
-                                       <a target="_blank" href="{{route('game.show',['game'=>$game->id])}}">
                                            {{ $game?->name}}
-                                       </a>
                                     </span>
                                     <i class="fa fa-chevron-down mx-2 game-btn-i-{{$row}}" rotate="down"></i></h3>
                                 <div class="profile-game-div" id="profile-game-div-{{$row}}" style="display: none;">
@@ -122,49 +120,51 @@
                                                 else
                                                   $warning_per = 0;
                                             @endphp--}}
-                                            {{--<ul class="list-group list-group-flush">
+
+                                            {{-- TODO:List Stare --}}
+                                            <ul class="list-group list-group-flush">
                                                 <li class="list-group-item">
                                                     <div class="stars_textbox">{{ __('words.In Club: ') }}</div>
                                                     <div class="stars_starbox">
                                                         <div class="star-ratings-sprite"><span
-                                                                style="width:{{$inclub_per}}%"
+                                                                style="width:{{0}}%"
                                                                 class="star-ratings-sprite-rating"></span></div>
                                                         <button class="btn-tooltip" rel="tooltip"
-                                                                title="{{ __('message.played_days_ago',['play_num'=>$inclub_stars, 'days_num'=>config('setting.days_ago')]) }}"></button>
+                                                                title="{{ __('message.played_days_ago',['play_num'=>0, 'days_num'=>config('setting.days_ago')]) }}"></button>
                                                     </div>
                                                 </li>
                                                 <li class="list-group-item">
                                                     <div class="stars_textbox">{{ __('words.With Referee: ') }}</div>
                                                     <div class="stars_starbox">
                                                         <div class="star-ratings-sprite"><span
-                                                                style="width:{{$image_per}}%"
+                                                                style="width:{{0}}%"
                                                                 class="star-ratings-sprite-rating"></span>
                                                         </div>
                                                         <button class="btn-tooltip" rel="tooltip"
-                                                                title="{{ __('message.played_days_ago',['play_num'=>$image_stars, 'days_num'=>config('setting.days_ago')]) }}"></button>
+                                                                title="{{ __('message.played_days_ago',['play_num'=>0, 'days_num'=>config('setting.days_ago')]) }}"></button>
                                                     </div>
                                                 </li>
                                                 <li class="list-group-item">
                                                     <div class="stars_textbox">{{ __('words.Team_Game:') }}</div>
                                                     <div class="stars_starbox gamepage_stars">
                                                         <div class="star-ratings-sprite"><span
-                                                                style="width:{{$team_played_per}}%"
+                                                                style="width:{{0}}%"
                                                                 class="star-ratings-sprite-rating"></span></div>
                                                         <button class="btn-tooltip" rel="tooltip"
-                                                                title="{{ __('message.played_days_ago',['play_num'=>$team_played_stars, 'days_num'=>config('setting.days_ago')]) }}"></button>
+                                                                title="{{ __('message.played_days_ago',['play_num'=>0, 'days_num'=>config('setting.days_ago')]) }}"></button>
                                                     </div>
                                                 </li>
                                                 <li class="list-group-item">
                                                     <div class="stars_textbox">{{ __('words.Lawful:') }}</div>
                                                     <div class="stars_starbox">
                                                         <div class="star-ratings-sprite"><span
-                                                                style="width:{{$warning_per}}%"
+                                                                style="width:{{100}}%"
                                                                 class="star-ratings-sprite-rating"></span></div>
                                                         <button class="btn-tooltip" rel="tooltip"
-                                                                title="{{ __('message.warnings_in_played',['warning_num'=>$score['warning'], 'play_num'=>$total_played]) }}"></button>
+                                                                title="{{ __('message.warnings_in_played',['warning_num'=>5, 'play_num'=>5]) }}"></button>
                                                     </div>
                                                 </li>
-                                            </ul>--}}
+                                            </ul>
                                         </div>
                                     </div>
 
@@ -189,18 +189,19 @@
                                         <div class="card-header text-center"><h5>{{ __('words.competitions') }}</h5>
                                         </div>
                                         <div class="card-body">
-                                            {{--<ul class="list-group list-group-flush warn-part-one">
-                                                <li class="list-group-item">{{ __('words.In Club: ').$score['in_club'] }}</li>
-                                                <li class="list-group-item">{{ __('words.With Referee: ').$score['with_image'] }}</li>
+                                            <ul class="list-group list-group-flush warn-part-one">
+                                                {{-- TODO:get in club & Referee --}}
+                                                <li class="list-group-item">{{ __('words.In Club: ').'0' }}</li>
+                                                <li class="list-group-item">{{ __('words.With Referee: ').'0' }}</li>
                                                 <li class="list-group-item"
-                                                    style="border-bottom: none;">{{ __('words.Fault: ').$score['fault'] }}</li>
+                                                    style="border-bottom: none;">{{ __('words.Fault: ').$game->win_absent }}</li>
                                             </ul>
                                             <ul class="list-group list-group-flush warn-part-two">
                                                 <li class="list-group-item"
-                                                    style="border-top: none;">{{ __('words.Win: ').$score['win'] }}</li>
-                                                <li class="list-group-item">{{ __('words.Lose: ').$score['lose'] }}</li>
-                                                <li class="list-group-item">{{ __('words.all_competitions: ').$total_played }}</li>
-                                            </ul>--}}
+                                                    style="border-top: none;">{{ __('words.Win: ').$game->win_count }}</li>
+                                                <li class="list-group-item">{{ __('words.Lose: ').$game->lose_count }}</li>
+                                                <li class="list-group-item">{{ __('words.all_competitions: ').($game->win_count+$game->lose_count+$game->win_absent) }}</li>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>

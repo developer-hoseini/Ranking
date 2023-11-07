@@ -69,6 +69,11 @@ class Game extends Model
         return $this->hasManyDeepFromRelations($this->competitions(), (new Competition)->users());
     }
 
+    public function gameCompetitionsGameResults(): HasManyDeep
+    {
+        return $this->hasManyDeepFromRelations($this->competitions(), (new Competition)->gameResults());
+    }
+
     public function gameCompetitionsScoreOccurredModel(): HasManyDeep
     {
         return $this->hasManyDeepFromRelations($this->competitions(), (new Competition)->scoreOccurredModel())

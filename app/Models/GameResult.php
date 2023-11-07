@@ -55,7 +55,7 @@ class GameResult extends Model
 
     public function gameResultStatus()
     {
-        return $this->belongsTo(Status::class, 'game_result_status_id')->modelType(GameResult::class, false);
+        return $this->belongsTo(Status::class, 'game_result_status_id')->modelType(__CLASS__, false);
 
     }
 

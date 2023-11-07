@@ -47,6 +47,8 @@ use Staudenmeir\EloquentHasManyDeep\HasOneDeep;
  * @method static \Illuminate\Database\Eloquent\Builder|Achievement withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Achievement withoutTrashed()
  *
+ * @property-read Model|\Eloquent $achievementable
+ *
  * @mixin \Eloquent
  */
 class Achievement extends Model

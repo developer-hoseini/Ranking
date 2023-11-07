@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\ReasonReportEnum;
 use App\Enums\StatusEnum;
 use App\Models\Game;
+use App\Models\GameResult;
 use App\Models\Like;
 use App\Models\Report;
 use App\Models\Status;
@@ -27,30 +28,46 @@ class ProfileController extends Controller
                 'likes as is_like' => fn ($q) => $q->where('liked_by_user_id', auth()->id()),
             ]);
         }
+        //        $daysAgo = Carbon::now()->subDays(config('setting.days_ago'));
 
-        //        dd($user->toArray(), $user->scoreAchievements->sum('count'));
-
-        //        $scores = \App\User_Score::with(['game'])
-        //            ->where(['user_id'=>$user->id, 'is_join'=>config('status.Yes')])->orderBy('score','desc')->get();
-
-        $daysAgo = Carbon::now()->subDays(config('setting.days_ago'));
+        $statues = Status::select(['id', 'name'])
+            ->where('model_type', GameResult::class)
+            ->get();
 
         $userGames = Game::query()
             ->whereHas('gameCompetitionsUsers', function ($query) use ($user) {
                 $query->where('users.id', $user->id);
             })
+            ->withCount([
+                'gameCompetitionsGameResults as win_count' => function ($query) use ($user, $statues) {
+                    $query->where('playerable_type', User::class)
+                        ->where('playerable_id', $user->id)
+                        ->where('game_results.game_result_status_id', $statues->where('name', StatusEnum::GAME_RESULT_WIN->value)->first()?->id);
+                },
+                'gameCompetitionsGameResults as win_absent' => function ($query) use ($user, $statues) {
+                    $query->where('playerable_type', User::class)
+                        ->where('playerable_id', $user->id)
+                        ->where('game_results.game_result_status_id', $statues->where('name', StatusEnum::GAME_RESULT_ABSENT->value)->first()?->id);
+                },
+                'gameCompetitionsGameResults as lose_count' => function ($query) use ($user, $statues) {
+                    $query->where('playerable_type', User::class)
+                        ->where('playerable_id', $user->id)
+                        ->where('game_results.game_result_status_id', $statues->where('name', StatusEnum::GAME_RESULT_LOSE->value)->first()?->id);
+                },
+            ])
             ->withSum([
-                'gameCompetitionsScoreOccurredModel' => function ($q) use ($user) {
-                    $q->where('achievementable_type', User::class)
+                'gameCompetitionsScoreOccurredModel' => function ($query) use ($user) {
+                    $query->where('achievementable_type', User::class)
                         ->where('achievementable_id', $user->id);
                 },
             ], 'count')
+            ->orderByDesc('game_competitions_score_occurred_model_sum_count')
             ->get();
 
         // Certificates
         //        $certificates = Certificate::where(['exported' => $status['Yes'], 'user_id' => $user->id])->with('bracket.competition')->get();
 
-        return view('profile.show', compact('user', 'daysAgo', 'userGames'));
+        return view('profile.show', compact('user', 'userGames'));
 
     }
 

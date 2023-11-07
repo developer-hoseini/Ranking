@@ -1520,7 +1520,7 @@ textarea:focus, input:focus {
 }
 
 .btn-tooltip {
-    background-image: url('/img/question.png');
+    background-image: url('../img/question.png');
     background-size: 16px;
     background-color: transparent;
     background-repeat: no-repeat;

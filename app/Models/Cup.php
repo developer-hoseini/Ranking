@@ -43,6 +43,16 @@ use Staudenmeir\EloquentHasManyDeep\HasOneDeep;
  * @method static \Illuminate\Database\Eloquent\Builder|Cup withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Cup withoutTrashed()
  *
+ * @property-read \App\Models\User $createdByUser
+ * @property-read \App\Models\Game $game
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
+ * @property-read int|null $media_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Team> $registeredTeams
+ * @property-read int|null $registered_teams_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $registeredUsers
+ * @property-read int|null $registered_users_count
+ * @property-read \App\Models\State $state
+ *
  * @mixin \Eloquent
  */
 class Cup extends Model implements HasMedia

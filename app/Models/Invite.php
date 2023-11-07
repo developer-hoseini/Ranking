@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -51,7 +50,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Invite extends Model
 {
-    use HasFactory,SoftDeletes;
+    use SoftDeletes;
 
     public function gameStatus(): BelongsTo
     {
@@ -73,12 +72,12 @@ class Invite extends Model
         return $this->belongsTo(GameType::class);
     }
 
-    public function inviterUser()
+    public function inviterUser(): BelongsTo
     {
         return $this->belongsTo(User::class, 'inviter_user_id');
     }
 
-    public function invitedUser()
+    public function invitedUser(): BelongsTo
     {
         return $this->belongsTo(User::class, 'invited_user_id');
     }

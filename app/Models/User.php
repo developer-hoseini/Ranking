@@ -88,6 +88,8 @@ use Spatie\Permission\Traits\HasRoles;
  * @property-read int|null $likes_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Like> $likesBy
  * @property-read int|null $likes_by_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Cup> $cups
+ * @property-read int|null $cups_count
  *
  * @mixin \Eloquent
  */
