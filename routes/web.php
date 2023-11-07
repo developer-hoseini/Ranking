@@ -67,6 +67,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
         Route::post('/like', [ProfileController::class, 'like'])->name('like');
         Route::post('/report', [ProfileController::class, 'report'])->name('report');
         Route::post('/competitions', [ProfileController::class, 'competitions'])->name('competitions');
+        Route::get('/team/certificates', [ProfileController::class, 'teamCertificates'])->name('team.certificates');
     });
 
     Route::get('/tournament', [TestController::class, 'index'])->name('tournament.index');
@@ -95,7 +96,5 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
     Route::get('/prizes', [TestController::class, 'index'])->name('prizes');
 
     Route::view('/global_ranks', [TestController::class, 'index'])->name('global_ranks');
-
-    Route::get('/profile_team_certificates', [TestController::class, 'index'])->name('profile_team_certificates');
 
 });

@@ -261,6 +261,8 @@
                             @else
                                 <div class="w-100 text-center pt-2">{{__('words.dont_yet_any_certificate')}} ...</div>
                             @endif--}}
+
+                            <div class="w-100 text-center pt-2">{{__('words.dont_yet_any_certificate')}} ...</div>
                         </div>
                     </div>
 
@@ -380,7 +382,7 @@
                         $('#certificates_content').find('.personal_certificates_body').fadeOut(function () {
                             if (team_certs_loaded == 0) {
                                 $('.loading_spinner').fadeIn();
-                                $('.team_certificates_body').load("{{route('profile_team_certificates')}}", function () {
+                                $('.team_certificates_body').load("{{route('profile.team.certificates')}}", function () {
                                     $('.loading_spinner').fadeOut();
                                     team_certs_loaded = 1;
                                 });

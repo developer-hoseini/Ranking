@@ -65,7 +65,7 @@ class ProfileController extends Controller
             ->orderByDesc('game_competitions_score_occurred_model_sum_count')
             ->get();
 
-        // Certificates
+        // TODO: Certificates
         //        $certificates = Certificate::where(['exported' => $status['Yes'], 'user_id' => $user->id])->with('bracket.competition')->get();
 
         return view('profile.show', compact('user', 'userGames'));
@@ -177,5 +177,25 @@ class ProfileController extends Controller
 
             return response()->json($data);
         }
+    }
+
+    public function teamCertificates()
+    {
+        //TODO : refactor
+        //        $auth_user_id = Auth::user()->id;
+
+        //        $certificates = \App\Team_Certificate::with(['bracket.competition', 'team'])
+        //            ->where('exported', config('status.Yes'))
+        //            ->whereHas('team', function ($query) use ($auth_user_id) {
+        //                $query->whereHas('members', function ($query) use ($auth_user_id) {
+        //                    $query->where('user_id', $auth_user_id);
+        //                })->orWhere('capitan_id', $auth_user_id);
+        //            })->orderBy('id', 'desc')->get();
+
+        $certificates = collect([]);
+
+        return view('profile.teamCertificates', [
+            'certificates' => $certificates,
+        ]);
     }
 }
