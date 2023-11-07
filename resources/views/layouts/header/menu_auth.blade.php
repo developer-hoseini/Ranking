@@ -24,6 +24,8 @@
     $authUser = auth()->user();
 @endphp
 
+@php($eventsCount=0)
+
 <nav class="top-menu-nav px-0">
     <div class="w-100 d-flex flex-wrap">
         <div class="menu-nav-right mx-auto">
@@ -71,7 +73,7 @@
         <div class="menu-nav-left mx-auto">
             <div
                 class="text-decoration-none menu-toggler-btn d-inline-block mx-1"
-                title="{{ session('fullname') }}"
+                title="{{ auth()?->user()?->profile?->full_name??auth()?->user()?->name }}"
                 onclick="profile_item();"
             >
                 <img
@@ -141,11 +143,11 @@
                 href="{{ route('events') }}"
                 title="{{ __('words.Events') }}"
             >
-                {{-- @if ($events_count > 0)
+                @if ($eventsCount > 0)
                     <img src="{{ url('assets/img/menu/notify/events-red.png') }}" width="25px">
                 @else
                     <img src="{{ url('assets/img/menu/events-red.png') }}" width="22px">
-                @endif --}}
+                @endif
             </a>
         </div>
     </div>
@@ -287,7 +289,7 @@
             <div
                 class="font-weight-bold mt-2"
                 style="font-size: 20px;"
-            >{{ session('fullname') }}</div>
+            >{{ auth()?->user()?->profile?->full_name??auth()?->user()?->name }}</div>
         </div>
         <div
             class="mt-3 py-2"
@@ -416,8 +418,8 @@
 
 @push('scripts')
     <script type="text/javascript">
-        $(document).ready(function() {
-            $(document).scroll(function() {
+        $(document).ready(function () {
+            $(document).scroll(function () {
                 scrollfun()
             });
         });
@@ -448,8 +450,8 @@
             $('#coin-item').toggle();
         }
 
-        $('document').ready(function() {
-            $(document).mouseup(function(e) {
+        $('document').ready(function () {
+            $(document).mouseup(function (e) {
                 var menu_list_box = $(".menu-list-box");
                 var menu_toggler_btn = $(".menu-toggler-btn");
                 var menu_list = $(".menu-list");

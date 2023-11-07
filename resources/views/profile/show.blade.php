@@ -83,12 +83,15 @@
                 <div class="profile">
                     <div class="w-100 profile-options joined-games">
                         <div class="text-center"><h2>{{__('words.Joined_Games')}}</h2></div>
-                        @foreach( $user->scoreAchievements as $row =>$scoreAchievement)
+                        @foreach( $userGames as $row => $game)
                             <div class="profile_game_scores">
                                 <h3 class="btn btn-light p-2 w-100 mt-2 border profile-game-btn"
                                     style="font-size: 20px;cursor: pointer;color: #555;"
-                                    btn_value="{{$row}}"><span>
-                                       {{ $scoreAchievement?->occurredModel?->game?->name}}
+                                    btn_value="{{$row}}">
+                                    <span>
+                                       <a target="_blank" href="{{route('game.show',['game'=>$game->id])}}">
+                                           {{ $game?->name}}
+                                       </a>
                                     </span>
                                     <i class="fa fa-chevron-down mx-2 game-btn-i-{{$row}}" rotate="down"></i></h3>
                                 <div class="profile-game-div" id="profile-game-div-{{$row}}" style="display: none;">
@@ -170,14 +173,14 @@
                                         <div class="card-body">
                                             <ul class="list-group list-group-flush">
                                                 <li class="list-group-item">
-                                                    {{ __('words.Score: ').$scoreAchievement?->count }}
+                                                    {{ __('words.Score: ').$game?->game_competitions_score_occurred_model_sum_count??0 }}
                                                 </li>
                                                 @php
-                                                    $rank = \App\Services\Actions\User\GetGameRank::handle($user->id,$scoreAchievement?->occurredModel?->game?->id);
-//                                                    $country_rank = \App\User_Score::country_rank($score['user_id'],$score['game_id']);
+                                                    $rank = \App\Services\Actions\User\GetGameRank::handle($user->id,$game?->id);
+                                                    $countryRank = \App\Services\Actions\User\GetCountryRank::handle($user->id,$user?->profile?->state?->country_id,$game?->id);
                                                 @endphp
                                                 <li class="list-group-item">{{ __('words.Global Rank: ').$rank }}</li>
-                                                {{--                                                <li class="list-group-item">{{ __('words.Country Rank: ').$country_rank }}</li>--}}
+                                                <li class="list-group-item">{{ __('words.Country Rank: ').$countryRank }}</li>
                                             </ul>
                                         </div>
                                     </div>
