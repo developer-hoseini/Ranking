@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestController;
 use App\Livewire\Pages\Cups\ShowCup;
 use App\Livewire\Pages\Games;
+use App\Livewire\Pages\Profile\CompleteProfile;
 use App\Livewire\Pages\Ranks;
 use App\Livewire\Pages\Tournaments;
 use App\Livewire\Pages\Tournaments\RegisterTournaments;
@@ -79,11 +80,17 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
 
     //profile
     Route::group(['prefix' => '/profile', 'as' => 'profile.'], function () {
-        Route::get('/{user}', [ProfileController::class, 'show'])->name('show');
+
+        Route::middleware('auth')->group(function () {
+            Route::get('/complete-profile', CompleteProfile::class)->name('complete-profile');
+        });
+
         Route::post('/like', [ProfileController::class, 'like'])->name('like');
         Route::post('/report', [ProfileController::class, 'report'])->name('report');
         Route::post('/competitions', [ProfileController::class, 'competitions'])->name('competitions');
         Route::get('/team/certificates', [ProfileController::class, 'teamCertificates'])->name('team.certificates');
+        Route::get('/{user}', [ProfileController::class, 'show'])->name('show')->where('contact', '[0-9]+');
+
     });
 
     Route::get('/tournament', [TestController::class, 'index'])->name('tournament.index');
@@ -96,7 +103,6 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
     Route::get('/team_ranks', [TestController::class, 'index'])->middleware('auth')->name('team_ranks');
     Route::view('/rules', [TestController::class, 'index'])->name('rules');
     Route::view('/tutorial', [TestController::class, 'index'])->name('tutorial');
-    Route::get('/editprofile', [TestController::class, 'index'])->name('edit_profile');
     Route::get('/set_qrcode', [TestController::class, 'index'])->name('set_qrcode');
     Route::get('/charge', [TestController::class, 'index'])->name('charge');
     Route::get('/my_tournament', [TestController::class, 'index'])->name('my_tournament.index');

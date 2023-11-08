@@ -14,6 +14,7 @@ class ProfileFactory extends Factory
     public function definition(): array
     {
         return [
+            'avatar_name' => $this->faker->unique()->userName(),
             'fname' => $this->faker->word(),
             'lname' => $this->faker->word(),
             'bio' => $this->faker->word(),

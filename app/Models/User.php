@@ -225,4 +225,15 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia
             }
         );
     }
+
+    protected function isProfileCompleted(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                $isComplete = $this->profile?->avatar_name ? true : false;
+
+                return $isComplete;
+            }
+        );
+    }
 }

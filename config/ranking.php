@@ -8,4 +8,12 @@ return [
             'tour_third_per' => 15, // 15% profit of tournament for third person
         ],
     ],
+    'achievements' => [
+        'register' => [
+            'coin' => 10,
+        ],
+        'completeProfile' => [
+            'coin' => 40,
+        ],
+    ],
 ];

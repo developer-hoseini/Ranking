@@ -315,7 +315,7 @@
                 </div>
             </a>
             <a
-                href="{{ route('edit_profile') }}"
+                href="{{ route('profile.complete-profile') }}"
                 style="text-decoration: none;"
             >
                 <div class="menu-list-item text-center">
@@ -368,7 +368,7 @@
             </a>
             <div class="font-weight-bold mt-3">
                 {{ __('words.cash:') }}
-                {{ number_format($authUser?->coin) }}
+                {{ $authUser->achievements()->where('type', \App\Enums\AchievementTypeEnum::COIN->value)->sum('count') }}
                 {{ __('words.Coin') }}
             </div>
         </div>

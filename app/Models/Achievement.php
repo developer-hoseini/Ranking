@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\StatusEnum;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -106,5 +108,15 @@ class Achievement extends Model
     public function createdByUser(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by_user_id');
+    }
+
+    public function scopeCompletedProfileScope(Builder $query, $is = true): Builder
+    {
+        if ($is) {
+            return $query->whereHas('status', fn ($q) => $q->where('name', StatusEnum::ACHIEVEMENT_COMPLETE_PROFILE->value));
+        }
+
+        return $query->whereDoesntHave('status', fn ($q) => $q->where('name', StatusEnum::ACHIEVEMENT_COMPLETE_PROFILE->value));
+
     }
 }

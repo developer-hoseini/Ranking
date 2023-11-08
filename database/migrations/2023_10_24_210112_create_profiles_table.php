@@ -11,6 +11,8 @@ return new class extends Migration
         Schema::create('profiles', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users', 'id');
+            $table->string('avatar_name')->nullable()->unique();
+
             $table->string('fname', 50)->nullable();
             $table->string('lname', 50)->nullable();
             $table->string('bio', 100)->nullable();
