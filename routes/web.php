@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\GamePageController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestController;
@@ -34,7 +35,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
     });
 
     /* Start Pages */
-    Route::name('')->group(function () {
+    Route::group([], function () {
         //home
         Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -68,6 +69,32 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::middleware('auth')->group(function () {
                 Route::get('/{id}/join', [GameController::class, 'join'])->middleware('auth')->name('join');
             });
+
+            //game page
+            Route::group(['as' => 'page.', 'prefix' => '/page', 'middleware' => ['auth', 'completeProfile']], function () {
+                Route::get('/{game}/{opponent}', [GamePageController::class, 'index'])->name('index');
+                Route::post('/invite', 'GamePageController@invite')->name('invite');
+                Route::post('/random/users', 'GamePageController@random_users')->name('random-users');
+                Route::post('/get/clubs', 'GamePageController@get_clubs')->name('get-clubs');
+                Route::post('/search/user', 'GamePageController@search_user')->name('search-user');
+                Route::post('/select/user', 'GamePageController@select_user')->name('select-user');
+                Route::post('/get_country', 'GamePageController@get_country')->name('get-clubs-country');
+                Route::post('/get_states', 'GamePageController@get_states')->name('get-clubs-states');
+            });
+        });
+
+        //profile
+        Route::group(['prefix' => '/profile', 'as' => 'profile.'], function () {
+            Route::middleware('auth')->group(function () {
+                Route::get('/complete-profile', CompleteProfile::class)->name('complete-profile');
+            });
+
+            Route::post('/like', [ProfileController::class, 'like'])->name('like');
+            Route::post('/report', [ProfileController::class, 'report'])->name('report');
+            Route::post('/competitions', [ProfileController::class, 'competitions'])->name('competitions');
+            Route::get('/team/certificates', [ProfileController::class, 'teamCertificates'])->name('team.certificates');
+            Route::get('/{user}', [ProfileController::class, 'show'])->name('show')->where('contact', '[0-9]+');
+
         });
 
     });
@@ -111,7 +138,6 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
     Route::get('/tickets', [TestController::class, 'index'])->name('tickets.index');
     Route::get('/teams/{team}', [TestController::class, 'index'])->name('teams.show');
     Route::get('/tickets', [TestController::class, 'index'])->name('tickets.index');
-    Route::get('/gamepage/{game_id}/{opponent_id}', [TestController::class, 'index'])->name('select_opponent');
 
     Route::get('/prizes', [TestController::class, 'index'])->name('prizes');
 

@@ -19,6 +19,8 @@ enum StatusEnum: string
     case ACCEPTED = 'accepted';
     case REJECTED = 'rejected';
     case CANCELED = 'canceled';
+
+    case FINISHED = 'finished';
     case SUBMIT_RESULT = 'submit_result';
     case WAIT_OPPONENT_RESULT = 'wait_opponent_result';
     case WAIT_IMAGE_VERIFY = 'wait_image_verify';

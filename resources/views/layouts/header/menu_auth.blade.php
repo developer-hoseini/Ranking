@@ -21,7 +21,7 @@
 @endphp --}}
 
 @php
-    $authUser = auth()->user();
+    $authUser = auth()->user()->loadSum('coinAchievements', 'count');
 @endphp
 
 @php($eventsCount = 0)
@@ -424,8 +424,8 @@
 
 @push('scripts')
     <script type="text/javascript">
-        $(document).ready(function() {
-            $(document).scroll(function() {
+        $(document).ready(function () {
+            $(document).scroll(function () {
                 scrollfun()
             });
         });
@@ -456,8 +456,8 @@
             $('#coin-item').toggle();
         }
 
-        $('document').ready(function() {
-            $(document).mouseup(function(e) {
+        $('document').ready(function () {
+            $(document).mouseup(function (e) {
                 var menu_list_box = $(".menu-list-box");
                 var menu_toggler_btn = $(".menu-toggler-btn");
                 var menu_list = $(".menu-list");

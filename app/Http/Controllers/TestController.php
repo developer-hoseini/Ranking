@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cup;
+use App\Models\Game;
+use App\Models\User;
 
 class TestController extends Controller
 {
@@ -14,7 +16,7 @@ class TestController extends Controller
 
             return \Auth::user()->toArray();
         }
-
+        abort(404);
         $game = Game::with('gameCompetitionsUsers')->find(32);
         dd($game->toArray(), $game->gameCompetitionsUsers->where('id', 229)->keys()->first());
 
