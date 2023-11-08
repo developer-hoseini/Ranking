@@ -114,14 +114,14 @@ class Game extends Model
     protected function cover(): Attribute
     {
         return Attribute::make(
-            get: fn () => url('/uploads/games/solo/cover/'.$this->name.'.jpg?'.strtotime($this->image_updated))
+            get: fn () => url('/uploads/games/solo/cover/'.$this->name.'.jpg')
         );
     }
 
     protected function icon(): Attribute
     {
         return Attribute::make(
-            get: fn () => url('/uploads/games/solo/icon/'.$this->name.'.jpg?'.strtotime($this->image_updated))
+            get: fn () => url('/uploads/games/solo/icon/'.$this->name.'.jpg')
         );
     }
 }
