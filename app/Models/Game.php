@@ -96,6 +96,11 @@ class Game extends Model
         return $this->belongsToMany(GameType::class);
     }
 
+    public function onlineGames()
+    {
+        return $this->hasMany(OnlineGame::class);
+    }
+
     public function scopeActive(Builder $query): Builder
     {
         return $query->where('active', true);

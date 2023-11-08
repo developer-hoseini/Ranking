@@ -23,7 +23,7 @@
                                 <div class="home-ranks-title col-5">
                                     <a
                                         class="text-truncate text-white"
-                                        href="{{ route('game.show', ['game' => $game->id]) }}"
+                                        href="{{ route('games.show', ['game' => $game->id]) }}"
                                         title="{{ $game->name }}"
                                     >
                                         {{ $game->name }}

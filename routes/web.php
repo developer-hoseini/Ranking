@@ -59,6 +59,9 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
         //games
         Route::prefix('games')->name('games.')->group(function () {
             Route::get('/', Games::class)->name('index');
+            Route::get('/{game}', [GameController::class, 'show'])->name('show');
+            Route::get('/{id}/online', [GameController::class, 'showOnline'])->name('show.online');
+
         });
 
     });
@@ -68,7 +71,6 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
     Route::get('/test', [TestController::class, 'index'])->name('test.index');
 
     //game
-    Route::get('/game/{game}', [GameController::class, 'show'])->name('game.show');
 
     //profile
     Route::group(['prefix' => '/profile', 'as' => 'profile.'], function () {

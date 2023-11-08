@@ -43,6 +43,19 @@ class GameController extends Controller
             )
             ->paginate(config('setting.gameinfo_list'));
 
-        return view('game.show', ['game' => $game, 'users' => $users]);
+        return view('games.show', ['game' => $game, 'users' => $users]);
+    }
+
+    public function showOnline($id)
+    {
+        $game = Game::query()
+            ->where('id', $id)
+            ->active()
+            ->withWhereHas('onlineGames')
+            ->select(['id', 'name'])
+            ->orderBy('sort')
+            ->firstOrFail();
+
+        return view('games.show-online', compact('game'));
     }
 }

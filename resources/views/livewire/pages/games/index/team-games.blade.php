@@ -5,7 +5,7 @@
     @foreach ($this->games as $game)
         <div class="card games_box select_games_box">
             <div class="card-header game_header text-truncate text-center">
-                <a href="{{ route('game.show', $game->id) }}">
+                <a href="{{ route('games.show', $game->id) }}">
                     {{ $game->name }}
                 </a>
             </div>
