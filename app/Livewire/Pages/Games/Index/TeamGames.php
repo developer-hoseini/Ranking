@@ -13,7 +13,7 @@ class TeamGames extends Component
     {
         $games = Game::query()
             ->active()
-            ->whereHas('gameTypes', fn ($q) => $q->where('name', 'team'))
+            ->gameTypeScope('team')
             ->select(['id', 'name'])
             ->with([
                 'gameCompetitionsUsers' => fn ($q) => $q->groupBy(['competitions.game_id']),

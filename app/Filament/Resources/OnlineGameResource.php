@@ -27,7 +27,7 @@ class OnlineGameResource extends Resource
                     ->options(function () {
                         $games = Game::query()
                             ->active()
-                            ->whereHas('gameTypes', fn ($q) => $q->where('name', 'online'))
+                            ->gameTypeScope('oneline')
                             ->select(['id', 'name'])
                             ->orderBy('sort')
                             ->get();

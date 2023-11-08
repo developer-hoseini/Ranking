@@ -21,6 +21,10 @@
                 </ul>
 
                 {{-- TODO: add route --}}
+                @php
+                    $routeHref = auth() ? route('')
+                @endphp
+
                 <a
                     class="btn btn-primary btn-block text-white"
                     style="margin-top: 23px; cursor: pointer;"

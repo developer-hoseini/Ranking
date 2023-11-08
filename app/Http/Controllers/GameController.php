@@ -58,4 +58,18 @@ class GameController extends Controller
 
         return view('games.show-online', compact('game'));
     }
+
+    public function join($id)
+    {
+        /* TODO: compelete join method */
+        // only 2 player game can join
+        $games = Game::query()
+            ->where('id', $id)
+            ->active()
+            ->gameTypeScope('two player')
+            ->select(['id', 'name'])
+            ->firstOrFail();
+
+        return $games;
+    }
 }

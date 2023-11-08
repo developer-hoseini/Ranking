@@ -62,6 +62,9 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::get('/{game}', [GameController::class, 'show'])->name('show');
             Route::get('/{id}/online', [GameController::class, 'showOnline'])->name('show.online');
 
+            Route::middleware('auth')->group(function () {
+                Route::get('/{id}/join', [GameController::class, 'join'])->middleware('auth')->name('join');
+            });
         });
 
     });
@@ -89,7 +92,6 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
     Route::get('/events', [TestController::class, 'index'])->name('events');
     Route::get('/quick_submitted_list', [TestController::class, 'index'])->name('quick_submitted_list');
     Route::get('/team_ranks', [TestController::class, 'index'])->middleware('auth')->name('team_ranks');
-    Route::get('/games/show', [TestController::class, 'index'])->name('games.show');
     Route::view('/rules', [TestController::class, 'index'])->name('rules');
     Route::view('/tutorial', [TestController::class, 'index'])->name('tutorial');
     Route::get('/editprofile', [TestController::class, 'index'])->name('edit_profile');
