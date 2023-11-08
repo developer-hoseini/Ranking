@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\GamePageController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestController;
@@ -33,7 +34,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
     });
 
     /* Start Pages */
-    Route::name('')->group(function () {
+    Route::group([], function () {
         //home
         Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -66,6 +67,11 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
 
             Route::middleware('auth')->group(function () {
                 Route::get('/{id}/join', [GameController::class, 'join'])->middleware('auth')->name('join');
+            });
+
+            //game page
+            Route::group(['as' => 'page.', 'prefix' => '/page', 'middleware' => ['auth', 'completeProfile']], function () {
+                Route::get('/{game}/{opponent}', [GamePageController::class, 'index'])->name('index');
             });
         });
 
@@ -105,7 +111,6 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
     Route::get('/tickets', [TestController::class, 'index'])->name('tickets.index');
     Route::get('/teams/{team}', [TestController::class, 'index'])->name('teams.show');
     Route::get('/tickets', [TestController::class, 'index'])->name('tickets.index');
-    Route::get('/gamepage/{game_id}/{opponent_id}', [TestController::class, 'index'])->name('select_opponent');
 
     Route::get('/prizes', [TestController::class, 'index'])->name('prizes');
 

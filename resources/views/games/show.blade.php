@@ -58,7 +58,7 @@
                                     @auth
                                         <td>
                                             @if($user->id != auth()->user()?->id )
-                                                <a href="{{ route('select_opponent', ['game_id'=>$game->id, 'opponent_id'=>$user->id]) }}"
+                                                <a href="{{ route('games.page.index', ['game'=>$game->id, 'opponent'=>$user->id]) }}"
                                                    class="invitation">{{ __('words.invitation') }}</a>
                                             @endif
                                         </td>
