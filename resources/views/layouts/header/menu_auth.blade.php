@@ -344,7 +344,7 @@
         <div class="text-center">
             <a
                 class="mt-1"
-                href="{{ route('logout') }}"
+                href="{{ route('auth.logout') }}"
                 title="{{ __('words.Logout') }}"
                 style="padding: 7px;"
             >

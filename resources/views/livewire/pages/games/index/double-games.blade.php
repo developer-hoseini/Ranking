@@ -22,7 +22,7 @@
 
                 {{-- TODO: add route --}}
                 @php
-                    $routeHref = auth() ? route('')
+                    // $routeHref = auth() ? route('')
                 @endphp
 
                 <a

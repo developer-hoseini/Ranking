@@ -27,7 +27,9 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
 
     Route::prefix('auth')->name('auth.')->group(function () {
-        Route::get('/login', [AuthController::class, 'login'])->name('login');
+        Route::get('/login', [AuthController::class, 'showLogin'])->name('show-login');
+        Route::Post('/login', [AuthController::class, 'login'])->name('login');
+        Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     });
 
     /* Start Pages */
@@ -96,7 +98,6 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
     Route::view('/tutorial', [TestController::class, 'index'])->name('tutorial');
     Route::get('/editprofile', [TestController::class, 'index'])->name('edit_profile');
     Route::get('/set_qrcode', [TestController::class, 'index'])->name('set_qrcode');
-    Route::get('/logout', [TestController::class, 'index'])->name('logout');
     Route::get('/charge', [TestController::class, 'index'])->name('charge');
     Route::get('/my_tournament', [TestController::class, 'index'])->name('my_tournament.index');
     Route::get('/my_teams', [TestController::class, 'index'])->name('my_teams');

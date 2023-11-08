@@ -194,7 +194,7 @@
             </div>
             <form
                 method="POST"
-                action=""
+                action="{{ route('auth.login', ['callback' => request()->path()]) }}"
             >
                 @csrf
                 <div class="login-menu-item mt-2">
@@ -204,11 +204,10 @@
                     ></i>
                     <input
                         class="login-menu-input"
-                        name="username"
+                        name="avatar-name"
                         type="text"
                         style="width: 82%;filter: none;"
-                        placeholder="{{ __('words.Username') }}"
-                        oninput="setCustomValidity('')"
+                        placeholder="Avatar name"
                     >
                 </div>
                 <div class="login-menu-item mt-2">
@@ -222,7 +221,6 @@
                         type="password"
                         style="width: 82%;filter: none;"
                         placeholder="******"
-                        oninput="setCustomValidity('')"
                     >
                 </div>
                 <button
