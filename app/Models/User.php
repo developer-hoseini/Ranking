@@ -211,6 +211,14 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia
 
     }
 
+    public function scopeSearchProfileAvatarNameScope(Builder $builder, $search): Builder
+    {
+        return $builder->whereHas('profile', function (Builder $query) use ($search) {
+            $query->where('avatar_name', 'like', '%'.$search.'%');
+        });
+
+    }
+
     protected function avatar(): Attribute
     {
         return Attribute::make(

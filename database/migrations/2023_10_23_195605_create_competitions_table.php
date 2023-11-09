@@ -18,7 +18,7 @@ return new class extends Migration
             $table->text('description')->nullable();
 
             $table->foreignId('game_id')->constrained();
-            $table->foreignId('state_id')->constrained();
+            $table->foreignId('state_id')->nullable()->constrained();
             $table->foreignId('status_id')->constrained();
             $table->foreignId('created_by_user_id')->nullable()->constrained('users', 'id');
 

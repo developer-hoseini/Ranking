@@ -44,7 +44,7 @@
             </div>
             <a
                 class="text-decoration-none d-inline-block mx-1"
-                href="{{ route('quick_submit') }}"
+                href="{{ route('game-results.quick-submit') }}"
                 title="{{ __('words.quick_submit_result') }}"
             >
                 <img

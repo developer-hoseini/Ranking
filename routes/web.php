@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestController;
 use App\Livewire\Pages\Cups\ShowCup;
+use App\Livewire\Pages\GameResults\QuickSubmit;
 use App\Livewire\Pages\Games;
 use App\Livewire\Pages\Profile\CompleteProfile;
 use App\Livewire\Pages\Ranks;
@@ -94,6 +95,14 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::post('/competitions', [ProfileController::class, 'competitions'])->name('competitions');
             Route::get('/team/certificates', [ProfileController::class, 'teamCertificates'])->name('team.certificates');
             Route::get('/{user}', [ProfileController::class, 'show'])->name('show')->where('contact', '[0-9]+');
+
+        });
+
+        //game-results
+        Route::group(['prefix' => '/game-results', 'as' => 'game-results.'], function () {
+            Route::middleware('auth')->group(function () {
+                Route::get('/quick-submit', QuickSubmit::class)->name('quick-submit');
+            });
 
         });
 
