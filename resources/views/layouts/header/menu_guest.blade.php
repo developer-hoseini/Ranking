@@ -324,6 +324,35 @@
                         menu_list.hide();
                     }
                 });
+
+                setTimeout(function() {
+                    $('.menu-nav-btns').animate({
+                        'bottom': 0
+                    }, 300, function() {
+                        $('#menu-nav-c-btn-1').animate({
+                            'right': 0
+                        }, 400);
+                        $('#menu-nav-c-btn-2').animate({
+                            'right': 0
+                        }, 400);
+                        $('#menu-nav-c-btn-4').animate({
+                            'left': 0
+                        }, 400);
+                        $('#menu-nav-c-btn-5').animate({
+                            'left': 0
+                        }, 400, function() {
+                            $('.responsive-logo').animate({
+                                'opacity': 1
+                            }, 400);
+                        });
+                    });
+
+                }, 200);
+
+
+                $("[rel=tooltip]").tooltip({
+                    placement: 'left'
+                });
             })
         </script>
     @endpush
