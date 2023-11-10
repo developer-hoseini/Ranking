@@ -13,7 +13,7 @@ return [
     'your_sent_list_is_full' => 'You can send up to :sent_max invitations.',
     'you_already_sent' => 'You already sent invite to this player; Wait until the final result...',
     'days_not_take_or_latest_played_not_enough' => ':days_count days or :played_count plays must take at least to send invite for this player.',
-    'username_not_found' => 'Username not found!',
+    'username_not_found' => 'User not found!',
     'invite_not_for_you' => 'It seems that the invite is not for you!',
     'invite_accepted' => 'Invite accepted.',
     'you_already_accepted' => 'You already accepted the invite.',

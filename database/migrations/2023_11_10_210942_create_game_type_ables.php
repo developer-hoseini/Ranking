@@ -6,22 +6,17 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::create('game_game_type', function (Blueprint $table) {
-            $table->foreignId('game_id')->constrained();
+        Schema::create('game_type_ables', function (Blueprint $table) {
+            $table->id();
+            $table->morphs('game_type_able');
             $table->foreignId('game_type_id')->constrained();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('game_game_type');
+        Schema::dropIfExists('game_type_ables');
     }
 };

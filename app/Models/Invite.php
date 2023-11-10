@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -67,9 +68,9 @@ class Invite extends Model
         return $this->belongsTo(Game::class);
     }
 
-    public function gameType(): BelongsTo
+    public function gameType(): MorphMany
     {
-        return $this->belongsTo(GameType::class);
+        return $this->morphMany(GameType::class, 'game_type_able');
     }
 
     public function inviterUser(): BelongsTo

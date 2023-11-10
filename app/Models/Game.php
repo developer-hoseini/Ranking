@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Staudenmeir\EloquentHasManyDeep\HasManyDeep;
 
@@ -91,12 +90,12 @@ class Game extends Model
         return $this->hasMany(Invite::class, 'game_id');
     }
 
-    public function gameTypes(): BelongsToMany
+    public function gameTypes(): \Illuminate\Database\Eloquent\Relations\MorphToMany
     {
-        return $this->belongsToMany(GameType::class);
+        return $this->morphToMany(GameType::class, 'game_type_able');
     }
 
-    public function onlineGames()
+    public function onlineGames(): HasMany
     {
         return $this->hasMany(OnlineGame::class);
     }
@@ -108,7 +107,7 @@ class Game extends Model
 
     public function scopeGameTypeScope(Builder $query, string $type): Builder
     {
-        return $query->whereHas('gameTypes', fn ($q) => $q->where('name', $type));
+        return $query->whereRelation('gameTypes', 'name', $type);
     }
 
     protected function cover(): Attribute

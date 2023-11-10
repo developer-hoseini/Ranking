@@ -77,7 +77,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             //game page
             Route::group(['as' => 'page.', 'prefix' => '/page', 'middleware' => ['auth', 'completeProfile']], function () {
                 Route::get('/{game}/{opponent?}', [GamePageController::class, 'index'])->name('index');
-                Route::post('/invite', [GamePageController::class, 'invite'])->name('invite');
+                Route::post('/invite/{game}', [GamePageController::class, 'invite'])->name('invite');
             });
         });
 

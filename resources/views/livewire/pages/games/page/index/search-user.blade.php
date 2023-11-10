@@ -1,4 +1,4 @@
-<form method="post" action="{{ route('games.page.invite') }}" x-data="{
+<form method="post" action="{{ route('games.page.invite',['game'=> $game->id]) }}" x-data="{
              inClubSelect:false,
              withRefereeSelect:false,
              freeGameSelect:true,
@@ -94,7 +94,7 @@
                 <div class="custom-control custom-checkbox">
                     <button type="button" class="btn-tooltip" rel="tooltip"
                             title="{{__('words.with_image_tick')}}"></button>
-                    <input type="checkbox" name="withRefereeSelect" class="custom-control-input"
+                    <input type="checkbox" name="with_image" class="custom-control-input"
                            id="with-referee"
                            x-model="withRefereeSelect">
                     <label class="custom-control-label lbl-withreferee"
@@ -128,6 +128,7 @@
     </div>
 
     @if($opponent)
+        <input type="hidden" name="userId" value="{{$opponent->id}}">
         <div class="userinfo-part" style="width: 30%">
             <img src="{{$opponent?->avatar}}" class="user_photo userinfo_img" width="130">
             <div class="userinfo_info">

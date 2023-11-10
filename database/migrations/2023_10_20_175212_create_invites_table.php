@@ -16,7 +16,6 @@ return new class extends Migration
             $table->foreignId('inviter_user_id')->constrained('users', 'id');
             $table->foreignId('invited_user_id')->constrained('users', 'id');
             $table->foreignId('game_id')->constrained();
-            $table->foreignId('game_type_id')->nullable()->constrained();
             $table->foreignId('club_id')->nullable()->constrained();
             $table->foreignId('game_status_id')->nullable()->constrained('statuses', 'id');
             $table->foreignId('confirm_status_id')->nullable()->constrained('statuses', 'id');

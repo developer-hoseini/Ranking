@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Enums\StatusEnum;
+use App\Http\Requests\GamePageInviteRequest;
 use App\Models\Competition;
+use App\Models\Event;
 use App\Models\Game;
 use App\Models\Invite;
 use App\Models\User;
 use Auth;
-use Carbon\Carbon;
 use DB;
 use File;
 use Illuminate\Http\Request;
@@ -312,144 +313,36 @@ class GamePageController extends Controller
         }
     }
 
-    public function invite(Request $request)
+    public function invite(GamePageInviteRequest $request, Game $game): \Illuminate\Http\RedirectResponse
     {
-        $status = config('status');
-        $setting = config('setting');
 
-        $validatedData = $request->validate([
-            'username' => 'required',
-            'club' => 'required_if:in_club,1',
-        ]);
-
-        $game_id = $request->input('game_id');
-
-        $invited_id = \App\User::whereHas('scores', function ($query) use ($game_id) {
-            $query->where(['game_id' => $game_id, 'is_join' => config('status.Yes')]);
-        })->where([
-            ['username', '=', $request->input('username')],
-            ['id', '!=', Auth::user()->id],
-            ['status', config('status.Active')],
-        ])->first('id')['id'];
-
-        // username not found
-        if (! $invited_id) {
-            $request->session()->flash('message', __('message.username_not_found'));
-            $request->session()->flash('alert-class', 'alert-danger');
-
-            return redirect()->route('gamepage', ['game_id' => $game_id]);
-        }
-
-        // club not found
-        if ($request->input('club')) {
-            $club_count = \App\Club::where('id', $request->input('club'))->count();
-            if (! $club_count) {
-                return redirect()->route('gamepage', ['game_id' => $game_id]);
-            }
-        }
-
-        // **** Received list of opponent is full? ****
-        $received_count = \App\Invite::where([
-            'invited_id' => $invited_id,
-            'game_id' => $game_id,
-            'status' => $status['Pending'],
-        ])->count();
-
-        if ($received_count >= $setting['max_received']) {
-            $request->session()->flash('message', __('message.received_list_of_opponent_is_full'));
-            $request->session()->flash('alert-class', 'alert-danger');
-
-            return redirect()->route('gamepage', ['game_id' => $game_id]);
-        }
-
-        $user_id = Auth::user()->id;
-
-        // **** Sent list is full? ****
-        $sent_count = \App\Invite::where([
-            'inviter_id' => $user_id,
-            'game_id' => $game_id,
-            'status' => $status['Pending'],
-        ])->count();
-
-        if ($sent_count >= $setting['max_sent']) {
-            $request->session()->flash('message', __('message.your_sent_list_is_full', ['sent_max' => $setting['max_sent']]));
-            $request->session()->flash('alert-class', 'alert-danger');
-
-            return redirect()->route('gamepage', ['game_id' => $game_id]);
-        }
-
-        // **** Already Sent ****
-        $already_send = \App\Invite::where(function ($query) use ($invited_id, $user_id) {
-            $query->where(['inviter_id' => $user_id, 'invited_id' => $invited_id])
-                ->orWhereRaw('invited_id=? AND inviter_id=?', [$user_id, $invited_id]);
-        })->where('game_id', $game_id)
-            ->whereIn('status',
-                [$status['Pending'], $status['Accepted'],
-                    $status['Wait_Image_Verify'], $status['Wait_Club_Verify'],
-                ])->count();
-
-        if ($already_send > 0) {
-            $request->session()->flash('message', __('message.you_already_sent'));
-            $request->session()->flash('alert-class', 'alert-danger');
-
-            return redirect()->route('gamepage', ['game_id' => $game_id]);
-        }
-
-        // **** No Repeat ****
-
-        if (! $request->input('club')) {
-            // Have you played with this player in days ago?
-            $last_send = DB::select('select count(*) as cnt from invite where dt > :dt and ((inviter_id = :user and invited_id = :opponent) or (invited_id = :userr and inviter_id = :opponentt)) and (game_id = :game_id and status = :status)', [
-                ':dt' => Carbon::now()->subDays($setting['no_repeat_days']),
-                ':user' => $user_id, ':opponent' => $invited_id, ':userr' => $user_id, ':opponentt' => $invited_id,
-                ':game_id' => $game_id, ':status' => $status['End_True'],
-            ])[0]->cnt;
-
-            if ($last_send > 0) { // Yes
-                // Do you enough played in days ago to play again with this player?
-                $last_played = \App\Invite::where(function ($query) use ($user_id) {
-                    $query->where('inviter_id', $user_id)
-                        ->orWhere('invited_id', $user_id);
-                })->where(['game_id' => $game_id, 'status' => $status['End_True']])
-                    ->orderBy('id', 'desc')->take($setting['no_repeat_played'])->get(['inviter_id', 'invited_id']);
-
-                if ($last_played->contains('inviter_id', $invited_id) ||
-                    $last_played->contains('invited_id', $invited_id)) { // No
-                    $request->session()->flash('message', __('message.days_not_take_or_latest_played_not_enough', ['days_count' => $setting['no_repeat_days'],
-                        'played_count' => $setting['no_repeat_played']]));
-                    $request->session()->flash('alert-class', 'alert-danger');
-
-                    return redirect()->route('gamepage', ['game_id' => $game_id]);
-                }
-            }
-        }
+        dd($request->all());
 
         // **** Save ****
-        $game_type = '';
+        $gameType = [];
 
-        if ($request->input('in_club')) {
-            $game_type = $status['In_Club'];
+        if ($request->input('in_club', false)) {
+            $gameType[] = StatusEnum::IN_CLUB->value;
         }
 
-        if ($request->input('with_image')) {
-            $game_type = $game_type.','.$status['With_Image'];
+        if ($request->input('with_image', false)) {
+            $gameType[] = StatusEnum::WITH_IMAGE->value;
         }
 
-        $invite = \App\Invite::create([
-            'inviter_id' => $user_id,
-            'invited_id' => $invited_id,
-            'game_id' => $game_id,
-            'game_type' => $game_type,
+        $invite = Invite::create([
+            'inviter_user_id' => auth()->id(),
+            'invited_user_id' => $request->input('userId'),
+            'game_id' => $game->id,
+            'game_type_id' => $game_type,
             'club_id' => $request->input('club'),
         ]);
 
-        \App\Event::create([
-            'user_id' => $invited_id,
+        Event::create([
+            'user_id' => $request->input('userId'),
             'invite_id' => $invite->id,
             'type' => config('event.Info'),
             'reason' => config('reason.Invite_Received'),
-            'dt' => date('Y-m-d H:i:s', time()),
-            'seen' => $status['No'],
+            'seen' => 0,
         ]);
 
         // SMS

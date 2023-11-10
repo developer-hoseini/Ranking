@@ -55,18 +55,21 @@ class FakeDataSeeder extends Seeder
         $dataCollect = collect([]);
         foreach ($games as $game) {
             $dataCollect->push([
-                'game_id' => $game->id,
+                'game_type_able_type' => Game::class,
+                'game_type_able_id' => $game->id,
                 'game_type_id' => $gameTypes->shuffle()->first()->id,
             ]);
 
             $dataCollect->push([
-                'game_id' => $game->id,
+                'game_type_able_type' => Game::class,
+                'game_type_able_id' => $game->id,
                 'game_type_id' => $gameTypes->shuffle()->first()->id,
             ]);
         }
 
-        DB::table('game_game_type')->upsert($dataCollect->toArray(), [
-            'game_id',
+        DB::table('game_type_ables')->upsert($dataCollect->toArray(), [
+            'game_type_able_type',
+            'game_type_able_id',
             'game_type_id',
         ]);
 
