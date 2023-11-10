@@ -14,7 +14,7 @@ class SearchUser extends Component
 
     public string $username = '';
 
-    public $users;
+    public $usersResult;
 
     public $usersRandom;
 
@@ -31,10 +31,20 @@ class SearchUser extends Component
                 ->take(config('setting.random_users'))->get();
     }
 
+    public function selectUser(User $opponent)
+    {
+        $this->opponent = $opponent;
+        $this->usersRandom = collect([]);
+        $this->usersResult = collect([]);
+        $this->username = '';
+    }
+
     public function updatedUsername($username)
     {
         $this->usersRandom = collect([]);
-        $this->users = User::searchUsername($username)
+        $this->usersResult = User::searchUsername($username)
+            ->with('profile')
+            ->withSum('scoreAchievements', 'count')
             ->active()
             ->whereHas('competitions', fn ($q) => $q->where('game_id', $this->game?->id))
             ->whereNot('id', auth()?->id())

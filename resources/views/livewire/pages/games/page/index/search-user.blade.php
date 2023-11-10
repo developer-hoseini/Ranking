@@ -60,15 +60,18 @@
                         </ul>
                     </div>
                 @endif
-                {{--
-                                                <div v-if="user_results.length > 0" class="list-group user-results">
-                                                    <button type="button" v-for="user in user_results" @click="select_user(user)"
-                                                            :class="{'line_over' : user.scores.length==0}"
-                                                            class="list-group-item list-group-item-action result">
-                                                        <img :src="user.photo" class="user_photo" width="50">
-                                                        {{ user.username + ' (' + user.profile.fullname + ')' }}
-                                                    </button>
-                                                </div>--}}
+
+                @if($usersResult)
+                    <div class="list-group user-results">
+                        @foreach($usersResult as $userResult)
+                            <button type="button" wire:click="selectUser({{$userResult?->id}})"
+                                    class="list-group-item list-group-item-action result {{$userResult->score_achievements_sum_count==0?'line_over':''}}">
+                                <img src="{{$userResult?->avatar}}" class="user_photo" width="50">
+                                {{ $userResult->username . ' (' . $userResult?->profile?->fullname . ')'.$userResult->score_achievements_sum_count }}
+                            </button>
+                        @endforeach
+                    </div>
+                @endif
 
                 <span class="loading" wire:loading="username"></span>
             </div>

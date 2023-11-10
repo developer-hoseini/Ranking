@@ -155,48 +155,6 @@ class GamePageController extends Controller
         }
     }
 
-    public function search_user(Request $request)
-    {
-        if ($request->ajax()) {
-            $fullname_fa = str_replace('ي', 'ی', str_replace('ك', 'ک', $request->get('username')));
-            $fullname_ar = str_replace('ی', 'ي', str_replace('ک', 'ك', $request->get('username')));
-            $game_id = $request->get('game_id');
-
-            if (! empty($fullname_fa)) {
-                $data = \App\User::with(['profile', 'scores' => function ($query) use ($game_id) {
-                    $query->where(['game_id' => $game_id, 'is_join' => config('status.Yes')]);
-                }])
-                    ->whereHas('profile', function ($query) use ($fullname_fa, $fullname_ar) {
-                        $query->where(DB::raw('CONCAT(fname," ",lname)'), 'LIKE', '%'.$fullname_fa.'%')
-                            ->orWhere(DB::raw('CONCAT(fname," ",lname)'), 'LIKE', '%'.$fullname_ar.'%');
-                    })
-                    ->orWhere([
-                        ['username', 'LIKE', '%'.$fullname_fa.'%'],
-                    ])
-                    ->where([
-                        ['id', '!=', Auth::user()->id],
-                        ['status', config('status.Active')],
-                    ])->get();
-            } else {
-                $data = '';
-            }
-
-            return response()->json($data);
-        }
-    }
-
-    public function select_user(Request $request)
-    {
-        if ($request->ajax()) {
-            $user_id = $request->get('user_id');
-            $game_id = $request->get('game_id');
-
-            $data = \App\User_Score::where(['user_id' => $user_id, 'game_id' => $game_id])->first();
-
-            return response()->json($data);
-        }
-    }
-
     public function check_gamepage_invites(Request $request)
     {
         if ($request->ajax()) {
