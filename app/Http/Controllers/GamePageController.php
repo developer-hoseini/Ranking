@@ -124,37 +124,6 @@ class GamePageController extends Controller
         ]);
     }
 
-    public function get_country(Request $request)
-    {
-        if ($request->ajax()) {
-            $data = \App\Country::whereHas('state', function ($query) {
-                $query->whereHas('clubs');
-            })->get();
-
-            return response()->json($data);
-        }
-    }
-
-    public function get_states(Request $request)
-    {
-        if ($request->ajax()) {
-            $data = \App\State::whereHas('clubs')
-                ->where('country_id', $request->get('country_id'))->orderBy('name', 'asc')->get();
-
-            return response()->json($data);
-        }
-    }
-
-    public function get_clubs(Request $request)
-    {
-        if ($request->ajax()) {
-            $data = DB::table('club')
-                ->where(['state_id' => $request->state_id, 'active' => config('status.Yes')])->orderBy('sort')->get();
-
-            return response()->json($data);
-        }
-    }
-
     public function check_gamepage_invites(Request $request)
     {
         if ($request->ajax()) {
