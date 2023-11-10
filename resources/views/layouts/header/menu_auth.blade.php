@@ -21,7 +21,9 @@
 @endphp --}}
 
 @php
-    $authUser = auth()->user()->loadSum('coinAchievements', 'count');
+    $authUser = auth()
+        ->user()
+        ->loadSum('coinAchievements', 'count');
 @endphp
 
 @php($eventsCount = 0)
@@ -34,13 +36,30 @@
                 title="{{ __('words.menu') }}"
                 onclick="menu_item();"
             >
-                {{-- @if ($chats_count > 0 || $unconfirmed_quick_submitted > 0 || $team_invites_count > 0 || $support_new_ticket > 0 || $tournament_invite > 0)
-                     <img src="{{ url('assets/img/menu/notify/menu.png') }}" height="32px" class="menu-white-icons">
-                     <img src="{{ url('assets/img/menu/notify/menu-dark.png') }}" height="32px" class="menu-dark-icons">
-                 @else
-                     <img src="{{ url('assets/img/menu/menu.png') }}" height="32px" class="menu-white-icons">
-                     <img src="{{ url('assets/img/menu/menu-dark.png') }}" height="32px" class="menu-dark-icons">
-                 @endif --}}
+                {{-- TODO: add notification badge --}}
+                {{-- @if ($chats_count > 0 || $unconfirmed_quick_submitted > 0 || $team_invites_count > 0 || $support_new_ticket > 0 || $tournament_invite > 0) --}}
+                {{-- <img
+                    class="menu-white-icons"
+                    src="{{ url('assets/img/menu/notify/menu.png') }}"
+                    height="32px"
+                >
+                <img
+                    class="menu-dark-icons"
+                    src="{{ url('assets/img/menu/notify/menu-dark.png') }}"
+                    height="32px"
+                > --}}
+                {{-- @else --}}
+                <img
+                    class="menu-white-icons"
+                    src="{{ url('assets/img/menu/menu.png') }}"
+                    height="32px"
+                >
+                <img
+                    class="menu-dark-icons"
+                    src="{{ url('assets/img/menu/menu-dark.png') }}"
+                    height="32px"
+                >
+                {{-- @endif --}}
             </div>
             <a
                 class="text-decoration-none d-inline-block mx-1"
@@ -175,11 +194,19 @@
             style="text-decoration: none;"
         >
             <div class="menu-list-item text-center">
-                {{-- @if ($unconfirmed_quick_submitted > 0)
-                    <img src="{{ url('assets/img/menu/notify/result_submit.png') }}" width="45px" class="mt-1">
-                @else
-                    <img src="{{ url('assets/img/menu/result_submit.png') }}" width="45px" class="mt-1">
-                @endif --}}
+                {{-- @if ($unconfirmed_quick_submitted > 0) --}}
+                <img
+                    class="mt-1"
+                    src="{{ url('assets/img/menu/notify/result_submit.png') }}"
+                    width="45px"
+                >
+                {{-- @else --}}
+                {{-- <img
+                    class="mt-1"
+                    src="{{ url('assets/img/menu/result_submit.png') }}"
+                    width="45px"
+                > --}}
+                {{-- @endif --}}
                 <div class="text-dark mt-1">{{ __('words.submitted_results') }}</div>
             </div>
         </a>
@@ -280,6 +307,7 @@
         </a>
     </div>
 </div>
+
 <div
     class="menu-list"
     id="profile-item"
@@ -353,6 +381,7 @@
         </div>
     </div>
 </div>
+
 <div
     class="menu-list"
     id="coin-item"
@@ -424,8 +453,8 @@
 
 @push('scripts')
     <script type="text/javascript">
-        $(document).ready(function () {
-            $(document).scroll(function () {
+        $(document).ready(function() {
+            $(document).scroll(function() {
                 scrollfun()
             });
         });
@@ -456,8 +485,8 @@
             $('#coin-item').toggle();
         }
 
-        $('document').ready(function () {
-            $(document).mouseup(function (e) {
+        $('document').ready(function() {
+            $(document).mouseup(function(e) {
                 var menu_list_box = $(".menu-list-box");
                 var menu_toggler_btn = $(".menu-toggler-btn");
                 var menu_list = $(".menu-list");
