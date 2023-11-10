@@ -75,12 +75,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             //game page
             Route::group(['as' => 'page.', 'prefix' => '/page', 'middleware' => ['auth', 'completeProfile']], function () {
                 Route::get('/{game}/{opponent?}', [GamePageController::class, 'index'])->name('index');
-                Route::post('/invite', 'GamePageController@invite')->name('invite');
-                Route::post('/get/clubs', 'GamePageController@get_clubs')->name('get-clubs');
-                Route::post('/search/user', 'GamePageController@search_user')->name('search-user');
-                Route::post('/select/user', 'GamePageController@select_user')->name('select-user');
-                Route::post('/get_country', 'GamePageController@get_country')->name('get-clubs-country');
-                Route::post('/get_states', 'GamePageController@get_states')->name('get-clubs-states');
+                Route::post('/invite', [GamePageController::class, 'invite'])->name('invite');
             });
         });
 

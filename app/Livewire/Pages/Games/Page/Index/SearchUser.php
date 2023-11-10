@@ -2,7 +2,10 @@
 
 namespace App\Livewire\Pages\Games\Page\Index;
 
+use App\Models\Club;
+use App\Models\Country;
 use App\Models\Game;
+use App\Models\State;
 use App\Models\User;
 use Livewire\Component;
 
@@ -10,18 +13,30 @@ class SearchUser extends Component
 {
     public Game $game;
 
-    public ?User $opponent;
+    public ?User $opponent = null;
 
     public string $username = '';
 
-    public $usersResult;
+    public $usersResult = [];
 
-    public $usersRandom;
+    public $usersRandom = [];
 
-    public function mount(Game $game, $opponent = null)
+    public $countries = [];
+
+    public $clubs = [];
+
+    public $states = [];
+
+    public $countryId = '';
+
+    public $stateId = '';
+
+    public function mount(Game $game, $opponent = null): void
     {
         $this->game = $game;
+
         $this->opponent = $opponent?->loadSum('scoreAchievements', 'count');
+
         $this->usersRandom = $opponent?->id ? collect([]) :
             User::active()
                 ->whereHas('competitions', fn ($q) => $q->where('game_id', $game?->id))
@@ -29,9 +44,14 @@ class SearchUser extends Component
                 ->inRandomOrder()
                 ->whereNot('id', auth()->id())
                 ->take(config('setting.random_users'))->get();
+
+        $this->countries = Country::select(['id', 'name'])
+            ->whereHas('states', fn ($q) => $q->whereHas('clubs', fn ($q2) => $q2->where('active', true)))
+            ->get()
+            ->toArray();
     }
 
-    public function selectUser(User $opponent)
+    public function selectUser(User $opponent): void
     {
         $this->opponent = $opponent->loadSum('scoreAchievements', 'count');
         $this->usersRandom = collect([]);
@@ -39,7 +59,7 @@ class SearchUser extends Component
         $this->username = '';
     }
 
-    public function updatedUsername($username)
+    public function updatedUsername($username): void
     {
         $this->opponent = null;
         $this->usersRandom = collect([]);
@@ -52,7 +72,33 @@ class SearchUser extends Component
             ->get();
     }
 
-    public function render()
+    public function updatedCountryId($countryId): void
+    {
+        if ($countryId) {
+            $this->states = State::select(['id', 'name'])
+                ->whereHas('clubs', static fn ($q) => $q->where('active', true))
+                ->where('country_id', $countryId)
+                ->orderBy('name')
+                ->get()
+                ->toArray();
+            $this->stateId = '';
+            $this->clubs = [];
+        }
+    }
+
+    public function updatedStateId($stateId): void
+    {
+        if ($stateId) {
+            $this->clubs = Club::select(['id', 'name'])
+                ->where('active', true)
+                ->where('state_id', $stateId)
+                ->orderBy('sort')
+                ->get()
+                ->toArray();
+        }
+    }
+
+    public function render(): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
         return view('livewire.pages.games.page.index.search-user', [
             'usersRandom' => $this->username ?: [],
