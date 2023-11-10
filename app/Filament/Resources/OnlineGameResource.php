@@ -17,7 +17,7 @@ class OnlineGameResource extends Resource
 {
     protected static ?string $model = OnlineGame::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-wifi';
 
     public static function form(Form $form): Form
     {

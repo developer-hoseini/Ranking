@@ -20,7 +20,7 @@ class GameResultResource extends Resource
 {
     protected static ?string $model = GameResult::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-flag';
 
     public static function form(Form $form): Form
     {
