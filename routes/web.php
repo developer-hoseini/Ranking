@@ -16,6 +16,7 @@ use App\Livewire\Pages\Rules;
 use App\Livewire\Pages\Tournaments;
 use App\Livewire\Pages\Tournaments\RegisterTournaments;
 use App\Livewire\Pages\Tournaments\ShowTournaments;
+use App\Livewire\Pages\Tutorial;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -113,6 +114,9 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
         //rules
         Route::get('/rules', Rules::class)->name('rules');
 
+        //rules
+        Route::get('/tutorial', Tutorial::class)->name('tutorial');
+
     });
     /* End Pages */
 
@@ -129,7 +133,6 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
     Route::get('/events', [TestController::class, 'index'])->name('events');
     Route::get('/quick_submitted_list', [TestController::class, 'index'])->name('quick_submitted_list');
     Route::get('/team_ranks', [TestController::class, 'index'])->middleware('auth')->name('team_ranks');
-    Route::view('/tutorial', [TestController::class, 'index'])->name('tutorial');
     Route::get('/set_qrcode', [TestController::class, 'index'])->name('set_qrcode');
     Route::get('/charge', [TestController::class, 'index'])->name('charge');
     Route::get('/my_tournament', [TestController::class, 'index'])->name('my_tournament.index');
