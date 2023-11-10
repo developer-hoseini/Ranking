@@ -6,6 +6,14 @@ use Illuminate\Support\Collection;
 
 trait BaseEnum
 {
+    public static function getSelectBoxFilamentItems(): Collection
+    {
+        return collect(self::cases())
+            ->flatMap(function ($item) {
+                return [$item->getLabel() => $item->value];
+            });
+    }
+
     public static function getSelectBoxTransformItems(): Collection
     {
         return collect(self::cases())

@@ -397,7 +397,7 @@
             </a>
             <div class="font-weight-bold mt-3">
                 {{ __('words.cash:') }}
-                {{ $authUser->achievements()->where('type', \App\Enums\AchievementTypeEnum::COIN->value)->sum('count') }}
+                {{ $authUser->sumCoinAchievements }}
                 {{ __('words.Coin') }}
             </div>
         </div>
@@ -406,7 +406,7 @@
             style="display: flex;width: 100%; border-top: solid 1px #bbb;"
         >
             <a
-                href="https://ranking.metagamescoin.io/forms/?page_id=130"
+                href="{{ route('mgc-coin.index', ['type' => 'buy']) }}"
                 style="text-decoration: none;margin: 0 auto;"
             >
                 <div class="menu-list-item text-center">
@@ -419,7 +419,7 @@
                 </div>
             </a>
             <a
-                href="https://ranking.metagamescoin.io/forms/?page_id=140"
+                href="{{ route('mgc-coin.index', ['type' => 'sell']) }}"
                 style="text-decoration: none;margin: 0 auto;"
             >
                 <div class="menu-list-item text-center">

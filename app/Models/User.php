@@ -5,6 +5,8 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Enums\AchievementTypeEnum;
+use App\Enums\CoinRequestTypeEnum;
+use App\Enums\StatusEnum;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;
 use Filament\Panel;
@@ -183,6 +185,11 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia
         return $this->morphMany(Achievement::class, 'achievementable')->where('type', AchievementTypeEnum::COIN->value);
     }
 
+    public function coinRequestes(): HasMany
+    {
+        return $this->hasMany(CoinRequest::class, 'created_by_user_id');
+    }
+
     //for panel
     public function canAccessPanel(Panel $panel): bool
     {
@@ -241,6 +248,24 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia
                 $isComplete = $this->profile?->avatar_name ? true : false;
 
                 return $isComplete;
+            }
+        );
+    }
+
+    protected function sumCoinAchievements(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                $count = $this->achievements()
+                    ->where('type', AchievementTypeEnum::COIN->value)
+                    ->sum('count');
+
+                $coinRequestedPending = $this->coinRequestes()
+                    ->where('type', CoinRequestTypeEnum::SELL->value)
+                    ->where('status_id', Status::nameScope(StatusEnum::PENDING->value)->first()->id)
+                    ->sum('count');
+
+                return $count - $coinRequestedPending;
             }
         );
     }

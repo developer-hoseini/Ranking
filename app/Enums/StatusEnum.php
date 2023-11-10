@@ -36,6 +36,7 @@ enum StatusEnum: string
     case ACHIEVEMENT_APPROVE = 'achievement_approve';
     case ACHIEVEMENT_SIGNUP = 'achievement_signup';
     case ACHIEVEMENT_COMPLETE_PROFILE = 'achievement_complete-profile';
+    case ACHIEVEMENT_BUY_OR_SELL_COIN = 'achievement_buy-or-sell-coin';
     case COMPETITION_TOURNAMENT = 'competition_tournament';
     case COMPETITION_ONE_PLAYER = 'competition_one-player';
     case COMPETITION_TWO_PLAYERS = 'competition_two-players';

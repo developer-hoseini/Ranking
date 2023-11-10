@@ -16,6 +16,6 @@ class Authenticate extends Middleware
             return null;
         }
 
-        return route('auth.login', ['callback' => $request->path()]);
+        return route('auth.login', ['callback' => $request->getRequestUri()]);
     }
 }

@@ -9,6 +9,7 @@ use App\Http\Controllers\TestController;
 use App\Livewire\Pages\Cups\ShowCup;
 use App\Livewire\Pages\GameResults\QuickSubmit;
 use App\Livewire\Pages\Games;
+use App\Livewire\Pages\MgcCoin;
 use App\Livewire\Pages\Profile\CompleteProfile;
 use App\Livewire\Pages\Ranks;
 use App\Livewire\Pages\Tournaments;
@@ -102,6 +103,13 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
         Route::group(['prefix' => '/game-results', 'as' => 'game-results.'], function () {
             Route::middleware('auth')->group(function () {
                 Route::get('/quick-submit', QuickSubmit::class)->name('quick-submit');
+            });
+
+        });
+
+        Route::group(['prefix' => '/mgc-coin', 'as' => 'mgc-coin.'], function () {
+            Route::middleware('auth')->group(function () {
+                Route::get('/', MgcCoin::class)->name('index');
             });
 
         });

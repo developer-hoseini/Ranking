@@ -57,12 +57,5 @@ class State extends Model
         return $this->hasMany(Competition::class, 'state_id');
     }
 
-    protected function isAccepted(): Attribute
-    {
-        return Attribute::make(
-            get: function () {
-                return $this->name == StatusEnum::ACCEPTED->value;
-            }
-        );
-    }
+    
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\StatusEnum;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -50,6 +51,17 @@ class Status extends Model
         return $builder;
     }
 
+    public function scopeNameScope(Builder $builder, ?string $name)
+    {
+        $name = StatusEnum::tryFrom($name)?->value;
+
+        if (! $name) {
+            return $builder;
+        }
+
+        return $builder->where('name', StatusEnum::tryFrom($name)?->value);
+    }
+
     protected function nameWithoutModelPrefix(): Attribute
     {
         return Attribute::make(
@@ -61,6 +73,15 @@ class Status extends Model
                     default => $this->name,
                 };
             },
+        );
+    }
+
+    protected function isAccepted(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                return $this->name == StatusEnum::ACCEPTED->value;
+            }
         );
     }
 }
