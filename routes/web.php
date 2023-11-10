@@ -114,21 +114,6 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
 
     //game
 
-    //profile
-    Route::group(['prefix' => '/profile', 'as' => 'profile.'], function () {
-
-        Route::middleware('auth')->group(function () {
-            Route::get('/complete-profile', CompleteProfile::class)->name('complete-profile');
-        });
-
-        Route::post('/like', [ProfileController::class, 'like'])->name('like');
-        Route::post('/report', [ProfileController::class, 'report'])->name('report');
-        Route::post('/competitions', [ProfileController::class, 'competitions'])->name('competitions');
-        Route::get('/team/certificates', [ProfileController::class, 'teamCertificates'])->name('team.certificates');
-        Route::get('/{user}', [ProfileController::class, 'show'])->name('show')->where('contact', '[0-9]+');
-
-    });
-
     Route::get('/tournament', [TestController::class, 'index'])->name('tournament.index');
     Route::get('/tournament/{competition}', [TestController::class, 'index'])->name('tournament.show');
 
