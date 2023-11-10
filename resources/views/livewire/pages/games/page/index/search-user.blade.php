@@ -36,7 +36,7 @@
 
     <div>
 
-        <div class="invite-part">
+        <div class="invite-part" style="width: {{$opponent?70:100}}%">
 
             <div class="form-group row">
 
@@ -67,7 +67,7 @@
                             <button type="button" wire:click="selectUser({{$userResult?->id}})"
                                     class="list-group-item list-group-item-action result {{$userResult->score_achievements_sum_count==0?'line_over':''}}">
                                 <img src="{{$userResult?->avatar}}" class="user_photo" width="50">
-                                {{ $userResult->username . ' (' . $userResult?->profile?->fullname . ')'.$userResult->score_achievements_sum_count }}
+                                {{ $userResult->username . ' (' . $userResult?->profile?->fullname . ')' }}
                             </button>
                         @endforeach
                     </div>
@@ -143,20 +143,19 @@
                         </div>--}}
         </div>
 
-        {{--
-
-                <div class="userinfo-part" :style="userinfo_css" v-show="user_selected">
-                    <img :src="selected_photo" class="user_photo userinfo_img" width="130">
-                    <div class="userinfo_info">
-                        <div>
-                            <a :href="profileLink + '/' + selected_username" target="_blank"
-                               :title="selected_username">{{ selected_username9 }}</a>
-                        </div>
-                        <div>{{ lblRank + selected_rank }}</div>
-                        <div>{{ lblScore + selected_score }}</div>
+        @if($opponent)
+            <div class="userinfo-part" style="width: 30%">
+                <img src="{{$opponent?->avatar}}" class="user_photo userinfo_img" width="130">
+                <div class="userinfo_info">
+                    <div>
+                        <a href="{{route('profile.show',['user'=> $opponent?->id])}}" target="_blank"
+                           title="selected_username">{{ $opponent?->username  }}</a>
                     </div>
+                    <div>{{ __('words.Rank: ').\App\Services\Actions\User\GetGameRank::handle($opponent->id,$game->id) }}</div>
+                    <div>{{  __('words.Score: ') . $opponent->score_achievements_sum_count }}</div>
                 </div>
-        --}}
+            </div>
+        @endif
 
     </div>
 

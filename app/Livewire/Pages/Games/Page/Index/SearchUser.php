@@ -21,7 +21,7 @@ class SearchUser extends Component
     public function mount(Game $game, $opponent = null)
     {
         $this->game = $game;
-        $this->opponent = $opponent;
+        $this->opponent = $opponent?->loadSum('scoreAchievements', 'count');
         $this->usersRandom = $opponent?->id ? collect([]) :
             User::active()
                 ->whereHas('competitions', fn ($q) => $q->where('game_id', $game?->id))
@@ -33,7 +33,7 @@ class SearchUser extends Component
 
     public function selectUser(User $opponent)
     {
-        $this->opponent = $opponent;
+        $this->opponent = $opponent->loadSum('scoreAchievements', 'count');
         $this->usersRandom = collect([]);
         $this->usersResult = collect([]);
         $this->username = '';
@@ -41,6 +41,7 @@ class SearchUser extends Component
 
     public function updatedUsername($username)
     {
+        $this->opponent = null;
         $this->usersRandom = collect([]);
         $this->usersResult = User::searchUsername($username)
             ->with('profile')
