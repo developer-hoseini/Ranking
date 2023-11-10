@@ -52,8 +52,8 @@ class CompleteProfile extends Component
     public function mount()
     {
         $authUser = auth()->user();
-        $accountInformation = $authUser->profile?->only(['fname', 'lname', 'mobile', 'avatar_name']);
-        $locationInformation = $authUser->profile?->only(['state_id', 'gender', 'bio', 'birth_date']);
+        $accountInformation = $authUser->profile?->only(['fname', 'lname', 'mobile', 'avatar_name']) ?? [];
+        $locationInformation = $authUser->profile?->only(['state_id', 'gender', 'bio', 'birth_date']) ?? [];
 
         $this->accountInformation = [...$accountInformation];
         $this->locationInformation = [
