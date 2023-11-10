@@ -12,6 +12,7 @@ use App\Livewire\Pages\Games;
 use App\Livewire\Pages\MgcCoin;
 use App\Livewire\Pages\Profile\CompleteProfile;
 use App\Livewire\Pages\Ranks;
+use App\Livewire\Pages\Rules;
 use App\Livewire\Pages\Tournaments;
 use App\Livewire\Pages\Tournaments\RegisterTournaments;
 use App\Livewire\Pages\Tournaments\ShowTournaments;
@@ -101,12 +102,16 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
 
         });
 
+        //mgc-coin
         Route::group(['prefix' => '/mgc-coin', 'as' => 'mgc-coin.'], function () {
             Route::middleware('auth')->group(function () {
                 Route::get('/', MgcCoin::class)->name('index');
             });
 
         });
+
+        //rules
+        Route::get('/rules', Rules::class)->name('rules');
 
     });
     /* End Pages */
@@ -124,7 +129,6 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
     Route::get('/events', [TestController::class, 'index'])->name('events');
     Route::get('/quick_submitted_list', [TestController::class, 'index'])->name('quick_submitted_list');
     Route::get('/team_ranks', [TestController::class, 'index'])->middleware('auth')->name('team_ranks');
-    Route::view('/rules', [TestController::class, 'index'])->name('rules');
     Route::view('/tutorial', [TestController::class, 'index'])->name('tutorial');
     Route::get('/set_qrcode', [TestController::class, 'index'])->name('set_qrcode');
     Route::get('/charge', [TestController::class, 'index'])->name('charge');
