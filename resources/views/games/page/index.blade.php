@@ -23,43 +23,7 @@
                     <h5>{{ __('words.Select opponent') }}</h5>
                 </div>
                 <div class="card-body">
-
-                    <form method="post" action="{{ route('games.page.invite') }}">
-                        {{ csrf_field() }}
-
-                        <search-user random-search-route="{{ route('games.page.random-users') }}"
-                                     search-route="{{ route('games.page.search-user') }}"
-                                     select-route="{{ route('games.page.select-user') }}"
-                                     get-clubs="{{ route('games.page.get-clubs') }}"
-                                     profile-link="{{ route('profile.show', ['user'=> 0]) }}"
-                                     lbl-search="{{ __('words.search') }}"
-                                     lbl-suggested="{{ __('words.suggested:') }}"
-                                     lbl-score="{{ __('words.Score: ') }}"
-                                     lbl-rank="{{ __('words.Rank: ') }}"
-                                     lbl-btn="{{ __('words.Send Invite') }}"
-                                     lbl-required="{{ __('words.Enter Username') }}"
-                                     lbl-free-game="{{ __('words.Free_Game') }}"
-                                     lbl-inclub="{{ __('words.In Club') }}"
-                                     lbl-with-image="{{ __('words.With Referee') }}"
-                                     help-free-game="{{ __('words.free_game_tick') }}"
-                                     help-inclub="{{ __('words.in_club_tick') }}"
-                                     help-with-image="{{ __('words.with_image_tick') }}"
-                                     game-id="{{ $game->id }}"
-                                     select-club="{{ __('words.Choose the club you want to play...') }}"
-                                     opponent="{{ json_encode($opponent) }}"
-                                     get-country-route="{{route('games.page.get-clubs-country')}}"
-                                     get-states-route="{{route('games.page.get-clubs-states')}}"
-                                     locale-country="{{ json_encode(__('country')) }}"
-                                     locale-state="{{ json_encode(__('state')) }}"
-                                     lbl-select-country="{{__('words.Country')}}"
-                                     lbl-select-state="{{__('words.State')}}"
-                                     lbl-user-not-joined="{{__('words.user_not_joined_yet')}}"
-                                     lbl-only-can-send-joined="{{__('words.only_can_send_invite_for_joined')}}"
-                                     lbl-ok="{{__('words.ok')}}"
-                        ></search-user>
-
-                    </form>
-
+                    <livewire:pages.games.page.index.search-user :game="$game" :opponent="$opponent??null"/>
                 </div>
             </div>
 

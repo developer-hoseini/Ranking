@@ -155,25 +155,6 @@ class GamePageController extends Controller
         }
     }
 
-    public function random_users(Request $request)
-    {
-        if ($request->ajax()) {
-            $game_id = $request->get('game_id');
-            $auth_state_id = Auth::user()->profile->state_id;
-
-            $data = \App\User::with(['scores'])->whereHas('scores', function ($query) use ($game_id) {
-                $query->where(['game_id' => $game_id, 'is_join' => config('status.Yes')]);
-            })->whereHas('profile', function ($query) use ($auth_state_id) {
-                $query->where(['state_id' => $auth_state_id]);
-            })->where([
-                ['id', '!=', Auth::user()->id],
-                ['status', config('status.Active')],
-            ])->inRandomOrder()->take(config('setting.random_users'))->get();
-
-            return response()->json($data);
-        }
-    }
-
     public function search_user(Request $request)
     {
         if ($request->ajax()) {
