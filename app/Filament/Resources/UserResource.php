@@ -115,6 +115,8 @@ class UserResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort('id', 'desc')
+
             ->filters([
                 TrashedFilter::make(),
                 TernaryFilter::make('active'),

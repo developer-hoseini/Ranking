@@ -51,6 +51,8 @@ class GameResource extends Resource
                     ->searchable()
                     ->sortable(),
             ])
+            ->defaultSort('id', 'desc')
+
             ->filters([
                 Filter::make('id'),
                 Filter::make('name'),

@@ -64,6 +64,8 @@ class NotifyResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort('id', 'desc')
+
             ->filters([
                 TrashedFilter::make(),
                 SelectFilter::make('Country')
