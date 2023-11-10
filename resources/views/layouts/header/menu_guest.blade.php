@@ -259,6 +259,31 @@
                 margin-top: 6px;
             }
         }
+
+        #menu-nav-c-btn-1 {
+            position: relative;
+            right: 102px;
+        }
+
+        #menu-nav-c-btn-2 {
+            position: relative;
+            right: 55px;
+        }
+
+        .menu-nav-home-btn {
+            position: relative;
+            z-index: 999;
+        }
+
+        #menu-nav-c-btn-4 {
+            position: relative;
+            left: 55px;
+        }
+
+        #menu-nav-c-btn-5 {
+            position: relative;
+            left: 102px;
+        }
     </style>
 
     @push('scripts')
