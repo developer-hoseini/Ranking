@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -218,6 +219,26 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia
 
     }
 
+    public function scopeSearchUserName(Builder $builder, string $username): Builder
+    {
+
+        $fullNameFa = str_replace(['ك', 'ي'], ['ک', 'ی'], $username);
+        $fullNameAr = str_replace(['ک', 'ی'], ['ك', 'ي'], $username);
+
+        return $builder->whereHas('profile', function ($query) use ($fullNameFa, $fullNameAr) {
+            $query->where(DB::raw('CONCAT(fname," ",lname)'), 'LIKE', '%'.$fullNameFa.'%')
+                ->orWhere(DB::raw('CONCAT(fname," ",lname)'), 'LIKE', '%'.$fullNameAr.'%');
+        })->orWhere([
+            ['username', 'LIKE', '%'.$fullNameFa.'%'],
+            ['username', 'LIKE', '%'.$fullNameAr.'%'],
+        ]);
+    }
+
+    public function scopeActive(Builder $builder): Builder
+    {
+        return $builder->where('active', true);
+    }
+
     public function scopeSearchProfileAvatarNameScope(Builder $builder, $search): Builder
     {
         return $builder->whereHas('profile', function (Builder $query) use ($search) {
@@ -245,9 +266,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia
     {
         return Attribute::make(
             get: function () {
-                $isComplete = $this->profile?->avatar_name ? true : false;
-
-                return $isComplete;
+                return (bool) $this->profile?->avatar_name;
             }
         );
     }
