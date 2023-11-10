@@ -17,7 +17,7 @@ class SearchUser extends Component
 
     public string $username = '';
 
-    public $usersResult = [];
+    public $usersResult = null;
 
     public $usersRandom = [];
 
@@ -55,7 +55,7 @@ class SearchUser extends Component
     {
         $this->opponent = $opponent->loadSum('scoreAchievements', 'count');
         $this->usersRandom = collect([]);
-        $this->usersResult = collect([]);
+        $this->usersResult = null;
         $this->username = '';
     }
 
