@@ -6,9 +6,16 @@ use App\Filament\Resources\CompetitionResource\Pages;
 use App\Filament\Resources\CompetitionResource\RelationManagers\TeamsRelationManager;
 use App\Filament\Resources\CompetitionResource\RelationManagers\UsersRelationManager;
 use App\Models\Competition;
+use App\Models\GameResult;
 use App\Models\State;
+use App\Models\Status;
+use App\Models\User;
+use DB;
 use Filament\Forms;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -87,27 +94,40 @@ class CompetitionResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('state.country.name')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+
                 Tables\Columns\TextColumn::make('state.name')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+
                 Tables\Columns\TextColumn::make('end_register_at')
                     ->dateTime('Y-m-d')
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+
                 Tables\Columns\TextColumn::make('start_at')
                     ->dateTime('Y-m-d')
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+
                 Tables\Columns\TextColumn::make('status.name')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+
                 Tables\Columns\TextColumn::make('capacity')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('createdByUser.name')
                     ->label('Created By')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+
                 Tables\Columns\TextColumn::make('deleted_at')
                     ->dateTime()
                     ->sortable()
@@ -127,7 +147,87 @@ class CompetitionResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
+                Tables\Actions\Action::make('game results')
+                    ->color('info')
+                    ->icon('heroicon-o-flag')
+                    ->iconButton()
+                    ->form(function (Competition $record) {
+                        $users = $record->users;
+                        $gameResults = $record->gameResults;
+                        $statuses = Status::modelType(null)->get();
+                        $gameResultstatuses = Status::modelType(GameResult::class, false)->get();
+
+                        $sections = $users->map(function ($user, $key) use ($statuses, $gameResultstatuses, $gameResults) {
+                            $gameResult = $gameResults->where('playerable_id', $user->id)->first();
+
+                            return Section::make('player '.$key + 1)
+                                ->schema([
+                                    Select::make("form.$key.user_id")
+                                        ->label('user')
+                                        ->options([$user->id => $user->name])
+                                        ->default($gameResult?->playerable_id)
+                                        ->required(),
+                                    Select::make("form.$key.game_result_status_id")
+                                        ->label('status')
+                                        ->options($gameResultstatuses->pluck('name', 'id'))
+                                        ->default($gameResult?->game_result_status_id)
+                                        ->required(),
+                                    Select::make("form.$key.status_id")
+                                        ->label('status')
+                                        ->options($statuses->pluck('name', 'id'))
+                                        ->default($gameResult?->status_id)
+                                        ->required(),
+                                ]);
+
+                        });
+
+                        return [
+                            ...$sections,
+                        ];
+                    })
+                    ->action(function (Competition $record, array $data) {
+                        $forms = $data['form'];
+                        $gameResults = $record->gameResults;
+
+                        DB::beginTransaction();
+
+                        try {
+                            foreach ($forms as $form) {
+                                $gameResult = $gameResults->where('playerable_id', $form['user_id'])->first();
+
+                                if ($gameResult) {
+                                    //edit
+                                    $gameResult->update([
+                                        'game_result_status_id' => $form['game_result_status_id'],
+                                        'status_id' => $form['status_id'],
+                                    ]);
+
+                                } else {
+                                    //create
+                                    $record->gameResults()->create([
+                                        'playerable_type' => User::class,
+                                        'playerable_id' => $form['user_id'],
+                                        'game_result_status_id' => $form['game_result_status_id'],
+                                        'status_id' => $form['status_id'],
+                                    ]);
+                                }
+                            }
+                            DB::commit();
+
+                            Notification::make()
+                                ->success()
+                                ->title('success')
+                                ->body('game results submited')
+                                ->send();
+
+                        } catch (\Throwable $th) {
+                            DB::rollback();
+                            throw $th;
+                        }
+
+                    }),
                 Tables\Actions\EditAction::make(),
+
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
