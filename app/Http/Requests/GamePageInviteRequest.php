@@ -31,7 +31,7 @@ class GamePageInviteRequest extends FormRequest
     {
         $this->merge([
             ...['in_club' => $this->has('in_club') && $this->input('in_club') === 'on'],
-            ...['with_referee' => $this->has('with_referee') && $this->input('with_referee') === 'on'],
+            ...['with_image' => $this->has('with_image') && $this->input('with_image') === 'on'],
         ]);
     }
 

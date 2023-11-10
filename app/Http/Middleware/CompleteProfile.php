@@ -11,7 +11,7 @@ class CompleteProfile
     {
         if (empty(trim(Auth::user()?->profile?->fname))) {
 
-            return redirect()->route('edit_profile')->withErrors([
+            return redirect()->route('profile.complete-profile')->withErrors([
                 'message' => __('message.Please complete your profile first'),
             ]);
         }

@@ -42,9 +42,6 @@ enum StatusEnum: string
     case COMPETITION_TWO_PLAYERS = 'competition_two-players';
     case COMPETITION_MULTI_PLAYERS = 'competition_multi-players';
 
-    case IN_CLUB = 'in_club';
-    case WITH_IMAGE = 'with_image';
-
     public function getModelType(): ?string
     {
         return match ($this) {

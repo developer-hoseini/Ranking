@@ -7,12 +7,15 @@ use App\Http\Requests\GamePageInviteRequest;
 use App\Models\Competition;
 use App\Models\Event;
 use App\Models\Game;
+use App\Models\GameType;
+use App\Models\GameTypeAbles;
 use App\Models\Invite;
 use App\Models\User;
 use Auth;
 use DB;
 use File;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\In;
 use Image;
 
 class GamePageController extends Controller
@@ -43,7 +46,7 @@ class GamePageController extends Controller
             ->count();
 
         if ($invitesCount >= config('setting.profile_middleware_count') && empty(auth()->user()?->profile?->bio)) {
-            return redirect()->route('edit_profile')->withErrors([
+            return redirect()->route('profile.complete-profile')->withErrors([
                 'message' => __('message.Please complete your profile first'),
             ]);
         }
@@ -316,26 +319,36 @@ class GamePageController extends Controller
     public function invite(GamePageInviteRequest $request, Game $game): \Illuminate\Http\RedirectResponse
     {
 
-        dd($request->all());
-
         // **** Save ****
         $gameType = [];
 
         if ($request->input('in_club', false)) {
-            $gameType[] = StatusEnum::IN_CLUB->value;
+            $gameType[] = 'in_club';
         }
 
         if ($request->input('with_image', false)) {
-            $gameType[] = StatusEnum::WITH_IMAGE->value;
+            $gameType[] = 'with_image';
         }
 
         $invite = Invite::create([
             'inviter_user_id' => auth()->id(),
             'invited_user_id' => $request->input('userId'),
             'game_id' => $game->id,
-            'game_type_id' => $game_type,
             'club_id' => $request->input('club'),
         ]);
+
+        if (count($gameType) > 0) {
+            GameType::select('id')
+                ->whereIn('name', $gameType)
+                ->get()
+                ->each(function ($gameType) use ($invite) {
+                    GameTypeAbles::create([
+                        'game_type_able_id' => $invite->id,
+                        'game_type_able_type' => Invite::class,
+                        'game_type_id' => $gameType->id,
+                    ]);
+                });
+        }
 
         Event::create([
             'user_id' => $request->input('userId'),
@@ -346,19 +359,19 @@ class GamePageController extends Controller
         ]);
 
         // SMS
-        $mobile = $invite->invited->profile->sms_mobile;
-        if ($mobile) {
-            $game_name = \App\Game::where('id', $game_id)->first()->name;
-            $message = __('message.sms_you_have_new_invite',
-                ['fullname' => $invite->inviter->profile->fullname, 'game' => __('games.'.$game_name)]);
+        /*     $mobile = $invite->invited->profile->sms_mobile;
+             if ($mobile) {
+                 $game_name = \App\Game::where('id', $game_id)->first()->name;
+                 $message = __('message.sms_you_have_new_invite',
+                     ['fullname' => $invite->inviter->profile->fullname, 'game' => __('games.'.$game_name)]);
 
-            \App\SMS::send($mobile, $message, route('gamepage', ['game_id' => $game_id]));
-        }
+                 \App\SMS::send($mobile, $message, route('gamepage', ['game_id' => $game_id]));
+             }*/
 
         $request->session()->flash('message', __('message.invite_sent_successfully', ['username' => $request->input('username')]));
         $request->session()->flash('alert-class', 'alert-success');
 
-        return redirect()->route('gamepage', ['game_id' => $game_id]);
+        return redirect()->route('games.page.index', ['game' => $game->id]);
     }
 
     public function submit_result(Request $request, $invite_id)
