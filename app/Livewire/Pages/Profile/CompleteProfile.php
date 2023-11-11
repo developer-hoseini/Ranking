@@ -92,14 +92,14 @@ class CompleteProfile extends Component
             $user?->profile?->update([
                 'fname' => $this->accountInformation['fname'],
                 'lname' => $this->accountInformation['lname'],
-                'mobile' => $this->accountInformation['mobile'],
+                'mobile' => $this->accountInformation['mobile'] ?? '',
                 'avatar_name' => $this->accountInformation['avatar_name'],
             ]);
         } else {
-            $user?->profile?->create([
+            $user?->profile()->create([
                 'fname' => $this->accountInformation['fname'],
                 'lname' => $this->accountInformation['lname'],
-                'mobile' => $this->accountInformation['mobile'],
+                'mobile' => $this->accountInformation['mobile'] ?? '',
                 'avatar_name' => $this->accountInformation['avatar_name'],
             ]);
         }

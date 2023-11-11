@@ -9,7 +9,7 @@ class CompleteProfile
 {
     public function handle($request, Closure $next, $guard = null)
     {
-        if (empty(trim(Auth::user()?->profile?->fname))) {
+        if (empty(trim(Auth::user()?->isProfileCompleted))) {
 
             return redirect()->route('profile.complete-profile')->withErrors([
                 'message' => __('message.Please complete your profile first'),
