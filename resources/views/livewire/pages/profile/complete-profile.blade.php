@@ -129,12 +129,18 @@
                                             >
                                         @endif
                                     </div>
-                                    <input
+                                    <button
                                         class="next action-button"
                                         name="next"
                                         type="button"
-                                        value="Save & Next Step"
                                         wire:click='saveAccountInformation'
+                                        wire:loading.attr="disabled"
+                                    >
+                                        Save & Next Step
+                                    </button>
+                                    <x-loading.spiner
+                                        wire:loading
+                                        wire:target="saveAccountInformation"
                                     />
                                 </fieldset>
                             @endif
@@ -249,12 +255,16 @@
                                         value="Previous"
                                         wire:click="$set('step','account')"
                                     />
-                                    <input
+                                    <button
                                         class="next action-button"
                                         name="next"
                                         type="button"
-                                        value="Save & Complete"
                                         wire:click='saveLocationInformation'
+                                        wire:loading.attr="disabled"
+                                    >Save & Complete</button>
+                                    <x-loading.spiner
+                                        wire:loading
+                                        wire:target="saveAccountInformation"
                                     />
                                 </fieldset>
                             @endif
@@ -392,7 +402,6 @@
             color: white;
             border: 0 none;
             border-radius: 0px;
-            cursor: pointer;
             padding: 10px 5px;
             margin: 10px 5px;
         }
