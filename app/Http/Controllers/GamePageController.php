@@ -6,16 +6,19 @@ use App\Enums\EventTypeEnum;
 use App\Enums\ReasonEnum;
 use App\Enums\StatusEnum;
 use App\Http\Requests\GamePageInviteRequest;
+use App\Mail\InvitedUserMail;
 use App\Models\Competition;
 use App\Models\Event;
 use App\Models\Game;
 use App\Models\GameType;
 use App\Models\Invite;
+use App\Models\Status;
 use App\Models\User;
 use Auth;
 use DB;
 use File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rules\In;
 use Image;
 
@@ -319,8 +322,6 @@ class GamePageController extends Controller
 
     public function invite(GamePageInviteRequest $request, Game $game): \Illuminate\Http\RedirectResponse
     {
-
-        // **** Save ****
         $gameType = [];
 
         if ($request->input('in_club', false)) {
@@ -336,6 +337,7 @@ class GamePageController extends Controller
             'invited_user_id' => $request->input('userId'),
             'game_id' => $game->id,
             'club_id' => $request->input('club'),
+            'confirm_status_id' => Status::where('name', StatusEnum::PENDING->value)->first('id')?->id,
         ]);
 
         if (count($gameType) > 0) {
@@ -355,19 +357,14 @@ class GamePageController extends Controller
         ]);
 
         // SMS
-        /*     $mobile = $invite->invited->profile->sms_mobile;
-             if ($mobile) {
-                 $game_name = \App\Game::where('id', $game_id)->first()->name;
-                 $message = __('message.sms_you_have_new_invite',
-                     ['fullname' => $invite->inviter->profile->fullname, 'game' => __('games.'.$game_name)]);
+        $email = $invite->invitedUser?->email;
+        if ($email) {
+            Mail::to($email)
+                ->queue(new InvitedUserMail($invite, $game));
+        }
 
-                 \App\SMS::send($mobile, $message, route('gamepage', ['game_id' => $game_id]));
-             }*/
-
-        $request->session()->flash('message', __('message.invite_sent_successfully', ['username' => $request->input('username')]));
-        $request->session()->flash('alert-class', 'alert-success');
-
-        return redirect()->route('games.page.index', ['game' => $game->id]);
+        return redirect()->route('games.page.index', ['game' => $game->id])
+            ->with('success', __('message.invite_sent_successfully', ['username' => $request->input('username')]));
     }
 
     public function submit_result(Request $request, $invite_id)
