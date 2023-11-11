@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\GamePageController;
 use App\Http\Controllers\HomeController;
@@ -18,6 +19,7 @@ use App\Livewire\Pages\Tournaments\RegisterTournaments;
 use App\Livewire\Pages\Tournaments\ShowTournaments;
 use App\Livewire\Pages\Tutorial;
 use Illuminate\Support\Facades\Route;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,10 +34,20 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
 
-    Route::prefix('auth')->name('auth.')->group(function () {
-        Route::get('/login', [AuthController::class, 'showLogin'])->name('show-login');
-        Route::Post('/login', [AuthController::class, 'login'])->name('login');
-        Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::prefix('auth')->group(function () {
+        Route::name('auth.')->group(function () {
+            Route::get('/login', [AuthController::class, 'showLogin'])->name('show-login');
+            Route::Post('/login', [AuthController::class, 'login'])->name('login');
+            Route::get('/register', [AuthController::class, 'showRegister'])->name('show-register');
+            Route::Post('/register', [AuthController::class, 'register'])->name('register');
+            Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+        });
+
+        Route::middleware(['auth'])->group(function () {
+            Route::get('/email/verify', [VerificationController::class, 'show'])->name('verification.notice');
+            Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->middleware(['signed'])->name('verification.verify');
+            Route::post('/email/resend', [VerificationController::class, 'resend'])->middleware('throttle:6,1')->name('verification.resend');
+        });
     });
 
     /* Start Pages */
@@ -70,12 +82,12 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::get('/{game}', [GameController::class, 'show'])->name('show');
             Route::get('/{id}/online', [GameController::class, 'showOnline'])->name('show.online');
 
-            Route::middleware('auth')->group(function () {
+            Route::middleware(['auth', 'verified'])->group(function () {
                 Route::get('/{id}/join', [GameController::class, 'join'])->middleware('auth')->name('join');
             });
 
             //game page
-            Route::group(['as' => 'page.', 'prefix' => '/page', 'middleware' => ['auth', 'completeProfile']], function () {
+            Route::group(['as' => 'page.', 'prefix' => '/page', 'middleware' => ['auth', 'verified', 'completeProfile']], function () {
                 Route::get('/{game}/{opponent?}', [GamePageController::class, 'index'])->name('index');
                 Route::post('/invite/{game}', [GamePageController::class, 'invite'])->name('invite');
             });
@@ -83,7 +95,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
 
         //profile
         Route::group(['prefix' => '/profile', 'as' => 'profile.'], function () {
-            Route::middleware('auth')->group(function () {
+            Route::middleware(['auth', 'verified'])->group(function () {
                 Route::get('/complete-profile', CompleteProfile::class)->name('complete-profile');
             });
 
@@ -97,7 +109,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
 
         //game-results
         Route::group(['prefix' => '/game-results', 'as' => 'game-results.'], function () {
-            Route::middleware('auth')->group(function () {
+            Route::middleware(['auth', 'verified', 'completeProfile'])->group(function () {
                 Route::get('/quick-submit', QuickSubmit::class)->name('quick-submit');
             });
 

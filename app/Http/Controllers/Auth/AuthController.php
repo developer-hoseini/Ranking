@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Models\User;
 use Auth;
@@ -50,5 +51,14 @@ class AuthController extends Controller
         Auth::logout();
 
         return redirect()->route('home');
+    }
+
+    public function showRegister()
+    {
+        if (Auth::check()) {
+            return redirect()->route('home');
+        }
+
+        return view('pages.auth.register');
     }
 }

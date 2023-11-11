@@ -234,7 +234,7 @@
                 style="border-top: solid 1px #ccc;height: 40px;line-height: 40px;"
             >
                 <a
-                    href="('register')}}"
+                    href="{{ route('auth.show-register') }}"
                     style="float: right;"
                 >{{ __('words.Register') }}</a>
                 <a
