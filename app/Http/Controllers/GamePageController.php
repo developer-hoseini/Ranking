@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\EventTypeEnum;
+use App\Enums\ReasonEnum;
 use App\Enums\StatusEnum;
 use App\Http\Requests\GamePageInviteRequest;
 use App\Models\Competition;
 use App\Models\Event;
 use App\Models\Game;
 use App\Models\GameType;
-use App\Models\GameTypeAbles;
 use App\Models\Invite;
 use App\Models\User;
 use Auth;
@@ -210,8 +211,8 @@ class GamePageController extends Controller
             \App\Event::create([
                 'user_id' => $invite->inviter_id,
                 'invite_id' => $invite->id,
-                'type' => config('event.Info'),
-                'reason' => config('reason.Invite_Accepted'),
+                'type' => EventTypeEnum::INFO,
+                'reason' => ReasonEnum::INVITE_ACCEPTED,
                 'dt' => date('Y-m-d H:i:s', time()),
                 'seen' => config('status.No'),
             ]);
@@ -258,8 +259,8 @@ class GamePageController extends Controller
             \App\Event::create([
                 'user_id' => $invite->inviter_id,
                 'invite_id' => $invite->id,
-                'type' => config('event.Info'),
-                'reason' => config('reason.Invite_Rejected'),
+                'type' => EventTypeEnum::INFO,
+                'reason' => ReasonEnum::INVITE_REJECTED,
                 'dt' => date('Y-m-d H:i:s', time()),
                 'seen' => config('status.No'),
             ]);
@@ -298,8 +299,8 @@ class GamePageController extends Controller
             \App\Event::create([
                 'user_id' => $invite->invited_id,
                 'invite_id' => $invite->id,
-                'type' => config('event.Info'),
-                'reason' => config('reason.Invite_Canceled'),
+                'type' => EventTypeEnum::INFO,
+                'reason' => ReasonEnum::INVITE_CANCELED,
                 'dt' => date('Y-m-d H:i:s', time()),
                 'seen' => config('status.No'),
             ]);
@@ -338,23 +339,18 @@ class GamePageController extends Controller
         ]);
 
         if (count($gameType) > 0) {
-            GameType::select('id')
+            $gameTypes = GameType::select('id')
                 ->whereIn('name', $gameType)
-                ->get()
-                ->each(function ($gameType) use ($invite) {
-                    GameTypeAbles::create([
-                        'game_type_able_id' => $invite->id,
-                        'game_type_able_type' => Invite::class,
-                        'game_type_id' => $gameType->id,
-                    ]);
-                });
+                ->pluck('id');
+
+            $invite->gameType()->attach($gameTypes->toArray());
         }
 
         Event::create([
             'user_id' => $request->input('userId'),
             'invite_id' => $invite->id,
-            'type' => config('event.Info'),
-            'reason' => config('reason.Invite_Received'),
+            'type' => EventTypeEnum::INFO,
+            'reason' => ReasonEnum::INVITE_RECEIVED,
             'seen' => 0,
         ]);
 
@@ -451,8 +447,8 @@ class GamePageController extends Controller
         \App\Event::create([
             'user_id' => $opponent_id,
             'invite_id' => $invite->id,
-            'type' => config('event.Info'),
-            'reason' => config('reason.Opponent_Submitted'),
+            'type' => EventTypeEnum::INFO,
+            'reason' => ReasonEnum::OPPONENT_SUBMITTED,
             'dt' => date('Y-m-d H:i:s', time()),
             'seen' => $status['No'],
         ]);
