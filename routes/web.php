@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\ForgetPasswordController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\GamePageController;
@@ -48,6 +49,13 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->middleware(['signed'])->name('verification.verify');
             Route::post('/email/resend', [VerificationController::class, 'resend'])->middleware('throttle:6,1')->name('verification.resend');
         });
+
+        Route::get('/forgot-password', [ForgetPasswordController::class, 'showForgetPassword'])->middleware('guest')->name('password.request');
+        Route::post('/forgot-password', [ForgetPasswordController::class, 'forgetPassword'])->middleware('guest')->name('password.email');
+
+        Route::get('/reset-password/{token}', [ForgetPasswordController::class, 'showResetPassword'])->middleware('guest')->name('password.reset');
+        Route::post('/reset-password', [ForgetPasswordController::class, 'resetPassword'])->middleware('guest')->name('password.update');
+
     });
 
     /* Start Pages */

@@ -10,6 +10,8 @@ use App\Enums\StatusEnum;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;
 use Filament\Panel;
+use Illuminate\Auth\Passwords\CanResetPassword as PasswordsCanResetPassword;
+use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -97,10 +99,11 @@ use Spatie\Permission\Traits\HasRoles;
  *
  * @mixin \Eloquent
  */
-class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia, MustVerifyEmail
+class User extends Authenticatable implements CanResetPassword, FilamentUser, HasAvatar, HasMedia, MustVerifyEmail
 {
     use HasApiTokens, HasFactory, HasRoles,Notifiable;
     use InteractsWithMedia,SoftDeletes;
+    use PasswordsCanResetPassword;
     use \Staudenmeir\EloquentEagerLimit\HasEagerLimit;
 
     /**

@@ -238,7 +238,7 @@
                     style="float: right;"
                 >{{ __('words.Register') }}</a>
                 <a
-                    href=""
+                    href="{{ route('password.email') }}"
                     style="float: left;"
                 >{{ __('words.forget_password') }}</a>
             </div>
