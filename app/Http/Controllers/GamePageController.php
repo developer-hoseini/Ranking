@@ -356,7 +356,7 @@ class GamePageController extends Controller
             'seen' => 0,
         ]);
 
-        // SMS
+        // email
         $email = $invite->invitedUser?->email;
         if ($email) {
             Mail::to($email)
