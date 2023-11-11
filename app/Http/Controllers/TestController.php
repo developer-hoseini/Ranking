@@ -2,14 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\InvitedUserMail;
 use App\Models\Cup;
 use App\Models\Game;
+use App\Models\Invite;
 use App\Models\User;
+use Illuminate\Support\Facades\Mail;
 
 class TestController extends Controller
 {
     public function index()
     {
+
+        //        $email = 'mahdibagherivar@gmail.com';
+        //
+        //        $invite = Invite::find(14);
+        //
+        //        $game = Game::find(15);
+        //
+        //        Mail::to($email)
+        //            ->queue(new InvitedUserMail($invite, $game));
 
         if (request()->has('userId')) {
             \Auth::login(User::find(request('userId')));
