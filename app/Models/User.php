@@ -292,4 +292,15 @@ class User extends Authenticatable implements CanResetPassword, FilamentUser, Ha
             }
         );
     }
+
+    protected function isAdmin(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                $hasAdminRole = $this->roles?->where('name', 'admin')->first();
+
+                return $hasAdminRole ? true : false;
+            }
+        );
+    }
 }

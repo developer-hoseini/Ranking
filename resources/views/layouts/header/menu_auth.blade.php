@@ -51,12 +51,12 @@
                 {{-- @else --}}
                 <img
                     class="menu-white-icons"
-                    src="{{ url('assets/img/menu/menu.png') }}"
+                    src="{{ asset('assets/img/menu/menu.png') }}"
                     height="32px"
                 >
                 <img
                     class="menu-dark-icons"
-                    src="{{ url('assets/img/menu/menu-dark.png') }}"
+                    src="{{ asset('assets/img/menu/menu-dark.png') }}"
                     height="32px"
                 >
                 {{-- @endif --}}
@@ -68,13 +68,13 @@
             >
                 <img
                     class="menu-white-icons"
-                    src="{{ url('assets/img/menu/submit_result.png') }}"
+                    src="{{ asset('assets/img/menu/submit_result.png') }}"
                     style="position: relative;bottom: 2px;"
                     height="28px"
                 >
                 <img
                     class="menu-dark-icons"
-                    src="{{ url('assets/img/menu/submit_result-dark.png') }}"
+                    src="{{ asset('assets/img/menu/submit_result-dark.png') }}"
                     height="28px"
                 >
             </a>
@@ -85,7 +85,7 @@
                 title="{{ __('words.Ranking') }}"
             ><img
                     class="responsive-logo"
-                    src="{{ url('assets/img/white-ranking.png') }}"
+                    src="{{ asset('assets/img/white-ranking.png') }}"
                     height="40px"
                 ></a>
         </div>
@@ -107,7 +107,7 @@
                 onclick="coin_item();"
             >
                 <img
-                    src="{{ url('assets/img/menu/coin.png?c=1') }}"
+                    src="{{ asset('assets/img/menu/coin.png?c=1') }}"
                     height="31px"
                 >
             </div>
@@ -120,7 +120,7 @@
                 title="{{ __('words.matches') }}"
             >
                 <img
-                    src="{{ url('assets/img/menu/tournament-red.png') }}"
+                    src="{{ asset('assets/img/menu/tournament-red.png') }}"
                     width="20px"
                 >
             </a>
@@ -131,7 +131,7 @@
                 title="{{ __('words.ranks_table') }}"
             >
                 <img
-                    src="{{ url('assets/img/menu/ranks-red.png') }}"
+                    src="{{ asset('assets/img/menu/ranks-red.png') }}"
                     width="20px"
                 >
             </a>
@@ -141,7 +141,7 @@
                 title="{{ __('words.home') }}"
             >
                 <img
-                    src="{{ url('assets/img/menu/home.png') }}"
+                    src="{{ asset('assets/img/menu/home.png') }}"
                     height="25px"
                 >
             </a>
@@ -152,7 +152,7 @@
                 title="{{ __('words.About_Ranking') }}"
             >
                 <img
-                    src="{{ url('assets/img/menu/information-red.png') }}"
+                    src="{{ asset('assets/img/menu/information-red.png') }}"
                     height="20x"
                 >
             </a>
@@ -164,12 +164,12 @@
             >
                 @if ($eventsCount > 0)
                     <img
-                        src="{{ url('assets/img/menu/notify/events-red.png') }}"
+                        src="{{ asset('assets/img/menu/notify/events-red.png') }}"
                         width="25px"
                     >
                 @else
                     <img
-                        src="{{ url('assets/img/menu/events-red.png') }}"
+                        src="{{ asset('assets/img/menu/events-red.png') }}"
                         width="22px"
                     >
                 @endif
@@ -197,7 +197,7 @@
                 {{-- @if ($unconfirmed_quick_submitted > 0) --}}
                 <img
                     class="mt-1"
-                    src="{{ url('assets/img/menu/notify/result_submit.png') }}"
+                    src="{{ asset('assets/img/menu/notify/result_submit.png') }}"
                     width="45px"
                 >
                 {{-- @else --}}
@@ -217,7 +217,7 @@
             <div class="menu-list-item text-center">
                 <img
                     class="mt-1"
-                    src="{{ url('assets/img/menu/team_ranks.png') }}"
+                    src="{{ asset('assets/img/menu/team_ranks.png') }}"
                     width="45px"
                 >
                 <div class="text-dark mt-1">{{ __('words.Team_Ranks') }}</div>
@@ -230,7 +230,7 @@
             <div class="menu-list-item text-center">
                 <img
                     class="mt-1"
-                    src="{{ url('assets/img/menu/game.png') }}"
+                    src="{{ asset('assets/img/menu/game.png') }}"
                     width="45px"
                 >
                 <div class="text-dark mt-1">{{ __('words.Games') }}</div>
@@ -286,7 +286,7 @@
             <div class="menu-list-item text-center">
                 <img
                     class="mt-1"
-                    src="{{ url('assets/img/menu/rules.png') }}"
+                    src="{{ asset('assets/img/menu/rules.png') }}"
                     width="45px"
                 >
                 <div class="text-dark mt-1">{{ __('words.Rules') }}</div>
@@ -299,7 +299,7 @@
             <div class="menu-list-item text-center">
                 <img
                     class="mt-1"
-                    src="{{ url('assets/img/menu/tutorial.png') }}"
+                    src="{{ asset('assets/img/menu/tutorial.png') }}"
                     width="45px"
                 >
                 <div class="text-dark mt-1">{{ __('words.Tutorial') }}</div>
@@ -336,7 +336,7 @@
                 <div class="menu-list-item text-center">
                     <img
                         class="mt-1"
-                        src="{{ url('assets/img/menu/show_profile.png') }}"
+                        src="{{ asset('assets/img/menu/show_profile.png') }}"
                         width="45px"
                     >
                     <div class="text-dark mt-1">{{ __('words.View Profile') }}</div>
@@ -349,25 +349,28 @@
                 <div class="menu-list-item text-center">
                     <img
                         class="mt-1"
-                        src="{{ url('assets/img/menu/edit_profile.png') }}"
+                        src="{{ asset('assets/img/menu/edit_profile.png') }}"
                         width="45px"
                     >
                     <div class="text-dark mt-1">{{ __('words.Edit Profile') }}</div>
                 </div>
             </a>
-            <a
-                href="{{ route('set_qrcode') }}"
-                style="text-decoration: none;"
-            >
-                <div class="menu-list-item text-center">
-                    <img
-                        class="mt-1"
-                        src="{{ url('assets/img/menu/set_card.png') }}"
-                        width="45px"
-                    >
-                    <div class="text-dark mt-1">{{ __('words.set_card') }}</div>
-                </div>
-            </a>
+            @if ($authUser->isAdmin)
+                <a
+                    href="{{ url('/admin') }}"
+                    style="text-decoration: none;"
+                >
+                    <div class="menu-list-item text-center">
+                        <img
+                            class="mt-1"
+                            src="{{ asset('assets/img/admin-panel.png') }}"
+                            width="45px"
+                        >
+                        <div class="text-dark mt-1">Admin Panel</div>
+                    </div>
+                </a>
+            @endif
+
         </div>
         <div class="text-center">
             <a
@@ -391,7 +394,7 @@
             <a href="{{ route('charge') }}">
                 <img
                     class="rounded-circle mt-2"
-                    src="{{ url('assets/img/menu/coin.png?c=1') }}"
+                    src="{{ asset('assets/img/menu/coin.png?c=1') }}"
                     width="130px"
                 >
             </a>
@@ -412,7 +415,7 @@
                 <div class="menu-list-item text-center">
                     <img
                         class="mt-1"
-                        src="{{ url('assets/img/menu/coin_buy.png?c=2') }}"
+                        src="{{ asset('assets/img/menu/coin_buy.png?c=2') }}"
                         width="45px"
                     >
                     <div class="text-dark mt-1">{{ __('words.buy_coin') }}</div>
@@ -425,7 +428,7 @@
                 <div class="menu-list-item text-center">
                     <img
                         class="mt-1"
-                        src="{{ url('assets/img/menu/coin_buy.png?c=2') }}"
+                        src="{{ asset('assets/img/menu/coin_buy.png?c=2') }}"
                         width="45px"
                     >
                     <div class="text-dark mt-1">{{ __('words.card_charge') }}</div>
