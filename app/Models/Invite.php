@@ -53,6 +53,10 @@ class Invite extends Model
 {
     use SoftDeletes;
 
+    protected $fillable = [
+        'inviter_user_id', 'invited_user_id', 'game_id', 'game_type_id', 'club_id', 'game_status_id', 'confirm_status_id',
+    ];
+
     public function gameStatus(): BelongsTo
     {
         return $this->belongsTo(Status::class, 'game_status_id')->modelType(Invite::class, false);
@@ -86,5 +90,10 @@ class Invite extends Model
     public function club(): BelongsTo
     {
         return $this->belongsTo(Club::class);
+    }
+
+    public function competitions(): MorphToMany
+    {
+        return $this->morphToMany(Competition::class, 'competitionable')->withPivot(['status_id']);
     }
 }

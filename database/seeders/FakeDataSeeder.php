@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Enums\AchievementTypeEnum;
 use App\Enums\StatusEnum;
 use App\Models\Achievement;
+use App\Models\Club;
 use App\Models\Competition;
 use App\Models\Cup;
 use App\Models\Game;
@@ -39,6 +40,8 @@ class FakeDataSeeder extends Seeder
             $this->createCups($compeations);
 
             $this->createAchievements();
+
+            Club::factory(3)->create();
 
         } catch (\Throwable $th) {
             throw $th;

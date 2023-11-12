@@ -7,6 +7,7 @@ use App\Enums\ReasonEnum;
 use App\Enums\StatusEnum;
 use App\Http\Requests\GamePageInviteRequest;
 use App\Mail\InvitedUserMail;
+use App\Mail\InviteHasAcceptedMail;
 use App\Models\Competition;
 use App\Models\Event;
 use App\Models\Game;
@@ -54,6 +55,27 @@ class GamePageController extends Controller
                 'message' => __('message.Please complete your profile first'),
             ]);
         }
+
+        $currentUser = auth()->user()?->loadMissing([
+            'inviter' => function ($query) {
+                $query->whereHas('confirmStatus', fn ($q) => $q->where('name', StatusEnum::PENDING->value))
+                    ->with([
+                        'invitedUser' => fn ($q) => $q->withSum('scoreAchievements', 'count'),
+                        'club',
+                        'confirmStatus',
+                        'gameType',
+                    ]);
+            },
+            'invited' => function ($query) {
+                $query->whereHas('confirmStatus', fn ($q) => $q->where('name', StatusEnum::PENDING->value))
+                    ->with([
+                        'inviterUser' => fn ($q) => $q->with('profile')->withSum('scoreAchievements', 'count'),
+                        'club',
+                        'confirmStatus',
+                        'gameType',
+                    ]);
+            },
+        ]);
 
         //        $setting = config('setting');
 
@@ -111,9 +133,9 @@ class GamePageController extends Controller
                 } else {
                     $opponent = null;
                 }*/
-
-        return view('games.page.index', [
+        /*[
             'game' => $game,
+            'opponent' => $opponent,
             /* 'score' => $score,
             'inclub_stars' => $inclub_stars,
             'image_stars' => $image_stars,
@@ -127,9 +149,10 @@ class GamePageController extends Controller
             'received' => $received,
             'game_results' => $game_results,
             'no_submit_results_count' => $no_submit_results_count,
-            'one_submit_results_count' => $one_submit_results_count,*/
-            'opponent' => $opponent,
-        ]);
+            'one_submit_results_count' => $one_submit_results_count,
+        ];*/
+
+        return view('games.page.index', compact('game', 'opponent', 'currentUser'));
     }
 
     public function check_gamepage_invites(Request $request)
@@ -192,132 +215,141 @@ class GamePageController extends Controller
         }
     }
 
-    public function accept(Request $request, $invite_id)
+    /**
+     * @throws \Throwable
+     */
+    public function accept(int $inviteId): ?\Illuminate\Http\RedirectResponse
     {
-        $invite = \App\Invite::where([
-            'id' => $invite_id,
-            'invited_id' => Auth::user()->id,
-            'status' => config('status.Pending'),
-        ])->first();
+        $invite = Invite::where([
+            'id' => $inviteId,
+            'invited_user_id' => Auth::user()->id,
+        ])->whereHas('confirmStatus', fn ($q) => $q->where('name', StatusEnum::PENDING->value))
+            ->with(['inviterUser', 'invitedUser', 'game'])
+            ->first();
 
         // yes, really received the invite
         if ($invite) {
-            $invite->status = config('status.Accepted');
-            $invite->save();
-            $game_result = \App\Game_Result::create(['invite_id' => $invite_id]);
+            DB::beginTransaction();
 
-            /*if( $invite->inviter_id == Auth::user()->id )
-              $opponent_id = $invite->invited_id;
-            else
-              $opponent_id = $invite->inviter_id;*/
+            try {
+                $invite->confirm_status_id = Status::where('name', StatusEnum::ACCEPTED->value)->first()?->id;
+                $invite->save();
 
-            \App\Event::create([
-                'user_id' => $invite->inviter_id,
-                'invite_id' => $invite->id,
-                'type' => EventTypeEnum::INFO,
-                'reason' => ReasonEnum::INVITE_ACCEPTED,
-                'dt' => date('Y-m-d H:i:s', time()),
-                'seen' => config('status.No'),
-            ]);
+                $statusPendingId = Status::where('name', StatusEnum::PENDING->value)->first()?->id;
 
-            // SMS
-            $mobile = $invite->inviter->profile->sms_mobile;
-            if ($mobile) {
-                $message = __('message.sms_your_invite_has_accepted',
-                    ['fullname' => $invite->invited->profile->fullname]);
+                $invite->competitions()->create([
+                    'name' => "invite - {$invite->invitedUser?->username} vs {$invite->inviterUser?->username}",
+                    'capacity' => 2,
+                    'game_id' => $invite->game_id,
+                    'status_id' => $statusPendingId,
+                    'start_at' => now(),
+                ]);
 
-                \App\SMS::send($mobile, $message, route('gamepage', ['game_id' => $invite->game->id]));
+                $invite->competitions->first()->gameResults()->createMany([
+                    [
+                        'playerable_id' => $invite->invited_user_id,
+                        'playerable_type' => User::class,
+                        'game_result_status_id' => $statusPendingId,
+                        'status_id' => $statusPendingId,
+                    ],
+                    [
+                        'playerable_id' => $invite->inviter_user_id,
+                        'playerable_type' => User::class,
+                        'game_result_status_id' => $statusPendingId,
+                        'status_id' => $statusPendingId,
+                    ],
+                ]);
+
+                Event::create([
+                    'user_id' => $invite->inviter_user_id,
+                    'invite_id' => $invite->id,
+                    'type' => EventTypeEnum::INFO,
+                    'reason' => ReasonEnum::INVITE_ACCEPTED,
+                    'seen' => 0,
+                ]);
+
+                DB::commit();
+
+                // email
+                $email = $invite->inviterUser?->email;
+                if ($email) {
+                    Mail::to($email)
+                        ->queue(new InviteHasAcceptedMail($invite, $invite->game));
+                }
+            } catch (\Throwable $e) {
+                DB::rollBack();
+
+                throw $e;
             }
 
-            $request->session()->flash('message', __('message.invite_accepted'));
-            $request->session()->flash('alert-class', 'alert-success');
+            return redirect()->back()->with('success', __('message.invite_accepted'));
 
-            return redirect()->back();
-        } else {
-            $request->session()->flash('message', __('message.you_already_accepted'));
-            $request->session()->flash('alert-class', 'alert-danger');
-
-            return redirect()->back();
         }
+
+        return redirect()->back()->withErrors([
+            'message' => __('message.you_already_accepted'),
+        ]);
     }
 
-    public function reject(Request $request, $invite_id)
+    public function reject(int $inviteId): ?\Illuminate\Http\RedirectResponse
     {
-        $invite = \App\Invite::where([
-            'id' => $invite_id,
-            'invited_id' => Auth::user()->id,
-            'status' => config('status.Pending'),
-        ])->first();
+        $invite = Invite::where([
+            'id' => $inviteId,
+            'invited_user_id' => Auth::user()->id,
+        ])->whereHas('confirmStatus', fn ($q) => $q->where('name', StatusEnum::PENDING->value))
+            ->first();
 
         // yes, really received the invite
         if ($invite) {
-            $invite->status = config('status.Rejected');
+            $invite->confirm_status_id = Status::where('name', StatusEnum::REJECTED->value)->first()?->id;
             $invite->save();
 
-            /*if($invite->inviter_id==Auth::user()->id)
-              $opponent_id = $invite->invited_id;
-            else
-              $opponent_id = $invite->inviter_id;*/
-
-            \App\Event::create([
-                'user_id' => $invite->inviter_id,
+            Event::create([
+                'user_id' => $invite->inviter_user_id,
                 'invite_id' => $invite->id,
                 'type' => EventTypeEnum::INFO,
                 'reason' => ReasonEnum::INVITE_REJECTED,
-                'dt' => date('Y-m-d H:i:s', time()),
-                'seen' => config('status.No'),
+                'seen' => 0,
             ]);
 
-            $request->session()->flash('message', __('message.invite_rejected'));
-            $request->session()->flash('alert-class', 'alert-success');
+            return redirect()->back()->with('success', __('message.invite_rejected'));
 
-            return redirect()->back();
-        } else {
-            $request->session()->flash('message', __('message.you_already_rejected'));
-            $request->session()->flash('alert-class', 'alert-danger');
-
-            return redirect()->back();
         }
+
+        return redirect()->back()->withErrors([
+            'message' => __('message.you_already_rejected'),
+        ]);
     }
 
-    public function cancel(Request $request, $invite_id)
+    public function cancel(int $inviteId): ?\Illuminate\Http\RedirectResponse
     {
-        $invite = \App\Invite::where([
-            'id' => $invite_id,
-            'inviter_id' => Auth::user()->id,
-            'status' => config('status.Pending'),
-        ])->first();
+        $invite = Invite::where([
+            'id' => $inviteId,
+            'inviter_user_id' => Auth::user()->id,
+        ])->whereHas('confirmStatus', fn ($q) => $q->where('name', StatusEnum::PENDING->value))
+            ->first();
 
         // yes, really received the invite
         if ($invite) {
-            $invite->status = config('status.Canceled');
+            $invite->confirm_status_id = Status::where('name', StatusEnum::CANCELED->value)->first()?->id;
             $invite->save();
-            //$invite->delete();
 
-            /*if($invite->inviter_id==Auth::user()->id)
-            $opponent_id = $invite->invited_id;
-            else
-            $opponent_id = $invite->inviter_id;*/
-
-            \App\Event::create([
-                'user_id' => $invite->invited_id,
+            Event::create([
+                'user_id' => $invite->invited_user_id,
                 'invite_id' => $invite->id,
                 'type' => EventTypeEnum::INFO,
                 'reason' => ReasonEnum::INVITE_CANCELED,
-                'dt' => date('Y-m-d H:i:s', time()),
-                'seen' => config('status.No'),
+                'seen' => 0,
             ]);
 
-            $request->session()->flash('message', __('message.invite_canceled'));
-            $request->session()->flash('alert-class', 'alert-success');
-
-            return redirect()->back();
-        } else {
-            $request->session()->flash('message', __('message.you_already_canceled'));
-            $request->session()->flash('alert-class', 'alert-danger');
-
-            return redirect()->back();
+            return redirect()->back()->with('success', __('message.invite_canceled'));
         }
+
+        return redirect()->back()->withErrors(
+            [
+                'message' => __('message.you_already_canceled'),
+            ]
+        );
     }
 
     public function invite(GamePageInviteRequest $request, Game $game): \Illuminate\Http\RedirectResponse
