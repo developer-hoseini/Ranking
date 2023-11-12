@@ -18,7 +18,6 @@ class ShowCup extends Component
     private function getCup($cupId)
     {
         $cup = Cup::whereId($cupId)
-            ->withWhereHas('competitions')
             ->with([
                 'competitions.gameResults.gameResultStatus',
                 'competitions.users.media',
