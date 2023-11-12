@@ -18,6 +18,7 @@ use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -185,9 +186,21 @@ class CompetitionResource extends Resource
                             ...$sections,
                         ];
                     })
-                    ->action(function (Competition $record, array $data) {
-                        $forms = $data['form'];
+                    ->action(function (Competition $record, array $data, Action $action) {
+                        $forms = $data['form'] ?? [];
                         $gameResults = $record->gameResults;
+
+                        if (count($forms) == 0) {
+                            Notification::make()
+                                ->warning()
+                                ->title('Add participates')
+                                ->body('you must first add users to this competition')
+                                ->send();
+
+                            $action->cancel();
+
+                            return;
+                        }
 
                         DB::beginTransaction();
 
