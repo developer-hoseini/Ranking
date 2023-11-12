@@ -25,12 +25,11 @@
                         <div class="swiper-slide tour-slide">
                             <a
                                 class="text-decoration-none"
+                                href="{{ route('tournaments.show', $tournament->id) }}"
                                 title="{{ $tournament->name }}"
                                 style="color: #6f6f6f;"
-                                {{-- href="{{ route('tournament.show', ['competition' => $tournament->id]) }}" --}}
                             >
                                 <div class="rounded-2 tour-card bg-white pb-3 shadow">
-                                    {{--                                    @if ($tournament?->teams->count()) --}}
                                     <img
                                         class="tour-card-img"
                                         src="{{ url($tournament->game->cover) }}"
@@ -46,33 +45,15 @@
                                                 src="{{ url($tournament->game->icon) }}"
                                                 title="{{ $tournament->game->name }}"
                                                 alt="{{ $tournament->game->name }}"
-                                                {{--                                                 title="{{__('games.'.$tournament->game->name)}}" --}}
                                                 width="20px"
                                                 height="20px"
                                             >
-                                            {{--                                            {{__('games.'.$tournament->game->name)}} --}}
                                             {{ $tournament->game->name }}
                                         </div>
                                     </div>
-                                    {{--                                    @else --}}
-                                    {{--                                        @php --}}
-                                    {{--                                            $team = $tournament->teams->first(); --}}
-                                    {{--                                        @endphp --}}
-                                    {{--                                        <img src="{{url($team->game->cover)}}" --}}
-                                    {{--                                             alt="{{$team->game->name}}" --}}
-                                    {{--                                             class="tour-card-img"> --}}
-                                    {{--                                        <div class="position-relative d-flex flex-wrap" style="bottom: 10px;"> --}}
-                                    {{--                                            <div class="bg-white py-1 px-2 rounded-pill text-center mx-auto"> --}}
-                                    {{--                                                <img src="{{url($team->icon)}}" --}}
-                                    {{--                                                     alt="{{$team->name}}" --}}
-                                    {{--                                                     title="{{__('games.'.$team->name)}}" width="20px" --}}
-                                    {{--                                                     height="20px" class="rounded-circle mx-1"> --}}
-                                    {{--                                                {{__('games.'.$team->name)}} --}}
-                                    {{--                                            </div> --}}
-                                    {{--                                        </div> --}}
-                                    {{--                                    @endif --}}
-                                    <div class="text-dark text-center">
-                                        {{ mb_substr($tournament->name, 0, 21, 'UTF-8') }}
+
+                                    <div class="text-dark text-truncate text-center">
+                                        {{ $tournament->name }}
                                         @if ($tournament->end_regesterd_at > now())
                                             <i
                                                 class="fa fa-flag-checkered mx-1"
@@ -81,25 +62,23 @@
                                             ></i>
                                         @endif
                                     </div>
+
                                     <div
                                         class="d-flex mt-1 flex-wrap"
                                         style="font-size: 14px;"
                                     >
-                                        <div class="w-50 text-center">
+                                        <div class="w-50 text-truncate text-center">
                                             <img
                                                 class="mx-1"
-                                                src="{{ url('assets/img/flags/' . $tournament->state->country->name . '.png') }}"
+                                                src="{{ url('assets/img/flags/' . $tournament?->state?->country?->name . '.png') }}"
                                                 height="20px"
                                             >
-                                            @if (\Lang::has('state.' . $tournament->state->name))
-                                                {{ mb_substr(__('state.' . $tournament->state->name), 0, 10, 'UTF-8') }}
-                                            @else
-                                                {{ mb_substr($tournament->state->name, 0, 8, 'UTF-8') }}
-                                            @endif
+                                            {{ $tournament?->state?->name }}
+
                                         </div>
                                         <div class="w-50 text-center">
-                                            {{ trans_choice('words.tour_members', $tournament->users->count(), [
-                                                'member' => $tournament->users->count(),
+                                            {{ trans_choice('words.tour_members', $tournament?->registered_users_count, [
+                                                'member' => $tournament?->registered_users_count,
                                             ]) }}
                                         </div>
                                     </div>
@@ -136,7 +115,7 @@
                         {{-- TODO: add tournoment show route --}}
                         {{-- TODO: change image url to competetion images collection --}}
                         <div class="swiper-slide tour-slide">
-                            <a {{-- href="{{ route('tournament.show', ['competition' => $tournamentImage->id]) }}" --}}>
+                            <a href="{{ route('tournaments.show', $tournamentImage->id) }}">
                                 <img
                                     src="{{ url($tournamentImage->game->cover) }}"
                                     title="{{ $tournamentImage->name }}"

@@ -145,9 +145,6 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
 
     //game
 
-    Route::get('/tournament', [TestController::class, 'index'])->name('tournament.index');
-    Route::get('/tournament/{competition}', [TestController::class, 'index'])->name('tournament.show');
-
     Route::get('/quick_submit', [TestController::class, 'index'])->name('quick_submit');
     // Route::get('/ranks', [TestController::class, 'index'])->middleware('auth')->name('ranks');
     Route::get('/events', [TestController::class, 'index'])->name('events');

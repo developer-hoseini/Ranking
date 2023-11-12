@@ -165,7 +165,7 @@ class ProfileController extends Controller
                 //                    $bracket = '';
                 //                }
 
-                $data .= '<div class="bg-light border rounded px-3 py-2 mt-2" style="height: 40px;"><a href="'.route('tournament.show', ['competition' => $tournament->id]).'" class="float-right-rtl">'.$tournament->name.'</a>'.$bracket.'<div class="float-left-rtl">'.$tournamentType.'</div></div>';
+                $data .= '<div class="bg-light border rounded px-3 py-2 mt-2" style="height: 40px;"><a href="'.route('tournaments.show', $tournament->id).'" class="float-right-rtl">'.$tournament->name.'</a>'.$bracket.'<div class="float-left-rtl">'.$tournamentType.'</div></div>';
             }
             /*foreach ($tournaments_teams as $tournament){
                 $data .= '<div class="bg-light border rounded px-3 py-2 mt-2" style="height: 40px;"><a href="'.route('tournament.show',['tournament'=>$tournament->id]).'" class="float-right-rtl">'.$tournament->name.'</a><div class="float-left-rtl"><span class="mx-2">'.$tournament->team_name.'</span><i class="fa fa-users"></i></div></div>';
