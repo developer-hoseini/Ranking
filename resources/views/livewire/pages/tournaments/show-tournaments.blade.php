@@ -58,7 +58,6 @@
                                 style="width: 65%;height: 85px;line-height: 25px;"
                             >
                                 @if (!$cup?->isFinished)
-                                    <div>{{ __('words.on_performing') }}</div>
                                     <div
                                         class="mb-2"
                                         style="font-size: 12px;"
@@ -99,21 +98,21 @@
                         </div>
                         <div class="text-center">
                             @if ($cup?->isRegisterable)
-                                @auth
+                                @if ($cup?->isAuthUserParticipate)
+                                    <p
+                                        class="btn btn-outline-secondary text-white"
+                                        style="width: 90%; cursor: default;"
+                                    >
+                                        You registered before !
+                                    </p>
+                                @else
                                     <a
                                         class="btn btn-success-glass"
                                         id="register-btn"
                                         href="{{ route('tournaments.register', $cup?->id) }}"
                                         style="width: 90%;"
                                     >{{ __('words.Register') }}</a>
-                                @else
-                                    <a
-                                        class="btn btn-white-glass"
-                                        id="register-btn"
-                                        href="{{ route('login', ['callback' => request()->path()]) }}"
-                                        style="width: 90%;"
-                                    >{{ __('words.competitors_list') }}</a>
-                                @endauth
+                                @endif
                             @else
                                 <div
                                     class="btn btn-white-glass"

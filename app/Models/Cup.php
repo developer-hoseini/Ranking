@@ -137,9 +137,27 @@ class Cup extends Model implements HasMedia
         return Attribute::make(
             get: function () {
                 $isCapacityAvailable = $this->competitions->count() < $this->capacity;
-                $isNotEnd = $this->end_register_at < now();
+                $hasTimeToRegister = $this->end_register_at > now();
 
-                return $isCapacityAvailable && $isNotEnd;
+                return $isCapacityAvailable && $hasTimeToRegister;
+            }
+        );
+    }
+
+    protected function isAuthUserParticipate(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                $authUser = auth()?->user();
+
+                if (! $authUser) {
+                    return false;
+                }
+
+                $isRegistered = $this->registeredUsers->where('id', $authUser->id)->first();
+
+                return $isRegistered ? true : false;
+
             }
         );
     }

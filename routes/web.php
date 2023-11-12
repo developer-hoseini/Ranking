@@ -81,7 +81,9 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::get('/', Tournaments::class)->name('index');
             Route::get('/{id}', ShowTournaments::class)->name('show');
             /* TODO: complete this register */
-            Route::get('/{id}/register', RegisterTournaments::class)->name('register');
+            Route::get('/{id}/register', RegisterTournaments::class)
+                ->middleware(['auth', 'completeProfile'])
+                ->name('register');
         });
 
         //games
