@@ -28,164 +28,162 @@
             </div>
 
 
-            {{-- <div class="card box sent_box">
-                 <a data-toggle="collapse" href="#Sent_Invites" role="button" aria-expanded="false"
-                    aria-controls="Sent_Invites" class="collapsed">
-                     <div class="card-header text-center">
-                         <h5>
-                             {{ __('words.Sent_Invites').' ('.$sent->count().')' }}
-                             <i class="fas fa-chevron-up"></i>
-                             <i class="fas fa-chevron-down"></i>
-                         </h5>
-                     </div>
-                 </a>
-                 <div class="card-body collapse" id="Sent_Invites">
+            <div class="card box sent_box">
+                <a data-toggle="collapse" href="#Sent_Invites" role="button" aria-expanded="false"
+                   aria-controls="Sent_Invites" class="collapsed">
+                    <div class="card-header text-center">
+                        <h5>
+                            {{ __('words.Sent_Invites').' ('.$currentUser->inviter->count().')' }}
+                            <i class="fas fa-chevron-up"></i>
+                            <i class="fas fa-chevron-down"></i>
+                        </h5>
+                    </div>
+                </a>
+                <div class="card-body collapse" id="Sent_Invites">
 
-                     <ul class="list-group">
-                         @foreach($sent as $invite)
-                             <li class="list-group-item">
+                    <ul class="list-group">
+                        @foreach($currentUser->inviter as $invite)
+                            <li class="list-group-item">
 
-                                 <div class="sent-user-info">
-                                     <a href="{{ route('profile',['username'=>$invite->invited->username]) }}"
-                                        target="_blank" title="{{$invite->invited->username}}">
-                                         <img src="{{ $invite->invited->photo }}" class="user_photo mb-2" width="80">
-                                         <div>{{ $invite->invited->username9 }}</div>
-                                     </a>
-                                     <div>{{__('words.Rank: ')}} {{ \App\User_Score::rank($invite->invited->id, $game['id']) }}</div>
-                                     <div>{{__('words.Score: ')}} {{ \App\User_Score::get_score($invite->invited->id, $game['id']) }}</div>
-                                 </div>
+                                <div class="sent-user-info">
+                                    <a href="{{ route('profile.show',['user'=>$invite->invited_user_id]) }}"
+                                       target="_blank" title="{{$invite->invitedUser?->username}}">
+                                        <img src="{{ $invite->invitedUser?->avatar }}" class="user_photo mb-2"
+                                             width="80">
+                                        <div>{{ $invite->invitedUser->username9 }}</div>
+                                    </a>
+                                    <div>{{__('words.Rank: ')}} {{ \App\Services\Actions\User\GetGameRank::handle($invite->invited_user_id,$game->id) }}</div>
+                                    <div>{{__('words.Score: ')}} {{ $invite->invitedUser?->score_achievements_sum_count }}</div>
+                                </div>
 
 
-                                 <div class="sent-info">
-                                     <div>
-                                         @if($invite->is_inclub)
-                                             <i class="fas fa-check txt-green"></i>
-                                         @else
-                                             <i class="fas fa-times txt-red"></i>
-                                         @endif
-                                         <b>{{ __('words.In Club') }}</b>
-                                         @if($invite->is_inclub)
-                                             {{ '('.$invite->club->name.')' }}
-                                         @endif
-                                     </div>
-                                     <div>
-                                         @if($invite->is_with_image)
-                                             <i class="fas fa-check txt-green"></i>
-                                         @else
-                                             <i class="fas fa-times txt-red"></i>
-                                         @endif
-                                         <b>{{ __('words.With Referee') }}</b>
-                                     </div>
+                                <div class="sent-info">
+                                    <div>
+                                        @if($invite->gameType?->whereIn('name','in_club')->count())
+                                            <i class="fas fa-check txt-green"></i>
+                                        @else
+                                            <i class="fas fa-times txt-red"></i>
+                                        @endif
+                                        <b>{{ __('words.In Club') }}</b>
+                                        @if($invite?->club)
+                                            {{ '('.$invite->club?->name.')' }}
+                                        @endif
+                                    </div>
+                                    <div>
+                                        @if($invite->gameType?->whereIn('name','with_image')->count())
+                                            <i class="fas fa-check txt-green"></i>
+                                        @else
+                                            <i class="fas fa-times txt-red"></i>
+                                        @endif
+                                        <b>{{ __('words.With Referee') }}</b>
+                                    </div>
 
-                                     @php
-                                         $date = app()->getLocale()=='fa'?jdate($invite->dt):$invite->dt;
-                                         $dt = date("Y/m/d (H:i)", strtotime($date));
-                                     @endphp
-                                     <div class="invite-dt"><span class="btn-dark btn-sm"><i class="fas fa-clock"></i> {{ $dt }}</span>
-                                     </div>
+                                    <div class="invite-dt"><span class="btn-dark btn-sm"><i class="fas fa-clock"></i> {{ $invite->created_at?->format("Y/m/d (H:i)") }}</span>
+                                    </div>
 
-                                     <div class="mb-3"><b>{{ __('words.Status:') }}</b> {{ $invite->status_msg }}</div>
-                                     <div class="gamepage-buttons">
-                                         <a href="{{ route('chatpage',['user_id'=>$invite->invited->id]) }}"
-                                            class="btn btn-primary btn-sm" target="_blank"><i
-                                                 class="fa fa-comments"></i> {{ __('words.Chat') }}</a>
-                                         <a href="{{ route('cancel',['invite_id'=>$invite->id]) }}"
-                                            class="btn btn-danger btn-sm">
-                                             <i class="fa fa-window-close"></i> {{ __('words.Cancel') }}</a>
-                                     </div>
-                                 </div>
+                                    <div class="mb-3">
+                                        <b>{{ __('words.Status:') }}</b> {{ $invite?->confirmStatus?->name }}</div>
+                                    <div class="gamepage-buttons">
+                                        <a href="{{ route('chat.page',['user'=>$invite->invited_user_id]) }}"
+                                           class="btn btn-primary btn-sm" target="_blank"><i
+                                                class="fa fa-comments"></i> {{ __('words.Chat') }}</a>
+                                        <a href="{{ route('games.page.cancel',['inviteId'=>$invite->id]) }}"
+                                           class="btn btn-danger btn-sm">
+                                            <i class="fa fa-window-close"></i> {{ __('words.Cancel') }}</a>
+                                    </div>
+                                </div>
 
-                             </li>
-                         @endforeach
-                     </ul>
+                            </li>
+                        @endforeach
+                    </ul>
 
-                 </div>
-             </div>
---}}
+                </div>
+            </div>
 
-            {{-- <div class="card box received_box">
-                 <a data-toggle="collapse" href="#Received_Invites" role="button" aria-expanded="false"
-                    aria-controls="Received_Invites" class="collapsed">
-                     <div class="card-header text-center">
-                         <h5>
-                             {{ __('words.Received_Invites').' ('.$received->count().')' }}
-                             <i class="fas fa-chevron-up"></i>
-                             <i class="fas fa-chevron-down"></i>
-                         </h5>
-                     </div>
-                 </a>
-                 <div class="card-body collapse" id="Received_Invites">
+            <div class="card box received_box">
+                <a data-toggle="collapse" href="#Received_Invites" role="button" aria-expanded="false"
+                   aria-controls="Received_Invites" class="collapsed">
+                    <div class="card-header text-center">
+                        <h5>
+                            {{ __('words.Received_Invites').' ('.$currentUser->invited->count().')' }}
+                            <i class="fas fa-chevron-up"></i>
+                            <i class="fas fa-chevron-down"></i>
+                        </h5>
+                    </div>
+                </a>
+                <div class="card-body collapse" id="Received_Invites">
 
-                     <ul class="list-group">
-                         @foreach($received as $invite)
-                             <li class="list-group-item">
+                    <ul class="list-group">
+                        @foreach($currentUser->invited as $invite)
+                            <li class="list-group-item">
 
-                                 <div class="receive-user-info">
-                                     <a href="{{ route('profile',['username'=>$invite->inviter->username]) }}"
-                                        target="_blank" title="{{$invite->inviter->username}}">
-                                         <img src="{{ $invite->inviter->photo }}" class="user_photo mb-2" width="80">
-                                         <div>{{ $invite->inviter->username9 }}</div>
-                                     </a>
-                                     <div>{{__('words.Rank: ')}} {{ \App\User_Score::rank($invite->inviter->id, $game['id']) }}</div>
-                                     <div>{{__('words.Score: ')}} {{ \App\User_Score::get_score($invite->inviter->id, $game['id']) }}</div>
-                                 </div>
+                                <div class="receive-user-info">
+                                    <a href="{{ route('profile.show',['user'=>$invite->inviter_user_id]) }}"
+                                       target="_blank" title="{{$invite->inviterUser?->username}}">
+                                        <img src="{{ $invite->inviterUser?->avatar }}" class="user_photo mb-2"
+                                             width="80">
+                                        <div>{{ $invite->inviterUser->username9 }}</div>
+                                    </a>
+                                    <div>{{__('words.Rank: ')}} {{ \App\Services\Actions\User\GetGameRank::handle($invite->inviter_user_id,$game->id) }}</div>
+                                    <div>{{__('words.Score: ')}} {{ $invite->inviterUser?->score_achievements_sum_count }}</div>
+                                </div>
 
-                                 <div class="receive-info">
-                                     <div>
-                                         <div>
-                                             @if($invite->is_inclub)
-                                                 <i class="fas fa-check txt-green"></i>
-                                             @else
-                                                 <i class="fas fa-times txt-red"></i>
-                                             @endif
-                                             <b>{{ __('words.In Club') }}</b>
-                                             @if($invite->is_inclub)
-                                                 {{ '('.$invite->club->name.')' }}
-                                             @endif
-                                         </div>
-                                         <div>
-                                             @if($invite->is_with_image)
-                                                 <i class="fas fa-check txt-green"></i>
-                                             @else
-                                                 <i class="fas fa-times txt-red"></i>
-                                             @endif
-                                             <b>{{ __('words.With Referee') }}</b>
-                                         </div>
-                                     </div>
+                                <div class="receive-info">
+                                    <div>
+                                        <div>
+                                            @if($invite->gameType?->whereIn('name','in_club')->count())
+                                                <i class="fas fa-check txt-green"></i>
+                                            @else
+                                                <i class="fas fa-times txt-red"></i>
+                                            @endif
+                                            <b>{{ __('words.In Club') }}</b>
+                                            @if($invite?->club)
+                                                {{ '('.$invite->club?->name.')' }}
+                                            @endif
+                                        </div>
+                                        <div>
+                                            @if($invite->gameType?->whereIn('name','with_image')->count())
+                                                <i class="fas fa-check txt-green"></i>
+                                            @else
+                                                <i class="fas fa-times txt-red"></i>
+                                            @endif
+                                            <b>{{ __('words.With Referee') }}</b>
+                                        </div>
+                                    </div>
+                                    <div class="invite-dt">
+                                         <span class="btn-dark btn-sm">
+                                             <i class="fas fa-clock"></i>
+                                             {{ $invite->created_at?->format("Y/m/d (H:i)") }}
+                                         </span>
+                                    </div>
 
-                                     @php
-                                         $date = app()->getLocale()=='fa'?jdate($invite->dt):$invite->dt;
-                                         $dt = date("Y/m/d (H:i)", strtotime($date));
-                                     @endphp
-                                     <div class="invite-dt"><span class="btn-dark btn-sm"><i class="fas fa-clock"></i> {{ $dt }}</span>
-                                     </div>
+                                    <div class="mb-3 txt-black mobile-number">
+                                        @if($invite->inviterUser?->profile?->show_mobile)
+                                            <i class="fas fa-mobile-alt"></i>
+                                            {{ $invite->inviterUser?->profile?->mobile }}
+                                        @endif
+                                    </div>
 
-                                     <div class="mb-3 txt-black mobile-number">
-                                         @if($invite->inviter->profile->show_mobile==1)
-                                             <i class="fas fa-mobile-alt"></i>
-                                             {{ $invite->inviter->profile->mobile }}
-                                         @endif
-                                     </div>
+                                    <div class="gamepage-buttons">
+                                        <a href="{{ route('games.page.accept',['inviteId'=>$invite->id]) }}"
+                                           class="btn btn-success btn-sm">
+                                            <i class="fa fa-check"></i> {{ __('words.Accept') }}</a>
+                                        <a href="{{ route('games.page.reject',['inviteId'=>$invite->id]) }}"
+                                           class="btn btn-danger btn-sm">
+                                            <i class="fa fa-ban"></i> {{ __('words.Reject') }}</a>
+                                        <a href="{{ route('chat.page',['user'=>$invite->inviter_user_id]) }}"
+                                           class="btn btn-primary btn-sm ml-2" target="_blank"><i
+                                                class="fa fa-comments"></i> {{ __('words.Chat') }}</a>
+                                    </div>
+                                </div>
 
-                                     <div class="gamepage-buttons">
-                                         <a href="{{ route('accept',['invite_id'=>$invite->id]) }}"
-                                            class="btn btn-success btn-sm">
-                                             <i class="fa fa-check"></i> {{ __('words.Accept') }}</a>
-                                         <a href="{{ route('reject',['invite_id'=>$invite->id]) }}"
-                                            class="btn btn-danger btn-sm">
-                                             <i class="fa fa-ban"></i> {{ __('words.Reject') }}</a>
-                                         <a href="{{ route('chatpage',['user_id'=>$invite->inviter->id]) }}"
-                                            class="btn btn-primary btn-sm ml-2" target="_blank"><i
-                                                 class="fa fa-comments"></i> {{ __('words.Chat') }}</a>
-                                     </div>
-                                 </div>
+                            </li>
+                        @endforeach
+                    </ul>
 
-                             </li>
-                         @endforeach
-                     </ul>
+                </div>
+            </div>
 
-                 </div>
-             </div>--}}
             {{--  <check-page-invites
                   check-route="{{ route('check_gamepage_invites') }}"
                   sent-count="{{ $sent->count() }}"
@@ -557,15 +555,6 @@
         <script>
             $(document).ready(function () {
                 $("[rel=tooltip]").tooltip({placement: 'left'});
-
-                /*$(".kkkk").click(function(e) {
-                  alert('sss');
-                    e.preventDefault(); // this prevents the original href of the link from being opened
-                    e.stopPropigation(); // this prevents the click from triggering click events up the DOM from this element
-                    $('#Info').fadeIn(300);
-
-                    return false;
-                });*/
             });
         </script>
     @endpush

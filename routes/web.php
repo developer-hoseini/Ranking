@@ -98,8 +98,11 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
 
             //game page
             Route::group(['as' => 'page.', 'prefix' => '/page', 'middleware' => ['auth', 'verified', 'completeProfile']], function () {
-                Route::get('/{game}/{opponent?}', [GamePageController::class, 'index'])->name('index');
+                Route::get('/accept/{inviteId}', [GamePageController::class, 'accept'])->name('accept');
+                Route::get('/reject/{inviteId}', [GamePageController::class, 'reject'])->name('reject');
+                Route::get('/cancel/{inviteId}', [GamePageController::class, 'cancel'])->name('cancel');
                 Route::post('/invite/{game}', [GamePageController::class, 'invite'])->name('invite');
+                Route::get('/{game}/{opponent?}', [GamePageController::class, 'index'])->name('index');
             });
         });
 
@@ -162,6 +165,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
     Route::get('/tickets', [TestController::class, 'index'])->name('tickets.index');
 
     Route::get('/prizes', [TestController::class, 'index'])->name('prizes');
+    Route::get('/chat/{user}', [TestController::class, 'index'])->name('chat.page');
 
     Route::view('/global_ranks', [TestController::class, 'index'])->name('global_ranks');
 

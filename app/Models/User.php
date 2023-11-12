@@ -190,9 +190,24 @@ class User extends Authenticatable implements CanResetPassword, FilamentUser, Ha
         return $this->morphMany(Achievement::class, 'achievementable')->where('type', AchievementTypeEnum::COIN->value);
     }
 
-    public function coinRequestes(): HasMany
+    public function coinRequests(): HasMany
     {
         return $this->hasMany(CoinRequest::class, 'created_by_user_id');
+    }
+
+    public function inviter(): HasMany
+    {
+        return $this->hasMany(Invite::class, 'inviter_user_id');
+    }
+
+    public function invited(): HasMany
+    {
+        return $this->hasMany(Invite::class, 'invited_user_id');
+    }
+
+    public function gameResults(): MorphMany
+    {
+        return $this->morphMany(GameResult::class, 'playerable_type');
     }
 
     //for panel
@@ -283,7 +298,7 @@ class User extends Authenticatable implements CanResetPassword, FilamentUser, Ha
                     ->where('type', AchievementTypeEnum::COIN->value)
                     ->sum('count');
 
-                $coinRequestedPending = $this->coinRequestes()
+                $coinRequestedPending = $this->coinRequests()
                     ->where('type', CoinRequestTypeEnum::SELL->value)
                     ->where('status_id', Status::nameScope(StatusEnum::PENDING->value)->first()->id)
                     ->sum('count');
@@ -301,6 +316,13 @@ class User extends Authenticatable implements CanResetPassword, FilamentUser, Ha
 
                 return $hasAdminRole ? true : false;
             }
+        );
+    }
+
+    protected function username9(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => substr($this->username, 0, 9).'...'
         );
     }
 }
