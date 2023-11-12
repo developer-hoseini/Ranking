@@ -30,9 +30,8 @@ class Tournaments extends Component
             ->take(12)
             ->get();
 
-        $tournamentImages = Competition::query()
-            ->whereHas('teams')
-            ->statusTournament()
+        /* TODO: only show cups that has ->withWhereHas('media') */
+        $tournamentImages = Cup::query()
             ->orderBy('id', 'DESC')
             ->take(12)
             ->get();
