@@ -44,6 +44,8 @@ return [
             'password' => env('MAIL_PASSWORD'),
             'timeout' => null,
             'local_domain' => env('MAIL_EHLO_DOMAIN'),
+            'auth_mode' => null,
+            'verify_peer' => false,   // <------ IT HAS TO BE HERE
         ],
 
         'ses' => [
