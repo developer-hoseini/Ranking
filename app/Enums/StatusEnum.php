@@ -75,4 +75,13 @@ enum StatusEnum: string
             self::WAIT_CLUB_VERIFY->value,
         ];
     }
+
+    public static function getNotReadyInvite(): array
+    {
+        return [
+            self::PENDING->value,
+            self::CANCELED->value,
+            self::REJECTED->value,
+        ];
+    }
 }

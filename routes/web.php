@@ -98,6 +98,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
 
             //game page
             Route::group(['as' => 'page.', 'prefix' => '/page', 'middleware' => ['auth', 'verified', 'completeProfile']], function () {
+                Route::post('check/invites', [GamePageController::class, 'checkInvitesExist'])->name('check.invites');
                 Route::get('/accept/{inviteId}', [GamePageController::class, 'accept'])->name('accept');
                 Route::get('/reject/{inviteId}', [GamePageController::class, 'reject'])->name('reject');
                 Route::get('/cancel/{inviteId}', [GamePageController::class, 'cancel'])->name('cancel');

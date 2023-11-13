@@ -56,26 +56,27 @@ class GamePageController extends Controller
             ]);
         }
 
-        $currentUser = auth()->user()?->loadMissing([
-            'inviter' => function ($query) {
-                $query->whereHas('confirmStatus', fn ($q) => $q->where('name', StatusEnum::PENDING->value))
-                    ->with([
-                        'invitedUser' => fn ($q) => $q->withSum('scoreAchievements', 'count'),
-                        'club',
-                        'confirmStatus',
-                        'gameType',
-                    ]);
-            },
-            'invited' => function ($query) {
-                $query->whereHas('confirmStatus', fn ($q) => $q->where('name', StatusEnum::PENDING->value))
-                    ->with([
-                        'inviterUser' => fn ($q) => $q->with('profile')->withSum('scoreAchievements', 'count'),
-                        'club',
-                        'confirmStatus',
-                        'gameType',
-                    ]);
-            },
-        ]);
+        /*
+        $game_results = DB::table('invite')
+            ->join('game_result', 'invite.id', '=', 'game_result.invite_id')
+            ->where('game_id', $game_id)->where(
+            function ($query) use ($user_id) {
+                $query->where('inviter_id', $user_id)->orWhere('invited_id', $user_id);
+            })
+            ->whereNotIn('status', [$status['Pending'], $status['Rejected'], $status['Canceled']])
+            ->orderBy('invite.id', 'desc')->get();
+*/
+
+        $gameResults = Invite::query()
+            ->where('invites.game_id', $game->id)
+            ->whereHas('confirmStatus', fn ($q) => $q->whereNotIn('statuses.name', StatusEnum::getNotReadyInvite()))
+            ->where(function ($query) {
+                $query->where('invites.invited_user_id', auth()->id())
+                    ->orWhere('invites.inviter_user_id', auth()->id());
+            })
+            ->with('inviteCompetitionsGameResults')
+            ->orderBy('invites.id', 'desc')
+            ->get();
 
         //        $setting = config('setting');
 
@@ -100,22 +101,7 @@ class GamePageController extends Controller
         $false_image = \App\Event::where(['user_id' => $user_id, 'type' => config('event.Warning'), 'reason' => config('reason.False_Image')])->count();
         $false_club = \App\Event::where(['user_id' => $user_id, 'type' => config('event.Warning'), 'reason' => config('reason.False_Club')])->count();*/
         /*
-                $sent = \App\Invite::with(['invited', 'club'])->where([
-                    ['inviter_id', $user_id],
-                    ['game_id', $game_id],
-                    ['status', $status['Pending']],
-                ])->get();
 
-                $received = \App\Invite::with(['inviter', 'inviter.profile', 'club'])->where([
-                    ['invited_id', $user_id],
-                    ['game_id', $game_id],
-                    ['status', $status['Pending']],
-                ])->get();
-
-                $game_results = DB::table('invite')->join('game_result', 'invite.id', '=', 'game_result.invite_id')->where('game_id', $game_id)->where(
-                    function ($query) use ($user_id) {
-                        $query->where('inviter_id', $user_id)->orWhere('invited_id', $user_id);
-                    })->whereNotIn('status', [$status['Pending'], $status['Rejected'], $status['Canceled']])->orderBy('invite.id', 'desc')->get();
 
                 $no_submit_results_count = \App\Invite::whereHas('no_submit_result')->whereRaw('game_id=? and (inviter_id=? or invited_id=?)', [$game_id, $user_id, $user_id])->count();
                 $one_submit_results_count = \App\Invite::whereHas('one_submit_result')->whereRaw('game_id=? and (inviter_id=? or invited_id=?)', [$game_id, $user_id, $user_id])->count();
@@ -152,10 +138,10 @@ class GamePageController extends Controller
             'one_submit_results_count' => $one_submit_results_count,
         ];*/
 
-        return view('games.page.index', compact('game', 'opponent', 'currentUser'));
+        return view('games.page.index', compact('game', 'opponent'));
     }
 
-    public function check_gamepage_invites(Request $request)
+    public function checkInvitesExist(Request $request)
     {
         if ($request->ajax()) {
             $sent_count = $request->get('sent_count');

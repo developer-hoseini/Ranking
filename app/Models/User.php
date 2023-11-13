@@ -31,6 +31,7 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Permission\Traits\HasRoles;
+use Staudenmeir\EloquentHasManyDeep\HasManyDeep;
 
 /**
  * App\Models\User
@@ -105,6 +106,7 @@ class User extends Authenticatable implements CanResetPassword, FilamentUser, Ha
     use InteractsWithMedia,SoftDeletes;
     use PasswordsCanResetPassword;
     use \Staudenmeir\EloquentEagerLimit\HasEagerLimit;
+    use \Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
     /**
      * The attributes that are mass assignable.
@@ -160,7 +162,7 @@ class User extends Authenticatable implements CanResetPassword, FilamentUser, Ha
         return $this->morphToMany(Cup::class, 'cupable');
     }
 
-    public function userCompetitionsGame()
+    public function userCompetitionsGame(): HasManyDeep
     {
         return $this->hasManyDeepFromRelations($this->competitions(), (new Competition)->game());
     }
