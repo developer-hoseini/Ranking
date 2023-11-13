@@ -84,4 +84,24 @@ class Status extends Model
             }
         );
     }
+
+    protected function colorClass(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                return match ($this->name) {
+                    StatusEnum::ACCEPTED->value => 'text-success',
+                    StatusEnum::PENDING->value => 'text-warning',
+                    StatusEnum::REJECTED->value => 'text-danger',
+                    StatusEnum::CANCELED->value => 'text-secondary',
+
+                    StatusEnum::GAME_RESULT_WIN->value => 'text-success',
+                    StatusEnum::GAME_RESULT_LOSE->value => 'text-danger',
+                    StatusEnum::GAME_RESULT_ABSENT->value => 'text-warning',
+
+                    default => '',
+                };
+            },
+        );
+    }
 }

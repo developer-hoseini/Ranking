@@ -9,6 +9,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestController;
 use App\Livewire\Pages\Cups\ShowCup;
+use App\Livewire\Pages\GameResult;
 use App\Livewire\Pages\GameResults\QuickSubmit;
 use App\Livewire\Pages\Games;
 use App\Livewire\Pages\MgcCoin;
@@ -123,6 +124,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
         //game-results
         Route::group(['prefix' => '/game-results', 'as' => 'game-results.'], function () {
             Route::middleware(['auth', 'verified', 'completeProfile'])->group(function () {
+                Route::get('/', GameResult::class)->name('index');
                 Route::get('/quick-submit', QuickSubmit::class)->name('quick-submit');
             });
 
@@ -150,10 +152,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
 
     //game
 
-    Route::get('/quick_submit', [TestController::class, 'index'])->name('quick_submit');
     // Route::get('/ranks', [TestController::class, 'index'])->middleware('auth')->name('ranks');
     Route::get('/events', [TestController::class, 'index'])->name('events');
-    Route::get('/quick_submitted_list', [TestController::class, 'index'])->name('quick_submitted_list');
     Route::get('/team_ranks', [TestController::class, 'index'])->middleware('auth')->name('team_ranks');
     Route::get('/set_qrcode', [TestController::class, 'index'])->name('set_qrcode');
     Route::get('/charge', [TestController::class, 'index'])->name('charge');

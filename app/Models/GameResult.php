@@ -68,4 +68,9 @@ class GameResult extends Model
     {
         return $this->morphTo('gameresultable');
     }
+
+    public function competition()
+    {
+        return $this->belongsTo(Competition::class);
+    }
 }

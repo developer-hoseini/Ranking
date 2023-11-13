@@ -190,7 +190,7 @@
         id="profile-menu-box"
     >
         <a
-            href="{{ route('quick_submitted_list') }}"
+            href="{{ route('game-results.index') }}"
             style="text-decoration: none;"
         >
             <div class="menu-list-item text-center">

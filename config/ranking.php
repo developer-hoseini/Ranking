@@ -16,4 +16,9 @@ return [
             'coin' => 40,
         ],
     ],
+    'settings' => [
+        'global' => [
+            'per_page' => 15,
+        ],
+    ],
 ];
