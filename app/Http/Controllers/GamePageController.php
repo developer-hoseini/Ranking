@@ -67,17 +67,6 @@ class GamePageController extends Controller
             ->orderBy('invite.id', 'desc')->get();
 */
 
-        $gameResults = Invite::query()
-            ->where('invites.game_id', $game->id)
-            ->whereHas('confirmStatus', fn ($q) => $q->whereNotIn('statuses.name', StatusEnum::getNotReadyInvite()))
-            ->where(function ($query) {
-                $query->where('invites.invited_user_id', auth()->id())
-                    ->orWhere('invites.inviter_user_id', auth()->id());
-            })
-            ->with('inviteCompetitionsGameResults')
-            ->orderBy('invites.id', 'desc')
-            ->get();
-
         //        $setting = config('setting');
 
         //        $game = \App\Game::withCount(['scores', 'invites', 'in_club', 'with_image'])->where('id', $game_id)->first();
@@ -139,66 +128,6 @@ class GamePageController extends Controller
         ];*/
 
         return view('games.page.index', compact('game', 'opponent'));
-    }
-
-    public function checkInvitesExist(Request $request)
-    {
-        if ($request->ajax()) {
-            $sent_count = $request->get('sent_count');
-            $received_count = $request->get('received_count');
-            $results_count = $request->get('results_count');
-            $one_submit_results_count = $request->get('one_submit_results_count');
-            $game_id = $request->get('game_id');
-
-            $user_id = Auth::user()->id;
-
-            $new_sent_count = \App\Invite::where([
-                ['inviter_id', $user_id],
-                ['game_id', $game_id],
-                ['status', config('status.Pending')],
-            ])->count();
-
-            $new_received_count = \App\Invite::where([
-                ['invited_id', $user_id],
-                ['game_id', $game_id],
-                ['status', config('status.Pending')],
-            ])->count();
-
-            $new_results_count = \App\Invite::whereHas('no_submit_result')->whereRaw('game_id=? and (inviter_id=? or invited_id=?)', [$game_id, $user_id, $user_id])->count();
-
-            $new_one_submit_results_count = \App\Invite::whereHas('one_submit_result')->whereRaw('game_id=? and (inviter_id=? or invited_id=?)', [$game_id, $user_id, $user_id])->count();
-
-            $data = false;
-
-            if ($new_results_count < $results_count) {
-                $request->session()->flash('message', __('message.your_opponent_submitted_the_result'));
-                $request->session()->flash('alert-class', 'alert-success');
-                $data = true;
-            } elseif ($new_results_count > $results_count) {
-                $request->session()->flash('message', __('message.your_invite_has_accepted'));
-                $request->session()->flash('alert-class', 'alert-success');
-                $data = true;
-            } elseif ($new_one_submit_results_count < $one_submit_results_count) {
-                $request->session()->flash('message', __('message.opponent_submitted_and_final_result_determined'));
-                $request->session()->flash('alert-class', 'alert-success');
-                $data = true;
-            } elseif ($new_received_count > $received_count) {
-                $received = \App\Invite::with(['inviter'])->where([
-                    ['invited_id', $user_id],
-                    ['game_id', $game_id],
-                    ['status', config('status.Pending')],
-                ])->orderBy('id', 'desc')->first();
-
-                $request->session()->flash('message', __('message.you_have_new_invite',
-                    ['username' => $received->inviter->username]));
-                $request->session()->flash('alert-class', 'alert-success');
-                $data = true;
-            } elseif (($new_sent_count < $sent_count) || ($new_received_count < $received_count)) {
-                $data = true;
-            }
-
-            return response()->json($data);
-        }
     }
 
     /**
@@ -385,14 +314,14 @@ class GamePageController extends Controller
             ->with('success', __('message.invite_sent_successfully', ['username' => $request->input('username')]));
     }
 
-    public function submit_result(Request $request, $invite_id)
+    public function submitResult(Request $request, Invite $invite)
     {
         $validatedData = $request->validate([
             'result' => 'required',
             'image' => 'required_if:with_referee,1|image|max:8192',
         ]);
 
-        $invite = \App\Invite::with(['club', 'inviter', 'invited'])->where('id', $invite_id)->first();
+        //        $invite = Invite::with(['club', 'inviter', 'invited'])->where('id', $invite_id)->first();
 
         $user_id = Auth::user()->id;
 

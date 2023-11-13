@@ -103,4 +103,9 @@ class Invite extends Model
     {
         return $this->hasManyDeepFromRelations($this->competitions(), (new Competition)->gameResults());
     }
+
+    public function inviteCompetitionsScoreOccurredModel(): HasManyDeep
+    {
+        return $this->hasManyDeepFromRelations($this->competitions(), (new Competition)->scoreOccurredModel());
+    }
 }
