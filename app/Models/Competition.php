@@ -173,7 +173,7 @@ class Competition extends Model implements HasMedia
         return $this->morphOne(Achievement::class, 'occurred_model')->where('type', AchievementTypeEnum::COIN->value);
     }
 
-    public function scopeStatusTournament(Builder $builder)
+    public function scopeStatusTournament(Builder $builder): Builder
     {
         return $builder->whereHas('status', fn ($q) => $q->where('name', StatusEnum::COMPETITION_TOURNAMENT->value));
     }

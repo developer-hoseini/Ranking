@@ -103,7 +103,9 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
                 Route::get('/reject/{inviteId}', [GamePageController::class, 'reject'])->name('reject');
                 Route::get('/cancel/{inviteId}', [GamePageController::class, 'cancel'])->name('cancel');
                 Route::post('/invite/{game}', [GamePageController::class, 'invite'])->name('invite');
+                Route::post('/submit-result/{invite}', [GamePageController::class, 'submitResult'])->name('submit-result');
                 Route::get('/{game}/{opponent?}', [GamePageController::class, 'index'])->name('index');
+
             });
         });
 

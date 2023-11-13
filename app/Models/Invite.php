@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Staudenmeir\EloquentHasManyDeep\HasManyDeep;
 
 /**
  * App\Models\Invite
@@ -52,6 +53,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Invite extends Model
 {
     use SoftDeletes;
+    use \Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
     protected $fillable = [
         'inviter_user_id', 'invited_user_id', 'game_id', 'game_type_id', 'club_id', 'game_status_id', 'confirm_status_id',
@@ -95,5 +97,15 @@ class Invite extends Model
     public function competitions(): MorphToMany
     {
         return $this->morphToMany(Competition::class, 'competitionable')->withPivot(['status_id']);
+    }
+
+    public function inviteCompetitionsGameResults(): HasManyDeep
+    {
+        return $this->hasManyDeepFromRelations($this->competitions(), (new Competition)->gameResults());
+    }
+
+    public function inviteCompetitionsScoreOccurredModel(): HasManyDeep
+    {
+        return $this->hasManyDeepFromRelations($this->competitions(), (new Competition)->scoreOccurredModel());
     }
 }
