@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\CompetitionResource\RelationManagers;
 
-use App\Models\GameResult;
 use App\Models\Status;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -46,7 +45,7 @@ class UsersRelationManager extends RelationManager
                 Tables\Actions\AttachAction::make()->form(fn (AttachAction $action): array => [
                     $action->getRecordSelect()->required(),
                     Forms\Components\Select::make('status_id')
-                        ->options(Status::modelType(GameResult::class, false)->pluck('name', 'id')->toArray()),
+                        ->options(Status::modelType(null, true)->pluck('name', 'id')->toArray()),
                 ]),
             ])
             ->actions([
