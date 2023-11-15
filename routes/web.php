@@ -71,6 +71,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::middleware(['auth', 'completeProfile'])->group(function () {
                 Route::get('/{id}/register', \App\Livewire\Pages\Tournaments\RegisterTournaments::class)->name('register');
                 Route::get('/me', \App\Livewire\Pages\Tournaments\Me\Index::class)->name('me.index');
+                Route::get('/me/create', \App\Livewire\Pages\Tournaments\Me\Index\Create::class)->name('me.create');
             });
 
             Route::get('/', \App\Livewire\Pages\Tournaments::class)->name('index');

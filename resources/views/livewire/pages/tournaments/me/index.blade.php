@@ -6,10 +6,12 @@
 
         <div class="w-100 text-sm-center">
             <a
-                class="btn btn-success"
-                id="new_tournament_btn"
-                {{-- href="{{ route('my_tournament.create') }}" --}}
-            >{{ __('words.create_new_tournament') }}<i class="fa fa-plus mx-2"></i></a>
+                class="btn btn-success cursor-pointer text-white"
+                href="{{ route('tournaments.me.create') }}"
+            >
+                {{ __('words.create_new_tournament') }}
+                <i class="fa fa-plus mx-2"></i>
+            </a>
             <button
                 class="btn btn-info tournament-btns m-1"
                 {{-- onclick="invite_show();" --}}
