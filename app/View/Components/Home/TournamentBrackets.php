@@ -11,6 +11,7 @@ class TournamentBrackets extends Component
     public function render(): View
     {
         $cups = Cup::query()->orderBy('id', 'DESC')
+            ->acceptedStatusScope()
             ->withWhereHas('competitions')
 
 //            ->whereHas('latest_bracket')

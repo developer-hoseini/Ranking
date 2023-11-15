@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\StatusEnum;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -115,6 +116,11 @@ class Cup extends Model implements HasMedia
     {
         $this->addMediaCollection('images')
             ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/gif', 'image/jpg']);
+    }
+
+    public function scopeAcceptedStatusScope(Builder $builder)
+    {
+        return $builder->whereHas('status', fn ($q) => $q->nameScope(StatusEnum::ACCEPTED->value));
     }
 
     protected function startAtDate(): Attribute

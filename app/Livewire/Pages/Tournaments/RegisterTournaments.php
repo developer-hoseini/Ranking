@@ -20,7 +20,7 @@ class RegisterTournaments extends Component
     {
         $authUser = auth()?->user();
 
-        $cup = Cup::where('id', $this->cupId)->firstOrFail();
+        $cup = Cup::where('id', $this->cupId)->acceptedStatusScope()->firstOrFail();
 
         $cup->registeredUsers()->attach($authUser->id);
 

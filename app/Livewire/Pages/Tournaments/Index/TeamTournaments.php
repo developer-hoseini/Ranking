@@ -32,6 +32,7 @@ class TeamTournaments extends Component
     public function cups()
     {
         $cups = Cup::query()
+            ->acceptedStatusScope()
             ->with([
                 'game',
                 'state.country',
