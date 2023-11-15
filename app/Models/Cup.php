@@ -106,6 +106,11 @@ class Cup extends Model implements HasMedia
         return $this->belongsTo(User::class);
     }
 
+    public function status(): BelongsTo
+    {
+        return $this->belongsTo(Status::class)->modelType(null, true);
+    }
+
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('images')

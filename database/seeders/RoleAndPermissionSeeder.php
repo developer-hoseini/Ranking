@@ -124,6 +124,7 @@ class RoleAndPermissionSeeder extends Seeder
                     'email' => 'admin@admin.com',
                     'username' => 'admin',
                     'password' => bcrypt('admin'),
+                    'email_verified_at' => now(),
                 ]);
             });
 
@@ -136,18 +137,24 @@ class RoleAndPermissionSeeder extends Seeder
                         'email' => 'userfake1@user.com',
                         'username' => 'userfake1',
                         'password' => bcrypt('userfake1'),
+                        'email_verified_at' => now(),
+
                     ],
                     [
                         'name' => 'userfake2',
                         'email' => 'userfake2@user.com',
                         'username' => 'userfake2',
                         'password' => bcrypt('userfake2'),
+                        'email_verified_at' => now(),
+
                     ],
                     [
                         'name' => 'userfake3',
                         'email' => 'userfake3@user.com',
                         'username' => 'userfake3',
                         'password' => bcrypt('userfake3'),
+                        'email_verified_at' => now(),
+
                     ],
                 ];
 

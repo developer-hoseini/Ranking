@@ -14,9 +14,8 @@ use App\Traits\BaseEnum;
 enum StatusEnum: string
 {
     use BaseEnum;
-
-    case PENDING = 'pending';
     case ACCEPTED = 'accepted';
+    case PENDING = 'pending';
     case REJECTED = 'rejected';
     case CANCELED = 'canceled';
 
@@ -49,7 +48,8 @@ enum StatusEnum: string
             self::WAIT_IMAGE_VERIFY,self::WAIT_CLUB_VERIFY => Invite::class,
             self::GAME_RESULT_WIN,self::GAME_RESULT_LOSE,self::GAME_RESULT_ABSENT => GameResult::class,
             self::TICKET_PENDING,self::TICKET_ANSWERED,self::TICKET_CLOSED => Ticket::class,
-            self::ACHIEVEMENT_WIN,self::ACHIEVEMENT_LOSE,self::ACHIEVEMENT_SIGNUP,self::ACHIEVEMENT_APPROVE,self::ACHIEVEMENT_COMPLETE_PROFILE => Achievement::class,
+            self::ACHIEVEMENT_WIN,self::ACHIEVEMENT_LOSE,self::ACHIEVEMENT_SIGNUP,self::ACHIEVEMENT_APPROVE,self::ACHIEVEMENT_COMPLETE_PROFILE ,
+            self::ACHIEVEMENT_BUY_OR_SELL_COIN => Achievement::class,
             self::COMPETITION_TOURNAMENT,self::COMPETITION_ONE_PLAYER,self::COMPETITION_TWO_PLAYERS,self::COMPETITION_MULTI_PLAYERS => Competition::class,
             default => null
         };

@@ -67,6 +67,9 @@ class CupResource extends Resource
                 Forms\Components\DateTimePicker::make('start_at')
                     ->afterOrEqual('end_register_at')
                     ->required(),
+                Forms\Components\Select::make('status_id')
+                    ->relationship('status', 'name')
+                    ->required(),
                 Forms\Components\SpatieMediaLibraryFileUpload::make('images')
                     ->collection('images')
                     ->multiple()
@@ -94,6 +97,8 @@ class CupResource extends Resource
                 Tables\Columns\TextColumn::make('createdByUser.name')
                     ->label('Created By')
                     ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('status.name')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('deleted_at')
                     ->dateTime()

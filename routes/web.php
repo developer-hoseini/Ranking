@@ -8,18 +8,6 @@ use App\Http\Controllers\GamePageController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestController;
-use App\Livewire\Pages\Cups\ShowCup;
-use App\Livewire\Pages\GameResult;
-use App\Livewire\Pages\GameResults\QuickSubmit;
-use App\Livewire\Pages\Games;
-use App\Livewire\Pages\MgcCoin;
-use App\Livewire\Pages\Profile\CompleteProfile;
-use App\Livewire\Pages\Ranks;
-use App\Livewire\Pages\Rules;
-use App\Livewire\Pages\Tournaments;
-use App\Livewire\Pages\Tournaments\RegisterTournaments;
-use App\Livewire\Pages\Tournaments\ShowTournaments;
-use App\Livewire\Pages\Tutorial;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -69,27 +57,30 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
 
         //ranks
         Route::prefix('ranks')->name('ranks.')->group(function () {
-            Route::get('/', Ranks::class)->name('index');
+            Route::get('/', \App\Livewire\Pages\Ranks::class)->name('index');
         });
 
         //cups
         Route::prefix('cups')->name('cup.')->group(function () {
-            Route::get('/{id}', ShowCup::class)->name('show');
+            Route::get('/{id}', \App\Livewire\Pages\Cups\ShowCup::class)->name('show');
         });
 
         //tournaments
         Route::prefix('tournaments')->name('tournaments.')->group(function () {
-            Route::get('/', Tournaments::class)->name('index');
-            Route::get('/{id}', ShowTournaments::class)->name('show');
-            /* TODO: complete this register */
-            Route::get('/{id}/register', RegisterTournaments::class)
-                ->middleware(['auth', 'completeProfile'])
-                ->name('register');
+
+            Route::middleware(['auth', 'completeProfile'])->group(function () {
+                Route::get('/{id}/register', \App\Livewire\Pages\Tournaments\RegisterTournaments::class)->name('register');
+                Route::get('/me', \App\Livewire\Pages\Tournaments\Me\Index::class)->name('me.index');
+            });
+
+            Route::get('/', \App\Livewire\Pages\Tournaments::class)->name('index');
+            Route::get('/{id}', \App\Livewire\Pages\Tournaments\ShowTournaments::class)->name('show');
+
         });
 
         //games
         Route::prefix('games')->name('games.')->group(function () {
-            Route::get('/', Games::class)->name('index');
+            Route::get('/', \App\Livewire\Pages\Games::class)->name('index');
             Route::get('/{game}', [GameController::class, 'show'])->name('show');
             Route::get('/{id}/online', [GameController::class, 'showOnline'])->name('show.online');
 
@@ -112,7 +103,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
         //profile
         Route::group(['prefix' => '/profile', 'as' => 'profile.'], function () {
             Route::middleware(['auth', 'verified'])->group(function () {
-                Route::get('/complete-profile', CompleteProfile::class)->name('complete-profile');
+                Route::get('/complete-profile', \App\Livewire\Pages\Profile\CompleteProfile::class)->name('complete-profile');
             });
 
             Route::post('/like', [ProfileController::class, 'like'])->name('like');
@@ -126,8 +117,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
         //game-results
         Route::group(['prefix' => '/game-results', 'as' => 'game-results.'], function () {
             Route::middleware(['auth', 'verified', 'completeProfile'])->group(function () {
-                Route::get('/', GameResult::class)->name('index');
-                Route::get('/quick-submit', QuickSubmit::class)->name('quick-submit');
+                Route::get('/', \App\Livewire\Pages\GameResult::class)->name('index');
+                Route::get('/quick-submit', \App\Livewire\Pages\GameResults\QuickSubmit::class)->name('quick-submit');
             });
 
         });
@@ -135,16 +126,16 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
         //mgc-coin
         Route::group(['prefix' => '/mgc-coin', 'as' => 'mgc-coin.'], function () {
             Route::middleware('auth')->group(function () {
-                Route::get('/', MgcCoin::class)->name('index');
+                Route::get('/', \App\Livewire\Pages\MgcCoin::class)->name('index');
             });
 
         });
 
         //rules
-        Route::get('/rules', Rules::class)->name('rules');
+        Route::get('/rules', \App\Livewire\Pages\Rules::class)->name('rules');
 
         //rules
-        Route::get('/tutorial', Tutorial::class)->name('tutorial');
+        Route::get('/tutorial', \App\Livewire\Pages\Tutorial::class)->name('tutorial');
 
     });
     /* End Pages */

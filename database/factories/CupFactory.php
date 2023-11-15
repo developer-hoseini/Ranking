@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Game;
 use App\Models\State;
+use App\Models\Status;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -36,6 +37,7 @@ class CupFactory extends Factory
             'created_by_user_id' => User::inRandomOrder()->first()->id,
             'game_id' => Game::inRandomOrder()->first()->id,
             'state_id' => State::inRandomOrder()->first()->id,
+            'status_id' => Status::inRandomOrder()->modelType(null, true)->first()->id,
         ];
     }
 }

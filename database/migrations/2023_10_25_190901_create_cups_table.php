@@ -22,6 +22,7 @@ return new class extends Migration
 
             $table->foreignId('state_id')->nullable()->constrained();
             $table->foreignId('game_id')->nullable()->constrained();
+            $table->foreignId('status_id')->nullable()->constrained();
 
             $table->timestamp('end_register_at')->nullable();
             $table->timestamp('start_at')->nullable();

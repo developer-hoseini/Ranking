@@ -236,17 +236,31 @@
                 <div class="text-dark mt-1">{{ __('words.Games') }}</div>
             </div>
         </a>
-        {{-- <a href="{{ route('my_tournament.index') }}@if ($tournament_invite > 0) #invited @endif"
-           style="text-decoration: none;">
+
+        <a
+            href="{{ route('tournaments.me.index') }}"
+            style="text-decoration:none;"
+        >
             <div class="menu-list-item text-center">
-                @if ($tournament_invite > 0)
-                    <img src="{{ url('assets/img/menu/notify/my_tournament.png') }}" width="45px" class="mt-1">
-                @else
-                    <img src="{{ url('assets/img/menu/my_tournament.png') }}" width="45px" class="mt-1">
-                @endif
+                <img
+                    class="mt-1"
+                    src="{{ url('assets/img/menu/my_tournament.png') }}"
+                    width="45px"
+                >
                 <div class="text-dark mt-1">{{ __('words.my_tournament') }}</div>
+
+                {{-- TODO: show notify badge --}}
+                {{--  @if ($tournament_invite > 0)
+                    <img
+                        class="mt-1"
+                        src="{{ url('assets/img/menu/notify/my_tournament.png') }}"
+                        width="45px"
+                    >
+                @else
+                @endif --}}
             </div>
         </a>
+        {{-- 
         <a href="@if ($team_invites_count > 0) {{ route('joined_teams') }} @else {{ route('my_teams') }} @endif"
            style="text-decoration: none;">
             <div class="menu-list-item text-center">
