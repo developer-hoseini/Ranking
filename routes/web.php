@@ -132,6 +132,12 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
 
         });
 
+        //tickets
+        Route::prefix('tickets')->middleware(['auth'])->name('tickets.')->group(function () {
+            Route::get('/', \App\Livewire\Pages\Ticket::class)->name('index');
+            Route::get('/{id}', \App\Livewire\Pages\Ticket\Show::class)->name('show');
+        });
+
         //rules
         Route::get('/rules', \App\Livewire\Pages\Rules::class)->name('rules');
 
@@ -154,9 +160,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
     Route::get('/my_tournament', [TestController::class, 'index'])->name('my_tournament.index');
     Route::get('/my_teams', [TestController::class, 'index'])->name('my_teams');
     Route::get('/chats', [TestController::class, 'index'])->name('chats');
-    Route::get('/tickets', [TestController::class, 'index'])->name('tickets.index');
     Route::get('/teams/{team}', [TestController::class, 'index'])->name('teams.show');
-    Route::get('/tickets', [TestController::class, 'index'])->name('tickets.index');
 
     Route::get('/prizes', [TestController::class, 'index'])->name('prizes');
     Route::get('/chat/{user}', [TestController::class, 'index'])->name('chat.page');

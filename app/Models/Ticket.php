@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * App\Models\Ticket
@@ -47,9 +50,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @mixin \Eloquent
  */
-class Ticket extends Model
+class Ticket extends Model implements HasMedia
 {
     use HasFactory,SoftDeletes;
+    use InteractsWithMedia;
 
     public function ticketCategory(): BelongsTo
     {
@@ -74,5 +78,16 @@ class Ticket extends Model
     public function childTickets(): HasMany
     {
         return $this->hasMany(Ticket::class, 'ticket_parent_id', 'id');
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('files')
+            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/gif', 'image/jpg']);
+    }
+
+    public function scopeAuthCreatedScope(Builder $builder): Builder
+    {
+        return $builder->whereHas('createdByUser', fn ($q) => $q->where('users.id', auth()->id()));
     }
 }

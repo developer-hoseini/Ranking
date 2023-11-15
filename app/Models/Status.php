@@ -99,6 +99,9 @@ class Status extends Model
                     StatusEnum::GAME_RESULT_LOSE->value => 'text-danger',
                     StatusEnum::GAME_RESULT_ABSENT->value => 'text-warning',
 
+                    StatusEnum::TICKET_PENDING->value => 'text-warning',
+                    StatusEnum::TICKET_ANSWERED->value => 'text-success',
+
                     default => '',
                 };
             },

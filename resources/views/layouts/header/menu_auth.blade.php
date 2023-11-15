@@ -260,6 +260,28 @@
                 @endif --}}
             </div>
         </a>
+        <a
+            href="{{ route('tickets.index') }}"
+            style="text-decoration: none;"
+        >
+            <div class="menu-list-item text-center">
+                <img
+                    class="mt-1"
+                    src="{{ asset('assets/img/menu/support.png') }}"
+                    width="45px"
+                >
+                {{-- TODO: add badge new ticket --}}
+                {{--  @if ($support_new_ticket > 0)
+                    <img
+                        class="mt-1"
+                        src="{{ url('assets/img/menu/notify/support.png') }}"
+                        width="45px"
+                    >
+                @else
+                @endif --}}
+                <div class="text-dark mt-1">{{ __('words.support') }}</div>
+            </div>
+        </a>
         {{-- 
         <a href="@if ($team_invites_count > 0) {{ route('joined_teams') }} @else {{ route('my_teams') }} @endif"
            style="text-decoration: none;">
@@ -282,16 +304,7 @@
                 <div class="text-dark mt-1">{{ __('words.Chats') }}</div>
             </div>
         </a>
-        <a href="{{ route('tickets.index') }}" style="text-decoration: none;">
-            <div class="menu-list-item text-center">
-                @if ($support_new_ticket > 0)
-                    <img src="{{ url('assets/img/menu/notify/support.png') }}" width="45px" class="mt-1">
-                @else
-                    <img src="{{ url('assets/img/menu/support.png') }}" width="45px" class="mt-1">
-                @endif
-                <div class="text-dark mt-1">{{ __('words.support') }}</div>
-            </div>
-        </a>
+       
 --}}
         <a
             href="{{ route('rules') }}"
