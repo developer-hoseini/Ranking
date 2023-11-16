@@ -18,7 +18,9 @@ class Ticket extends Component
     {
         $tickets = ModelsTicket::query()
             ->authCreatedScope()
+            ->whereNull('ticket_parent_id')
             ->with(['ticketCategory:id,name'])
+            ->latest()
             ->paginate(config('ranking.settings.global.per_page'));
 
         return $tickets;

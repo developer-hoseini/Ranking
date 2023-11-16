@@ -2,7 +2,7 @@
 
     <livewire:pages.ticket.create>
 
-        <div class="mt-3 text-center">
+        <div class="mt-3 overflow-auto text-center">
             <table
                 class="table-bordered table-striped table"
                 style="font-size: 18px;"
@@ -19,7 +19,11 @@
                 @forelse ($this->tickets as $ticket)
                     <tr>
                         <td class="text-truncate">#{{ $ticket->id }}</td>
-                        <td class="text-truncate">
+                        <td
+                            class="text-truncate"
+                            title="{{ $ticket->subject }}"
+                            style="max-width: 150px;"
+                        >
                             <a href="{{ route('tickets.show', $ticket->id) }}">
                                 {{ $ticket->subject }}
                             </a>
