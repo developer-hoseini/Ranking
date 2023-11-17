@@ -19,7 +19,7 @@ class ShowTournaments extends Component
     public function mount($id)
     {
         $this->cup = $this->getCup($id);
-        $this->setting = config('ranking.rules.tournoment');
+        $this->setting = config('ranking.rules.coin.tournoment');
         $this->winerUsers = $this->getWinerUsers();
     }
 

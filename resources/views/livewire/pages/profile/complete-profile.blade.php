@@ -18,7 +18,7 @@
                     <p>
                         Fill all form field to get
                         <span class="font-weight-bold">
-                            {{ config('ranking.achievements.completeProfile.coin') }}
+                            {{ config('ranking.rules.coin.user.complete_profile') }}
                             MGC Coin
                         </span>
                     </p>
@@ -278,7 +278,7 @@
                                             <div class="col-3">
                                                 <img
                                                     class="fit-image"
-                                                    src="https://img.icons8.com/color/96/000000/ok--v2.png"
+                                                    src="{{ asset('assets/img/ok--v2.png') }}"
                                                 >
                                             </div>
                                         </div>

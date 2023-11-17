@@ -2,10 +2,13 @@
 
 namespace App\Livewire\Pages;
 
+use App\Enums\StatusEnum;
 use App\Models\Country;
 use App\Models\State;
 use App\Models\User;
+use App\Services\Actions\User\Achievement\ReceiveCoin;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 
@@ -43,14 +46,25 @@ class Register extends Component
     public function submitForm()
     {
         $this->validate();
+        DB::beginTransaction();
 
-        $user = User::create([
-            'username' => $this->form['avatar_name'],
-            'email' => $this->form['email'],
-            'password' => bcrypt($this->form['password']),
-        ]);
-
-        event(new Registered($user));
+        try {
+            $user = User::create([
+                'username' => $this->form['avatar_name'],
+                'email' => $this->form['email'],
+                'password' => bcrypt($this->form['password']),
+            ]);
+            ReceiveCoin::handle(
+                $user,
+                config('ranking.rules.coin.user.register'),
+                StatusEnum::ACHIEVEMENT_SIGNUP
+            );
+            event(new Registered($user));
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            throw $th;
+        }
 
         auth()->login($user);
 
