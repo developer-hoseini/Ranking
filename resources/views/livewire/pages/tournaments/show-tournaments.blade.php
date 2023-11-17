@@ -171,7 +171,7 @@
                         class="font-weight-bold text-dark"
                         style="font-size: 18px;"
                     >{{ __('words.tour_prizes') }} :</div>
-                    @if ($cup?->isFinished)
+                    @if (!$cup?->isFinished)
                         <div class="px-4 pt-2">
                             <div>
                                 {{ __('words.first_person') . ' : ' . $setting['tour_first_per'] . ' ' . __('words.percentage') }}

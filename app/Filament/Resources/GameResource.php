@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\GameResource\Pages;
 use App\Models\Game;
 use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -27,6 +28,10 @@ class GameResource extends Resource
         return $form
             ->schema([
                 TextInput::make('name')->required()->maxLength(255),
+                Select::make('gameTypes')
+                    ->relationship('gameTypes', 'name')
+                    ->multiple()
+                    ->required(),
                 TextInput::make('sort')->numeric()->minValue(1)->required()->default(10),
                 Checkbox::make('active')->default(true),
                 Checkbox::make('is_online')->default(true),

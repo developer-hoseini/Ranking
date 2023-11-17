@@ -7,6 +7,7 @@ use App\Models\Game;
 use App\Models\Status;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Rule;
@@ -44,19 +45,36 @@ class QuickSubmit extends Component
     #[Computed]
     public function games()
     {
-        return Game::active()->orderBy('sort', 'asc')->select(['id', 'name'])->get();
+        $query = Game::active()
+            ->gameTypesScope(['one player', 'team'], false)
+            ->doesntHave('onlineGames')
+            ->orderBy('sort', 'asc')
+            ->select(['id', 'name']);
+
+        return $query->get();
     }
 
     public function updatedSearchUser()
     {
         $this->resetErrorBag('form.user_id');
+
         $this->users = [];
 
-        $this->users = User::searchProfileAvatarNameScope($this->searchUser)
+        // if (Str::length($this->searchUser) <= 2) {
+        //     return;
+        // }
+
+        $this->users = User::query()
+            ->whereHas('profile', fn ($q) => $q->whereNotNull('avatar_name'))
+            ->where(function ($q) {
+                $q->searchProfileAvatarNameScope($this->searchUser)
+                    ->orWhere('name', 'like', "%$this->searchUser%");
+            })
             ->with(['profile:id,user_id,avatar_name'])
             ->select(['id', 'name'])
             ->get()
             ->toArray();
+
     }
 
     #[On('user-selected')]
@@ -89,24 +107,30 @@ class QuickSubmit extends Component
                 'state_id' => $authUser?->state?->id,
                 'created_by_user_id' => $authUser->id,
                 'status_id' => Status::where('name', StatusEnum::COMPETITION_TWO_PLAYERS->value)->first()->id,
-
             ]);
+
+            $competition->users()->attach($this->selectedUser['id']);
 
             $gameResultStatusPlayer1 = $this->form['result'] == 'win' ? StatusEnum::GAME_RESULT_WIN->value : StatusEnum::GAME_RESULT_LOSE->value;
             $gameResultStatusPlayer2 = $this->form['result'] == 'win' ? StatusEnum::GAME_RESULT_LOSE->value : StatusEnum::GAME_RESULT_WIN->value;
+
+            $statusPending = Status::where('name', StatusEnum::PENDING->value)->first();
+            $statusAccepted = Status::where('name', StatusEnum::ACCEPTED->value)->first();
 
             $competition->gameResults()->create([
                 'playerable_id' => $authUser->id,
                 'playerable_type' => User::class,
                 'game_result_status_id' => Status::where('name', $gameResultStatusPlayer1)->first()->id,
-                'status_id' => Status::where('name', StatusEnum::PENDING->value)->first()->id,
+                'user_status_id' => $statusAccepted->id,
+                'admin_status_id' => $statusPending->id,
             ]);
 
             $competition->gameResults()->create([
                 'playerable_id' => $this->selectedUser['id'],
                 'playerable_type' => User::class,
                 'game_result_status_id' => Status::where('name', $gameResultStatusPlayer2)->first()->id,
-                'status_id' => Status::where('name', StatusEnum::PENDING->value)->first()->id,
+                'user_status_id' => $statusPending->id,
+                'admin_status_id' => $statusPending->id,
             ]);
 
             if (isset($this->form['image'])) {

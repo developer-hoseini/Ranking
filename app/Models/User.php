@@ -326,6 +326,45 @@ class User extends Authenticatable implements CanResetPassword, FilamentUser, Ha
         );
     }
 
+    private function checkHasAgent(string $type)
+    {
+        $hasAgentRole = $this->roles?->where('name', "agent-$type")->first();
+
+        return $hasAgentRole ? true : false;
+    }
+
+    protected function isAgent(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                $hasAgentRole = $this->roles?->whereIn('name', ['agent-a', 'agent-b', 'agent-c'])->first();
+
+                return $hasAgentRole ? true : false;
+            }
+        );
+    }
+
+    protected function isAgentA(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->checkHasAgent('a')
+        );
+    }
+
+    protected function isAgentB(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->checkHasAgent('b')
+        );
+    }
+
+    protected function isAgentC(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->checkHasAgent('c')
+        );
+    }
+
     protected function username9(): Attribute
     {
         return Attribute::make(

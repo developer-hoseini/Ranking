@@ -7,12 +7,19 @@ use App\Models\Cup;
 use App\Models\Game;
 use App\Models\Invite;
 use App\Models\User;
+use App\Services\DieQuerySql;
 use Illuminate\Support\Facades\Mail;
 
 class TestController extends Controller
 {
     public function index()
     {
+        $query = Game::active()
+            ->gameTypesScope(['one player', 'team'], false)
+            ->doesntHave('onlineGames')
+            ->orderBy('sort', 'asc')
+            ->select(['id', 'name']);
+
 
         //        $email = 'mahdibagherivar@gmail.com';
         //

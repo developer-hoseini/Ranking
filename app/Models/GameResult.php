@@ -48,15 +48,19 @@ class GameResult extends Model
 {
     use HasFactory, SoftDeletes;
 
-    public function status()
+    public function gameResultUserStatus()
     {
-        return $this->belongsTo(Status::class, 'status_id')->modelType(null, false);
+        return $this->belongsTo(Status::class, 'user_status_id')->modelType(null, false);
+    }
+
+    public function gameResultAdminStatus()
+    {
+        return $this->belongsTo(Status::class, 'admin_status_id')->modelType(null, false);
     }
 
     public function gameResultStatus()
     {
         return $this->belongsTo(Status::class, 'game_result_status_id')->modelType(__CLASS__, false);
-
     }
 
     public function playerable(): MorphTo
@@ -67,10 +71,5 @@ class GameResult extends Model
     public function gameresultable(): MorphTo
     {
         return $this->morphTo('gameresultable');
-    }
-
-    public function competition()
-    {
-        return $this->belongsTo(Competition::class);
     }
 }

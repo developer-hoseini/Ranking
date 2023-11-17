@@ -11,7 +11,7 @@ class BracketTournaments extends Component
     public function cups()
     {
         $cups = Cup::query()
-            ->acceptedStatusScope()
+            ->cupAcceptedStatusScope()
             ->withWhereHas('competitions')
             ->latest()
             ->take(10)

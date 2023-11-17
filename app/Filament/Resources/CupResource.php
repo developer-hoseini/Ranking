@@ -59,6 +59,9 @@ class CupResource extends Resource
                 Forms\Components\TextInput::make('capacity')
                     ->required()
                     ->numeric(),
+                Forms\Components\TextInput::make('register_cost_coin')
+                    ->required()
+                    ->numeric(),
                 Forms\Components\Textarea::make('description')
                     ->maxLength(65535)
                     ->columnSpanFull(),
@@ -86,6 +89,9 @@ class CupResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('capacity')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('register_cost_coin')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('end_register_at')

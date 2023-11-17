@@ -105,9 +105,17 @@ class Game extends Model
         return $query->where('active', true);
     }
 
-    public function scopeGameTypeScope(Builder $query, string $type): Builder
+    public function scopeGameTypesScope(Builder $query, array $names, ?bool $has = true): Builder
     {
-        return $query->whereRelation('gameTypes', 'name', $type);
+        if (! $has) {
+            return $query->whereDoesntHave('gameTypes', function ($q) use ($names) {
+                $q->whereIn('name', $names);
+            });
+        }
+
+        return $query->whereHas('gameTypes', function ($q) use ($names) {
+            $q->whereIn('name', $names);
+        });
     }
 
     protected function cover(): Attribute

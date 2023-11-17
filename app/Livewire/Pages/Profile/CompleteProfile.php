@@ -2,13 +2,13 @@
 
 namespace App\Livewire\Pages\Profile;
 
-use App\Enums\AchievementTypeEnum;
 use App\Enums\GenderEnum;
 use App\Enums\StatusEnum;
 use App\Models\Country;
 use App\Models\Profile;
 use App\Models\State;
-use App\Models\Status;
+use App\Services\Actions\Achievement\User\ReceiveCoin;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule as ValidationRule;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
@@ -127,33 +127,38 @@ class CompleteProfile extends Component
             'locationInformation.birth_date' => ['required', 'date'],
         ]);
 
-        $user = auth()->user();
+        $user = \Auth::user();
 
-        if ($user?->profile) {
-            $user?->profile?->update([
-                'state_id' => $this->locationInformation['state_id'],
-                'gender' => $this->locationInformation['gender'],
-                'birth_date' => $this->locationInformation['birth_date'],
-                'bio' => $this->locationInformation['bio'],
-            ]);
-        } else {
-            $user?->profile?->create([
-                'state_id' => $this->locationInformation['state_id'],
-                'gender' => $this->locationInformation['gender'],
-                'birth_date' => $this->locationInformation['birth_date'],
-                'bio' => $this->locationInformation['bio'],
-            ]);
-        }
+        DB::beginTransaction();
 
-        if (! $user?->achievements()->completedProfileScope()->count() > 0) {
-            $statusId = Status::where('name', StatusEnum::ACHIEVEMENT_COMPLETE_PROFILE->value)->first()->id;
-            $coinCount = config('ranking.achievements.completeProfile.coin');
+        try {
+            if ($user?->profile) {
+                $user?->profile?->update([
+                    'state_id' => $this->locationInformation['state_id'],
+                    'gender' => $this->locationInformation['gender'],
+                    'birth_date' => $this->locationInformation['birth_date'],
+                    'bio' => $this->locationInformation['bio'] ?? '',
+                ]);
+            } else {
+                $user?->profile?->create([
+                    'state_id' => $this->locationInformation['state_id'],
+                    'gender' => $this->locationInformation['gender'],
+                    'birth_date' => $this->locationInformation['birth_date'],
+                    'bio' => $this->locationInformation['bio'] ?? '',
+                ]);
+            }
 
-            $user->achievements()->create([
-                'type' => AchievementTypeEnum::COIN->value,
-                'count' => $coinCount,
-                'status_id' => $statusId,
-            ]);
+            if (! $user?->achievements()->completedProfileScope()->count() > 0) {
+                ReceiveCoin::handle(
+                    $user,
+                    config('ranking.rules.coin.user.complete_profile'),
+                    StatusEnum::ACHIEVEMENT_COMPLETE_PROFILE
+                );
+            }
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            throw $th;
         }
 
         $this->step = 'complete';

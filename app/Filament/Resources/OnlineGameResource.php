@@ -27,7 +27,7 @@ class OnlineGameResource extends Resource
                     ->options(function () {
                         $games = Game::query()
                             ->active()
-                            ->gameTypeScope('oneline')
+                            ->gameTypesScope(['oneline'], true)
                             ->select(['id', 'name'])
                             ->orderBy('sort')
                             ->get();

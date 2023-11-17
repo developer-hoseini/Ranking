@@ -27,6 +27,7 @@ enum StatusEnum: string
     case GAME_RESULT_WIN = 'game_result_win';
     case GAME_RESULT_LOSE = 'game_result_lose';
     case GAME_RESULT_ABSENT = 'game_result_absent';
+    case GAME_RESULT_PENDING_CONFIRM_USER = 'game_result_pending_confirm_user';
     case TICKET_PENDING = 'ticket_pending';
     case TICKET_ANSWERED = 'ticket_answered';
     case TICKET_CLOSED = 'ticket_closed';
@@ -36,6 +37,7 @@ enum StatusEnum: string
     case ACHIEVEMENT_SIGNUP = 'achievement_signup';
     case ACHIEVEMENT_COMPLETE_PROFILE = 'achievement_complete-profile';
     case ACHIEVEMENT_BUY_OR_SELL_COIN = 'achievement_buy-or-sell-coin';
+    case ACHIEVEMENT_CONFIRM_COMPETITION = 'achievement_confirm_competition';
     case COMPETITION_TOURNAMENT = 'competition_tournament';
     case COMPETITION_ONE_PLAYER = 'competition_one-player';
     case COMPETITION_TWO_PLAYERS = 'competition_two-players';
@@ -49,7 +51,7 @@ enum StatusEnum: string
             self::GAME_RESULT_WIN,self::GAME_RESULT_LOSE,self::GAME_RESULT_ABSENT => GameResult::class,
             self::TICKET_PENDING,self::TICKET_ANSWERED,self::TICKET_CLOSED => Ticket::class,
             self::ACHIEVEMENT_WIN,self::ACHIEVEMENT_LOSE,self::ACHIEVEMENT_SIGNUP,self::ACHIEVEMENT_APPROVE,self::ACHIEVEMENT_COMPLETE_PROFILE ,
-            self::ACHIEVEMENT_BUY_OR_SELL_COIN => Achievement::class,
+            self::ACHIEVEMENT_BUY_OR_SELL_COIN,self::ACHIEVEMENT_CONFIRM_COMPETITION => Achievement::class,
             self::COMPETITION_TOURNAMENT,self::COMPETITION_ONE_PLAYER,self::COMPETITION_TWO_PLAYERS,self::COMPETITION_MULTI_PLAYERS => Competition::class,
             default => null
         };
