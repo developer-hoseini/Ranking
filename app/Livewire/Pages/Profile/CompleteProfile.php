@@ -7,7 +7,7 @@ use App\Enums\StatusEnum;
 use App\Models\Country;
 use App\Models\Profile;
 use App\Models\State;
-use App\Services\Actions\User\Achievement\ReceiveCoin;
+use App\Services\Actions\Achievement\User\ReceiveCoin;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule as ValidationRule;
 use Livewire\Attributes\Rule;

@@ -61,7 +61,6 @@ class GameResult extends Model
     public function gameResultStatus()
     {
         return $this->belongsTo(Status::class, 'game_result_status_id')->modelType(__CLASS__, false);
-
     }
 
     public function playerable(): MorphTo
@@ -72,10 +71,5 @@ class GameResult extends Model
     public function gameresultable(): MorphTo
     {
         return $this->morphTo('gameresultable');
-    }
-
-    public function competition()
-    {
-        return $this->belongsTo(Competition::class);
     }
 }

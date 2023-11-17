@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Actions\User\Achievement;
+namespace App\Services\Actions\Achievement\User;
 
 use App\Enums\AchievementTypeEnum;
 use App\Enums\StatusEnum;

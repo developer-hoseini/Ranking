@@ -21,6 +21,9 @@ class RoleAndPermissionSeeder extends Seeder
         $roles = collect([
             ['name' => 'admin'],
             ['name' => 'client'],
+            ['name' => 'agent-a'],
+            ['name' => 'agent-b'],
+            ['name' => 'agent-c'],
         ]);
         /*
                 $permissions = collect([

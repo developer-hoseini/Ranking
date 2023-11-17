@@ -178,21 +178,26 @@ class CompetitionResource extends Resource
                                         ->options($statuses->pluck('name', 'id'))
                                         ->default($gameResult?->user_status_id)
                                         ->required(),
-                                    Select::make("form.$key.admin_status_id")
-                                        ->label('status admin')
-                                        ->options($statuses->pluck('name', 'id'))
-                                        ->default($gameResult?->admin_status_id)
-                                        ->required(),
+
                                 ]);
 
                         });
 
                         return [
                             ...$sections,
+                            ...count($sections) ? [
+                                Select::make('admin_status_id')
+                                    ->label('status admin')
+                                    ->options($statuses->pluck('name', 'id'))
+                                    ->default($gameResults->first()?->admin_status_id)
+                                    ->required(),
+                            ] : [],
                         ];
                     })
                     ->action(function (Competition $record, array $data, Action $action) {
                         $forms = $data['form'] ?? [];
+
+                        $adminStatusForm = $data['admin_status_id'] ?? '';
                         $gameResults = $record->gameResults;
 
                         if (count($forms) == 0) {
@@ -218,20 +223,24 @@ class CompetitionResource extends Resource
                                     $gameResult->update([
                                         'game_result_status_id' => $form['game_result_status_id'],
                                         'user_status_id' => $form['user_status_id'],
-                                        'admin_status_id' => $form['admin_status_id'],
+                                        'admin_status_id' => $adminStatusForm,
                                     ]);
 
                                 } else {
                                     //create
-                                    $record->gameResults()->create([
+                                    $gameResult = $record->gameResults()->create([
                                         'playerable_type' => User::class,
                                         'playerable_id' => $form['user_id'],
                                         'game_result_status_id' => $form['game_result_status_id'],
                                         'user_status_id' => $form['user_status_id'],
-                                        'admin_status_id' => $form['admin_status_id'],
+                                        'admin_status_id' => $adminStatusForm,
                                     ]);
                                 }
+
                             }
+
+                            \App\Services\Actions\Achievement\GameResult\ReceiveCoin::handle($gameResults);
+
                             DB::commit();
 
                             Notification::make()
