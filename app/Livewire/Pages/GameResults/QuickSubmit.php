@@ -107,24 +107,30 @@ class QuickSubmit extends Component
                 'state_id' => $authUser?->state?->id,
                 'created_by_user_id' => $authUser->id,
                 'status_id' => Status::where('name', StatusEnum::COMPETITION_TWO_PLAYERS->value)->first()->id,
-
             ]);
+
+            $competition->users()->attach($this->selectedUser['id']);
 
             $gameResultStatusPlayer1 = $this->form['result'] == 'win' ? StatusEnum::GAME_RESULT_WIN->value : StatusEnum::GAME_RESULT_LOSE->value;
             $gameResultStatusPlayer2 = $this->form['result'] == 'win' ? StatusEnum::GAME_RESULT_LOSE->value : StatusEnum::GAME_RESULT_WIN->value;
+
+            $statusPending = Status::where('name', StatusEnum::PENDING->value)->first();
+            $statusAccepted = Status::where('name', StatusEnum::ACCEPTED->value)->first();
 
             $competition->gameResults()->create([
                 'playerable_id' => $authUser->id,
                 'playerable_type' => User::class,
                 'game_result_status_id' => Status::where('name', $gameResultStatusPlayer1)->first()->id,
-                'status_id' => Status::where('name', StatusEnum::PENDING->value)->first()->id,
+                'user_status_id' => $statusAccepted->id,
+                'admin_status_id' => $statusPending->id,
             ]);
 
             $competition->gameResults()->create([
                 'playerable_id' => $this->selectedUser['id'],
                 'playerable_type' => User::class,
                 'game_result_status_id' => Status::where('name', $gameResultStatusPlayer2)->first()->id,
-                'status_id' => Status::where('name', StatusEnum::PENDING->value)->first()->id,
+                'user_status_id' => $statusPending->id,
+                'admin_status_id' => $statusPending->id,
             ]);
 
             if (isset($this->form['image'])) {

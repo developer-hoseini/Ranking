@@ -115,7 +115,7 @@
                         {{-- TODO: add tournoment show route --}}
                         {{-- TODO: change image url to competetion images collection --}}
                         <div class="swiper-slide tour-slide">
-                            <a href="{{ route('tournaments.show', $tournamentImage->id) }}">
+                            <a>
                                 <img
                                     src="{{ url($tournamentImage->game->cover) }}"
                                     title="{{ $tournamentImage->name }}"

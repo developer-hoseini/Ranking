@@ -21,6 +21,7 @@
                                 $competition = $result?->gameresultable;
                                 $game = $competition?->game;
                                 $opponentUser = $competition?->opponentUsers?->first();
+                                $canChangeStatus = \Auth::id() != $competition->created_by_user_id && $result?->gameResultAdminStatus?->name != \App\Enums\StatusEnum::ACCEPTED->value;
 
                             @endphp
                             <tr>
@@ -56,10 +57,60 @@
                                 <td class="{{ $result?->gameResultStatus?->colorClass }}">
                                     {{ $result?->gameResultStatus?->nameWithoutModelPrefix }}
                                 </td>
-                                <td class="{{ $result?->status?->colorClass }}">
-                                    {{ $result?->status?->name }}
-                                </td>
+                                <td>
 
+                                    <div class="row justify-content-center gap-5">
+                                        <span class="{{ $result?->gameResultUserStatus?->colorClass }} mr-2">
+                                            {{ $result?->gameResultUserStatus?->name }}
+                                        </span>
+
+                                        @if ($canChangeStatus && $result?->gameResultUserStatus?->name == \App\Enums\StatusEnum::PENDING->value)
+                                            <div
+                                                class="cursor-pointer"
+                                                title="accept"
+                                                x-on:click="$dispatch('change-status',{resultId:'{{ $result['id'] }}', type:'accept'})"
+                                            >
+                                                <svg
+                                                    style="color: green"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                    stroke-width="1.5"
+                                                    stroke="currentColor"
+                                                    width="25px"
+                                                >
+                                                    <path
+                                                        stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                                    />
+                                                </svg>
+                                            </div>
+                                            <div
+                                                class="cursor-pointer"
+                                                title="reject"
+                                                x-on:click="$dispatch('change-status',{resultId:'{{ $result['id'] }}' ,type:'reject'})"
+                                            >
+                                                <svg
+                                                    style="color: red"
+                                                    width="25px"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                    stroke-width="1.5"
+                                                    stroke="currentColor"
+                                                >
+                                                    <path
+                                                        stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                                    />
+                                                </svg>
+
+                                            </div>
+                                        @endif
+                                    </div>
+                                </td>
                             </tr>
                         @endforeach
                     </table>
