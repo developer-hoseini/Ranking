@@ -282,18 +282,32 @@
                 <div class="text-dark mt-1">{{ __('words.support') }}</div>
             </div>
         </a>
-        {{-- 
-        <a href="@if ($team_invites_count > 0) {{ route('joined_teams') }} @else {{ route('my_teams') }} @endif"
-           style="text-decoration: none;">
-            <div class="menu-list-item text-center">
-                @if ($team_invites_count > 0)
-                    <img src="{{ url('assets/img/menu/notify/team.png') }}" width="45px" class="mt-1">
+
+        {{-- TODO:  add Joined and My team --}}
+        {{-- @if ($team_invites_count > 0) {{ route('joined_teams') }} @else {{ route('my_teams') }} @endif 
+            @if ($team_invites_count > 0)
+                    <img
+                        class="mt-1"
+                        src="{{ url('assets/img/menu/notify/team.png') }}"
+                        width="45px"
+                    >
                 @else
-                    <img src="{{ url('assets/img/menu/team.png') }}" width="45px" class="mt-1">
-                @endif
+        --}}
+        <a
+            href="{{ route('teams.me.index') }}"
+            style="text-decoration: none;"
+        >
+            <div class="menu-list-item text-center">
+                <img
+                    class="mt-1"
+                    src="{{ asset('assets/img/menu/team.png') }}"
+                    width="45px"
+                >
                 <div class="text-dark mt-1">{{ __('words.My Teams') }}</div>
             </div>
         </a>
+
+        {{-- 
         <a href="{{ route('chats') }}" style="text-decoration: none;">
             <div class="menu-list-item text-center">
                 @if ($chats_count > 0)

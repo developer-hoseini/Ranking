@@ -88,6 +88,6 @@ class Ticket extends Model implements HasMedia
 
     public function scopeAuthCreatedScope(Builder $builder): Builder
     {
-        return $builder->whereHas('createdByUser', fn ($q) => $q->where('users.id', auth()->id()));
+        return $builder->whereHas('createdByUser', fn ($q) => $q->authScope());
     }
 }

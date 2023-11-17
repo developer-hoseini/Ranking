@@ -24,6 +24,10 @@ class TeamResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(50),
+                Forms\Components\Select::make('game_id')
+                    ->relationship('game', 'name')
+                    ->required()
+                    ->searchable(),
                 Forms\Components\Select::make('country_id')
                     ->relationship('state.country', 'name')
                     ->label('Country')
@@ -71,6 +75,9 @@ class TeamResource extends Resource
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('capitan.name')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('game.name')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status.name')

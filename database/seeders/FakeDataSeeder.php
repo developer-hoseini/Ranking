@@ -263,6 +263,40 @@ class FakeDataSeeder extends Seeder
 
                 }
             }
+
+            foreach ($competition->teams as $team) {
+
+                for ($i = 0; $i < 2; $i++) {
+                    $isCoin = $i == 0;
+
+                    $gameResult = $competition->gameResults
+                        ->where('playerable_type', Team::class)
+                        ->where('playerable_id', $team->id)
+                        ->first();
+
+                    $achievementStatusName = match ($gameResult?->gameResultStatus?->name) {
+                        StatusEnum::GAME_RESULT_WIN->value => StatusEnum::ACHIEVEMENT_WIN->value ,
+                        StatusEnum::GAME_RESULT_LOSE->value => StatusEnum::ACHIEVEMENT_LOSE->value ,
+                        default => null
+                    };
+
+                    $achievementStatusId = $acheivementsStatuses->where('name', $achievementStatusName)->first()?->id;
+
+                    if ($achievementStatusId) { // only win and lose submit in achievement
+                        $dataCollect->push([
+                            'achievementable_type' => Team::class,
+                            'achievementable_id' => $team->id,
+                            'type' => $isCoin ? AchievementTypeEnum::COIN->value : AchievementTypeEnum::SCORE->value,
+                            'count' => $isCoin ? $competition->coinAchievement->count : $competition->scoreAchievement->count,
+                            'occurred_model_id' => $competition->id,
+                            'occurred_model_type' => Competition::class,
+                            'status_id' => $achievementStatusId,
+                            'created_by_user_id' => auth()->id(),
+                        ]);
+                    }
+
+                }
+            }
         }
 
         DB::table('achievements')->insert($dataCollect->toArray());

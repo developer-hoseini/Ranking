@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Game;
 use App\Models\State;
 use App\Models\Status;
 use App\Models\Team;
@@ -22,6 +23,8 @@ class TeamFactory extends Factory
             'capitan_user_id' => User::inRandomOrder()->first()->id,
             'state_id' => State::inRandomOrder()->first()->id,
             'status_id' => Status::query()->modelType(null)->inRandomOrder()->first()->id,
+            'created_by_user_id' => User::query()->inRandomOrder()->first()->id,
+            'game_id' => Game::query()->inRandomOrder()->first()->id,
         ];
     }
 }

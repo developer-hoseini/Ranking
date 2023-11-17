@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\AchievementTypeEnum;
 use Filament\Models\Contracts\HasAvatar;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -113,6 +115,21 @@ class Team extends Model implements HasAvatar, HasMedia
         return $this->morphMany(Achievement::class, 'achievementable')->where('type', AchievementTypeEnum::COIN->value);
     }
 
+    public function createdByUser(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by_user_id');
+    }
+
+    public function game(): BelongsTo
+    {
+        return $this->belongsTo(Game::class);
+    }
+
+    public function scopeAuthCreatedScope(Builder $builder): Builder
+    {
+        return $builder->whereHas('createdByUser', fn ($q) => $q->authScope());
+    }
+
     public function getFilamentAvatarUrl(): ?string
     {
         return $this->getMedia('avatar')?->first()?->getUrl() ?? '';
@@ -136,7 +153,40 @@ class Team extends Model implements HasAvatar, HasMedia
                     return $avatar;
                 }
 
-                return asset('assets/images/default-profile.png');
+                return asset('assets/images/default-team-profile.png');
+            }
+        );
+    }
+
+    protected function teamRank(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+
+                $columnNameTeamRank = 'this_team_rank';
+                $columnsNeedForSubQuery = ['id', 'deleted_at'];
+                $columnScoreAchievementsSum = 'score_achievements_sum_count';
+
+                $sub1 = Team::query()
+                    ->where('game_id', $this->game_id)
+                    ->select($columnsNeedForSubQuery)
+                    ->withSum("scoreAchievements as $columnScoreAchievementsSum", 'count');
+
+                $sub2 = Team::query()
+                    ->fromSub($sub1->getQuery(), 'teams_a')
+                    ->select([
+                        ...$columnsNeedForSubQuery,
+                        DB::raw("ROW_NUMBER() OVER (ORDER BY $columnScoreAchievementsSum desc) as $columnNameTeamRank"),
+                    ])
+                    ->latest('id');
+
+                $team = Team::query()
+                    ->fromSub($sub2->getQuery(), 'teams')
+                    ->where('id', $this->id)
+                    ->select("$columnNameTeamRank")
+                    ->first();
+
+                return $team?->$columnNameTeamRank ?? '-';
             }
         );
     }

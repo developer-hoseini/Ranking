@@ -16,9 +16,11 @@ return new class extends Migration
             $table->string('name', 50);
             $table->longText('about')->nullable();
             $table->unsignedInteger('likes')->nullable();
+            $table->foreignId('game_id')->nullable()->constrained();
             $table->foreignId('status_id')->nullable()->constrained();
             $table->foreignId('capitan_user_id')->nullable()->constrained('users', 'id');
             $table->foreignId('state_id')->nullable()->constrained();
+            $table->foreignId('created_by_user_id')->nullable()->constrained('users', 'id');
             $table->softDeletes();
             $table->timestamps();
         });

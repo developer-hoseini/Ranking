@@ -138,6 +138,14 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::get('/{id}', \App\Livewire\Pages\Ticket\Show::class)->name('show');
         });
 
+        //teams
+        Route::prefix('teams')->middleware(['auth'])->name('teams.')->group(function () {
+            Route::prefix('me')->name('me.')->group(function () {
+                Route::get('/', \App\Livewire\Pages\Teams\Me\Index::class)->name('index');
+                Route::get('/{id}/members', \App\Livewire\Pages\Teams\Me\Show\Members::class)->name('show.memebers');
+            });
+        });
+
         //rules
         Route::get('/rules', \App\Livewire\Pages\Rules::class)->name('rules');
 

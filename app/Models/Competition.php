@@ -110,7 +110,7 @@ class Competition extends Model implements HasMedia
     {
         return $this->morphedByMany(User::class, 'competitionable')
             ->withPivot(['status_id'])
-            ->whereNot('users.id', \Auth::user()->id);
+            ->whereNot('users.id', \Auth::user()?->id);
     }
 
     public function teams(): MorphToMany
