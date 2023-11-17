@@ -26,9 +26,9 @@ class ShowTournaments extends Component
     private function getCup($id)
     {
         return Cup::where('id', $id)
-            ->acceptedStatusScope()
+            ->cupAcceptedStatusScope()
             ->with([
-                'competitions.gameResults.status',
+                'competitions.gameResults.gameResultAdminStatus',
                 'competitions.gameResults.gameResultStatus',
                 'registeredUsers',
                 'registeredTeams',

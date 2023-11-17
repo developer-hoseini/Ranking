@@ -118,7 +118,7 @@ class Cup extends Model implements HasMedia
             ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/gif', 'image/jpg']);
     }
 
-    public function scopeAcceptedStatusScope(Builder $builder)
+    public function scopeCupAcceptedStatusScope(Builder $builder)
     {
         return $builder->whereHas('status', fn ($q) => $q->nameScope(StatusEnum::ACCEPTED->value));
     }
@@ -147,7 +147,7 @@ class Cup extends Model implements HasMedia
     {
         return Attribute::make(
             get: function () {
-                $isCapacityAvailable = $this->competitions->count() < $this->capacity;
+                $isCapacityAvailable = $this->competitions->count() < $this->capacity / 2;
                 $hasTimeToRegister = $this->end_register_at > now();
 
                 return $isCapacityAvailable && $hasTimeToRegister;

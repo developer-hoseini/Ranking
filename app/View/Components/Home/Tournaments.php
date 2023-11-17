@@ -2,7 +2,6 @@
 
 namespace App\View\Components\Home;
 
-use App\Models\Competition;
 use App\Models\Cup;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
@@ -20,10 +19,11 @@ class Tournaments extends Component
         //     ->get();
 
         $tournaments = Cup::query()
+            ->cupAcceptedStatusScope()
             ->with([
                 'game',
                 'state.country',
-                'competitions.gameResults.status',
+                'competitions.gameResults',
             ])
             ->withCount(['registeredUsers'])
             ->latest()
