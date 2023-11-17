@@ -7,6 +7,7 @@ use App\Models\Game;
 use App\Models\Status;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Rule;
@@ -44,19 +45,36 @@ class QuickSubmit extends Component
     #[Computed]
     public function games()
     {
-        return Game::active()->orderBy('sort', 'asc')->select(['id', 'name'])->get();
+        $query = Game::active()
+            ->gameTypesScope(['one player', 'team'], false)
+            ->doesntHave('onlineGames')
+            ->orderBy('sort', 'asc')
+            ->select(['id', 'name']);
+
+        return $query->get();
     }
 
     public function updatedSearchUser()
     {
         $this->resetErrorBag('form.user_id');
+
         $this->users = [];
 
-        $this->users = User::searchProfileAvatarNameScope($this->searchUser)
+        // if (Str::length($this->searchUser) <= 2) {
+        //     return;
+        // }
+
+        $this->users = User::query()
+            ->whereHas('profile', fn ($q) => $q->whereNotNull('avatar_name'))
+            ->where(function ($q) {
+                $q->searchProfileAvatarNameScope($this->searchUser)
+                    ->orWhere('name', 'like', "%$this->searchUser%");
+            })
             ->with(['profile:id,user_id,avatar_name'])
             ->select(['id', 'name'])
             ->get()
             ->toArray();
+
     }
 
     #[On('user-selected')]

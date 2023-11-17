@@ -14,7 +14,7 @@ class OnlineGames extends Component
         $games = Game::query()
             ->active()
             ->withWhereHas('onlineGames')
-            ->gameTypeScope('online')
+            ->gameTypesScope(['online'], true)
             ->select(['id', 'name'])
             ->with([
                 'gameTypes',

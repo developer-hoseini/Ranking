@@ -21,6 +21,7 @@
 
                             <div
                                 class="col-md-7"
+                                wire:ignore.self
                                 x-data="{ show: {{ $searchUser != '' ? 'true' : 'false' }} }"
                             >
 

@@ -66,7 +66,7 @@ class GameController extends Controller
         $games = Game::query()
             ->where('id', $id)
             ->active()
-            ->gameTypeScope('two player')
+            ->gameTypesScope(['two player'], true)
             ->select(['id', 'name'])
             ->firstOrFail();
 
