@@ -92,8 +92,10 @@ class GameResultResource extends Resource
                 Forms\Components\Select::make('game_result_status_id')
                     ->required()
                     ->relationship('gameResultStatus', 'name'),
-                Forms\Components\Select::make('status_id')
-                    ->relationship('status', 'name'),
+                Forms\Components\Select::make('user_status_id')
+                    ->relationship('gameResultUserStatus', 'name'),
+                Forms\Components\Select::make('admin_status_id')
+                    ->relationship('gameResultAdminStatus', 'name'),
             ]);
     }
 
@@ -122,7 +124,9 @@ class GameResultResource extends Resource
                 Tables\Columns\TextColumn::make('gameresultable.name')
                     ->label('name')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('status.name')
+                Tables\Columns\TextColumn::make('gameResultUserStatus.name')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('gameResultAdminStatus.name')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('deleted_at')
                     ->dateTime()

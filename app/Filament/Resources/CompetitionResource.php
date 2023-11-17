@@ -173,10 +173,15 @@ class CompetitionResource extends Resource
                                         ->options($gameResultstatuses->pluck('name', 'id'))
                                         ->default($gameResult?->game_result_status_id)
                                         ->required(),
-                                    Select::make("form.$key.status_id")
-                                        ->label('status')
+                                    Select::make("form.$key.user_status_id")
+                                        ->label('status user')
                                         ->options($statuses->pluck('name', 'id'))
-                                        ->default($gameResult?->status_id)
+                                        ->default($gameResult?->user_status_id)
+                                        ->required(),
+                                    Select::make("form.$key.admin_status_id")
+                                        ->label('status admin')
+                                        ->options($statuses->pluck('name', 'id'))
+                                        ->default($gameResult?->admin_status_id)
                                         ->required(),
                                 ]);
 
@@ -212,7 +217,8 @@ class CompetitionResource extends Resource
                                     //edit
                                     $gameResult->update([
                                         'game_result_status_id' => $form['game_result_status_id'],
-                                        'status_id' => $form['status_id'],
+                                        'user_status_id' => $form['user_status_id'],
+                                        'admin_status_id' => $form['admin_status_id'],
                                     ]);
 
                                 } else {
@@ -221,7 +227,8 @@ class CompetitionResource extends Resource
                                         'playerable_type' => User::class,
                                         'playerable_id' => $form['user_id'],
                                         'game_result_status_id' => $form['game_result_status_id'],
-                                        'status_id' => $form['status_id'],
+                                        'user_status_id' => $form['user_status_id'],
+                                        'admin_status_id' => $form['admin_status_id'],
                                     ]);
                                 }
                             }

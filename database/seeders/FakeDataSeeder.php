@@ -136,7 +136,8 @@ class FakeDataSeeder extends Seeder
                         'gameresultable_type' => Competition::class,
                         'gameresultable_id' => $competition->id,
                         'game_result_status_id' => $gameResultStatusId,
-                        'status_id' => $acceptedStatuse->id,
+                        'user_status_id' => $acceptedStatuse->id,
+                        'admin_status_id' => $acceptedStatuse->id,
                     ]);
 
                     $dataCollect->push(
@@ -160,7 +161,8 @@ class FakeDataSeeder extends Seeder
                         'gameresultable_type' => Competition::class,
                         'gameresultable_id' => $competition->id,
                         'game_result_status_id' => $gameResultStatusId,
-                        'status_id' => $acceptedStatuse->id,
+                        'user_status_id' => $acceptedStatuse->id,
+                        'admin_status_id' => $acceptedStatuse->id,
                     ]);
 
                     $dataCollect->push(
@@ -223,7 +225,11 @@ class FakeDataSeeder extends Seeder
 
     private function createAchievements()
     {
-        $competitions = Competition::with(['users', 'gameResults.status', 'achievements', 'scoreAchievement', 'coinAchievement'])->get();
+        $competitions = Competition::with(['users',
+            'gameResults.gameResultStatus',
+            'gameResults.gameResultUserStatus',
+            'gameResults.gameResultAdminStatus',
+            'achievements', 'scoreAchievement', 'coinAchievement'])->get();
         $dataCollect = collect([]);
 
         $acheivementsStatuses = Status::modelType(Achievement::class, false)->get();

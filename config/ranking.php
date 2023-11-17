@@ -11,6 +11,10 @@ return [
             'user' => [
                 'register' => 10,
                 'complete_profile' => 40,
+                'winer_tow_player' => 10,
+                'loser_tow_player' => 2,
+                'winer_tow_player_with_picture' => 15,
+                'loser_tow_player_with_picture' => 7,
             ],
         ],
 

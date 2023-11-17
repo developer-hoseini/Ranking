@@ -48,9 +48,14 @@ class GameResult extends Model
 {
     use HasFactory, SoftDeletes;
 
-    public function status()
+    public function gameResultUserStatus()
     {
-        return $this->belongsTo(Status::class, 'status_id')->modelType(null, false);
+        return $this->belongsTo(Status::class, 'user_status_id')->modelType(null, false);
+    }
+
+    public function gameResultAdminStatus()
+    {
+        return $this->belongsTo(Status::class, 'admin_status_id')->modelType(null, false);
     }
 
     public function gameResultStatus()

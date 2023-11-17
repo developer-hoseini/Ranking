@@ -17,8 +17,8 @@ return new class extends Migration
             $table->morphs('playerable');
             $table->morphs('gameresultable');
             $table->foreignId('game_result_status_id')->constrained('statuses', 'id');
-            $table->foreignId('status_id')->nullable()->constrained('statuses', 'id');
-
+            $table->foreignId('user_status_id')->nullable()->constrained('statuses', 'id');
+            $table->foreignId('admin_status_id')->nullable()->constrained('statuses', 'id');
             $table->softDeletes();
             $table->timestamps();
         });

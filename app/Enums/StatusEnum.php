@@ -27,6 +27,7 @@ enum StatusEnum: string
     case GAME_RESULT_WIN = 'game_result_win';
     case GAME_RESULT_LOSE = 'game_result_lose';
     case GAME_RESULT_ABSENT = 'game_result_absent';
+    case GAME_RESULT_PENDING_CONFIRM_USER = 'game_result_pending_confirm_user';
     case TICKET_PENDING = 'ticket_pending';
     case TICKET_ANSWERED = 'ticket_answered';
     case TICKET_CLOSED = 'ticket_closed';
