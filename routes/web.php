@@ -85,12 +85,15 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::get('/{game}', [GameController::class, 'show'])->name('show');
             Route::get('/{id}/online', [GameController::class, 'showOnline'])->name('show.online');
 
-            Route::middleware(['auth', 'verified'])->group(function () {
+            /* TODO: uncomment verified middleware */
+            Route::middleware(['auth'/* , 'verified' */])->group(function () {
                 Route::get('/{id}/join', [GameController::class, 'join'])->middleware('auth')->name('join');
             });
 
             //game page
-            Route::group(['as' => 'page.', 'prefix' => '/page', 'middleware' => ['auth', 'verified', 'completeProfile']], function () {
+            /* TODO: uncomment verified middleware */
+
+            Route::group(['as' => 'page.', 'prefix' => '/page', 'middleware' => ['auth'/* , 'verified' */, 'completeProfile']], function () {
                 Route::get('/accept/{inviteId}', [GamePageController::class, 'accept'])->name('accept');
                 Route::get('/reject/{inviteId}', [GamePageController::class, 'reject'])->name('reject');
                 Route::get('/cancel/{inviteId}', [GamePageController::class, 'cancel'])->name('cancel');
@@ -103,7 +106,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
 
         //profile
         Route::group(['prefix' => '/profile', 'as' => 'profile.'], function () {
-            Route::middleware(['auth', 'verified'])->group(function () {
+            /* TODO: uncomment verified middleware */
+            Route::middleware(['auth'/* , 'verified' */])->group(function () {
                 Route::get('/complete-profile', \App\Livewire\Pages\Profile\CompleteProfile::class)->name('complete-profile');
             });
 
@@ -117,7 +121,9 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
 
         //game-results
         Route::group(['prefix' => '/game-results', 'as' => 'game-results.'], function () {
-            Route::middleware(['auth', 'verified', 'completeProfile'])->group(function () {
+
+            /* TODO: uncomment verified middleware */
+            Route::middleware(['auth'/* , 'verified' */, 'completeProfile'])->group(function () {
                 Route::get('/', \App\Livewire\Pages\GameResult::class)->name('index');
                 Route::get('/quick-submit', \App\Livewire\Pages\GameResults\QuickSubmit::class)->name('quick-submit');
             });
