@@ -29,8 +29,8 @@
                             </a>
                         </td>
                         <td class="text-truncate">{{ $ticket->ticketCategory?->name }}</td>
-                        <td class="text-truncate {{ $ticket->status?->colorClass }}">
-                            {{ $ticket->status?->nameWithoutModelPrefix }}
+                        <td class="text-truncate {{ $ticket->ticketStatus?->colorClass }}">
+                            {{ $ticket->ticketStatus?->nameWithoutModelPrefix }}
                         </td>
                         <td class="ticket-td4">
                             {{ $ticket->updated_at }}

@@ -65,7 +65,7 @@ class Ticket extends Model implements HasMedia
         return $this->belongsTo(User::class, 'created_by_user_id');
     }
 
-    public function status(): BelongsTo
+    public function ticketStatus(): BelongsTo
     {
         return $this->belongsTo(Status::class)->modelType(Ticket::class, false);
     }

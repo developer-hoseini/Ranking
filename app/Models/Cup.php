@@ -107,7 +107,7 @@ class Cup extends Model implements HasMedia
         return $this->belongsTo(User::class);
     }
 
-    public function status(): BelongsTo
+    public function cupStatus(): BelongsTo
     {
         return $this->belongsTo(Status::class)->modelType(null, true);
     }
@@ -120,7 +120,7 @@ class Cup extends Model implements HasMedia
 
     public function scopeCupAcceptedStatusScope(Builder $builder)
     {
-        return $builder->whereHas('status', fn ($q) => $q->nameScope(StatusEnum::ACCEPTED->value));
+        return $builder->whereHas('cupStatus', fn ($q) => $q->nameScope(StatusEnum::ACCEPTED->value));
     }
 
     protected function startAtDate(): Attribute
@@ -217,12 +217,12 @@ class Cup extends Model implements HasMedia
 
         if ($competition) {
             $winGameResult = $competition->gameResults
-                ->where('status.name', StatusEnum::ACCEPTED->value)
+                ->where('gameResultAdminStatus.name', StatusEnum::ACCEPTED->value)
                 ->where('gameResultStatus.name', StatusEnum::GAME_RESULT_WIN->value)
                 ->first();
 
             $loserGameResult = $competition->gameResults
-                ->where('status.name', StatusEnum::ACCEPTED->value)
+                ->where('gameResultAdminStatus.name', StatusEnum::ACCEPTED->value)
                 ->where('gameResultStatus.name', StatusEnum::GAME_RESULT_LOSE->value)
                 ->first();
 

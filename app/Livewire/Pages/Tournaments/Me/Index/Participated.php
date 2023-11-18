@@ -23,7 +23,7 @@ class Participated extends Component
             ->withCount('registeredUsers')
             ->with([
                 'game:id,name',
-                'status:id,name',
+                'cupStatus:id,name',
                 'competitions.gameResults.gameResultUserStatus',
                 'competitions.gameResults.playerable' => function (MorphTo $morphTo) {
                     $morphTo->morphWith([

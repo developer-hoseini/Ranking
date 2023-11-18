@@ -75,7 +75,7 @@ class Team extends Model implements HasAvatar, HasMedia
     use SoftDeletes;
     use \Staudenmeir\EloquentEagerLimit\HasEagerLimit;
 
-    public function status(): BelongsTo
+    public function teamStatus(): BelongsTo
     {
         return $this->belongsTo(Status::class)->modelType(null);
     }

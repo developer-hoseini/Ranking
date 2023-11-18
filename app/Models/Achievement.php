@@ -100,7 +100,7 @@ class Achievement extends Model
         return $this->hasOneDeepFromRelations($this->achievementCompetitionState(), (new State())->country());
     }
 
-    public function status(): BelongsTo
+    public function achievementStatus(): BelongsTo
     {
         return $this->belongsTo(Status::class)->modelType(__CLASS__, false);
     }
@@ -113,10 +113,10 @@ class Achievement extends Model
     public function scopeCompletedProfileScope(Builder $query, $is = true): Builder
     {
         if ($is) {
-            return $query->whereHas('status', fn ($q) => $q->where('name', StatusEnum::ACHIEVEMENT_COMPLETE_PROFILE->value));
+            return $query->whereHas('achievementStatus', fn ($q) => $q->where('name', StatusEnum::ACHIEVEMENT_COMPLETE_PROFILE->value));
         }
 
-        return $query->whereDoesntHave('status', fn ($q) => $q->where('name', StatusEnum::ACHIEVEMENT_COMPLETE_PROFILE->value));
+        return $query->whereDoesntHave('achievementStatus', fn ($q) => $q->where('name', StatusEnum::ACHIEVEMENT_COMPLETE_PROFILE->value));
 
     }
 }

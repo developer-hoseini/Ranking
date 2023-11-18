@@ -68,7 +68,7 @@ class AchievementResource extends Resource
                     ->numeric(),
                 Forms\Components\Select::make('status_id')
                     ->label('Reason')
-                    ->relationship('status', 'name')
+                    ->relationship('achievementStatus', 'name')
                     ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->nameWithoutModelPrefix}"),
 
                 Forms\Components\Select::make('occurred_model_type')
@@ -116,10 +116,10 @@ class AchievementResource extends Resource
                 Tables\Columns\TextColumn::make('count')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('status.name')
+                Tables\Columns\TextColumn::make('achievementStatus.name')
                     ->label('Reason')
                     ->state(function (Model $record): string {
-                        return $record?->status?->nameWithoutModelPrefix ?? '';
+                        return $record?->achievementStatus?->nameWithoutModelPrefix ?? '';
                     })
                     ->sortable(),
                 Tables\Columns\TextColumn::make('occurredModel.name')

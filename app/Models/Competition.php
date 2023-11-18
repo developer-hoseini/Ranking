@@ -128,7 +128,7 @@ class Competition extends Model implements HasMedia
         return $this->morphMany(GameResult::class, 'gameresultable');
     }
 
-    public function status(): BelongsTo
+    public function competitionStatus(): BelongsTo
     {
         return $this->belongsTo(Status::class)->modelType(__CLASS__, null);
     }
@@ -175,7 +175,7 @@ class Competition extends Model implements HasMedia
 
     public function scopeStatusTournament(Builder $builder): Builder
     {
-        return $builder->whereHas('status', fn ($q) => $q->where('name', StatusEnum::COMPETITION_TOURNAMENT->value));
+        return $builder->whereHas('competitionStatus', fn ($q) => $q->where('name', StatusEnum::COMPETITION_TOURNAMENT->value));
     }
 
     public function registerMediaCollections(): void
@@ -239,7 +239,7 @@ class Competition extends Model implements HasMedia
     {
         return Attribute::make(
             get: function () {
-                $hasGameResult = $this->gameResults->where('status.name', StatusEnum::ACCEPTED->value)->first();
+                $hasGameResult = $this->gameResults->where('gameResultAdminStatus.name', StatusEnum::ACCEPTED->value)->first();
 
                 return $hasGameResult ? true : false;
             }

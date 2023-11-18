@@ -62,7 +62,7 @@ class TeamResource extends Resource
                     ->default(0)
                     ->numeric(),
                 Forms\Components\Select::make('status_id')
-                    ->relationship('status', 'name')
+                    ->relationship('teamStatus', 'name')
                     ->default(2),
             ]);
     }
@@ -80,7 +80,7 @@ class TeamResource extends Resource
                 Tables\Columns\TextColumn::make('game.name')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('status.name')
+                Tables\Columns\TextColumn::make('teamStatus.name')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('state.name')

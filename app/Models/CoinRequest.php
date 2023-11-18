@@ -11,7 +11,7 @@ class CoinRequest extends Model
 {
     use HasFactory,SoftDeletes;
 
-    public function status(): BelongsTo
+    public function coinRequestStatus(): BelongsTo
     {
         return $this->belongsTo(Status::class)->modelType(null, true);
     }

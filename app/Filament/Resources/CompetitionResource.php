@@ -60,7 +60,7 @@ class CompetitionResource extends Resource
                     })
                     ->required(),
                 Forms\Components\Select::make('status_id')
-                    ->relationship('status', 'name')
+                    ->relationship('competitionStatus', 'name')
                     ->default(2)
                     ->required(),
 
@@ -113,7 +113,7 @@ class CompetitionResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
 
-                Tables\Columns\TextColumn::make('status.name')
+                Tables\Columns\TextColumn::make('competitionStatus.name')
                     ->numeric()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

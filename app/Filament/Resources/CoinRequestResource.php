@@ -54,7 +54,7 @@ class CoinRequestResource extends Resource
                     ->numeric(),
                 Forms\Components\DateTimePicker::make('requested_at'),
                 Forms\Components\Select::make('status_id')
-                    ->relationship('status', 'name')
+                    ->relationship('coinRequestStatus', 'name')
                     ->required(),
             ]);
     }
@@ -80,7 +80,7 @@ class CoinRequestResource extends Resource
                 Tables\Columns\TextColumn::make('requested_at')
                     ->dateTime()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('status.name')
+                Tables\Columns\TextColumn::make('coinRequestStatus.name')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('deleted_at')
                     ->dateTime()
@@ -162,7 +162,7 @@ class CoinRequestResource extends Resource
                     ->color('success')
                     ->requiresConfirmation()
                     ->action(function (CoinRequest $record, array $data, Action $action) use ($statusAccepted) {
-                        if ($record->status->isAccepted) {
+                        if ($record->coinRequestStatus->isAccepted) {
                             Notification::make()
                                 ->danger()
                                 ->title('Forbidden')

@@ -23,8 +23,8 @@
                         {{ __('words.section') }}
                         {{ $this->ticket?->ticketCategory?->name }}
                     </td>
-                    <td class="{{ $this->ticket?->status?->colorClass }}">
-                        {{ $this->ticket?->status?->nameWithoutModelPrefix }}
+                    <td class="{{ $this->ticket?->ticketStatus?->colorClass }}">
+                        {{ $this->ticket?->ticketStatus?->nameWithoutModelPrefix }}
                     </td>
                 </tr>
             </table>

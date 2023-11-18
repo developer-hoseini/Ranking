@@ -37,7 +37,7 @@ class TicketResource extends Resource
                     ->maxLength(65535)
                     ->columnSpanFull(),
                 Forms\Components\Select::make('status_id')
-                    ->relationship('status', 'name')
+                    ->relationship('ticketStatus', 'name')
                     ->default(function (Select $component) {
                         $options = $component->getOptions();
                         foreach ($options as $key => $option) {
@@ -61,7 +61,7 @@ class TicketResource extends Resource
                 Tables\Columns\TextColumn::make('ticket_parent_id')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('status.name')
+                Tables\Columns\TextColumn::make('ticketStatus.name')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('createdByUser.name')

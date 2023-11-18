@@ -36,8 +36,8 @@
                             <i class="fa fa-users mx-2"></i>
                         </p>
                     </td>
-                    <td class="{{ $tournament->status?->colorClass }} align-middle">
-                        {{ $tournament->status?->nameWithoutModelPrefix }}
+                    <td class="{{ $tournament->cupStatus?->colorClass }} align-middle">
+                        {{ $tournament->cupStatus?->nameWithoutModelPrefix }}
                     </td>
                     @if ($tournament->isFinished)
                         @php

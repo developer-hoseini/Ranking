@@ -71,7 +71,7 @@ class CupResource extends Resource
                     ->afterOrEqual('end_register_at')
                     ->required(),
                 Forms\Components\Select::make('status_id')
-                    ->relationship('status', 'name')
+                    ->relationship('cupStatus', 'name')
                     ->required(),
                 Forms\Components\SpatieMediaLibraryFileUpload::make('images')
                     ->collection('images')
@@ -104,7 +104,7 @@ class CupResource extends Resource
                     ->label('Created By')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('status.name')
+                Tables\Columns\TextColumn::make('cupStatus.name')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('deleted_at')
                     ->dateTime()
