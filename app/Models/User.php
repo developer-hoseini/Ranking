@@ -288,6 +288,17 @@ class User extends Authenticatable implements CanResetPassword, FilamentUser, Ha
         );
     }
 
+    protected function avatarName(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                $avatarName = $this->profile?->avatar_name ?? $this->username ?? $this->name;
+
+                return $avatarName;
+            }
+        );
+    }
+
     protected function isProfileCompleted(): Attribute
     {
         return Attribute::make(

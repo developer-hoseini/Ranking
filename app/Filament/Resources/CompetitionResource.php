@@ -165,7 +165,7 @@ class CompetitionResource extends Resource
                                 ->schema([
                                     Select::make("form.$key.user_id")
                                         ->label('user')
-                                        ->options([$user->id => $user->name])
+                                        ->options([$user->id => $user->avatarName])
                                         ->default($gameResult?->playerable_id)
                                         ->required(),
                                     Select::make("form.$key.game_result_status_id")
