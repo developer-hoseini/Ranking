@@ -31,7 +31,7 @@
                         </tr>
                         <tr>
                             <td>
-                                {{ $team?->score_achievements_sum_count }}
+                                {{ $team?->user_score_achievements_sum_count }}
                             </td>
                             <td>
                                 {{ $team?->team_rank }}

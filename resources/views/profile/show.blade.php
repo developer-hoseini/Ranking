@@ -1,11 +1,10 @@
 @extends('layouts.app')
 
-@section('title', __('words. - ').($user?->profile?->fullname??$user->name).' ('.$user->username.')')
+@section('title', __('words. - ') . ($user?->profile?->fullname ?? $user->name) . ' (' . $user->username . ')')
 
 @section('header')
     @parent
 @endsection
-
 
 @section('content')
 
@@ -14,43 +13,57 @@
             <div class="card-body">
                 <div class="profile">
                     <div class="profile-photo">
-                        <img src="{{ $user->avatar }}" class="user_photo" alt="{{ $user->username }}"
-                             title="{{$user?->profile?->fullname??$user->name}}" width="180">
+                        <img
+                            class="user_photo"
+                            src="{{ $user->avatar }}"
+                            title="{{ $user?->profile?->fullname ?? $user->name }}"
+                            alt="{{ $user->username }}"
+                            width="180"
+                        >
                     </div>
 
                     <div class="profile-details">
-                        <div><h2 style="font-size: 24px;">{{ $user?->username }}</h2></div>
-                        <div><h1 class="font-weight-bold"
-                                 style="font-size: 20px;color: #000;">{{$user?->profile?->fullname??$user->name}}</h1>
+                        <div>
+                            <h2 style="font-size: 24px;">{{ $user?->username }}</h2>
                         </div>
                         <div>
-                            @if($user->profile?->state_id!=null)
-                                <img
-                                    src="{{ $user->profile?->state?->country?->icon }}">
+                            <h1
+                                class="font-weight-bold"
+                                style="font-size: 20px;color: #000;"
+                            >{{ $user?->profile?->fullname ?? $user->name }}</h1>
+                        </div>
+                        <div>
+                            @if ($user->profile?->state_id != null)
+                                <img src="{{ $user->profile?->state?->country?->icon }}">
                                 {{ $user->profile?->state?->country?->name }}
                             @endif
                         </div>
                         <div class="like_cnt">
-                            @if(auth()->check())
-                                {{--TODO: Change to livewire--}}
-                                <profile like-route="{{route('profile.like')}}"
-                                         report-route="{{route('profile.report')}}"
-                                         is-liked="{{(bool)$user?->is_like}}"
-                                         user-id="{{$user->id}}"
-                                         like-count="{{$user->likes_count}}"
-                                         coin-count="{{$user->coin_achievements_sum_count}}"
-                                         lbl-like="{{__('')}}"
-                                         lbl-likes="{{__('')}}"
-                                         lbl-report="{{__('words.Report')}}"
-                                         msg-report-profile="{{__('words.Report profile picture?')}}"
-                                         msg-will-sent="{{__('words.Report will be sent for reviewing.')}}"
-                                         lbl-yes-report="{{__('words.Yes, report it.')}}"
-                                         lbl-cancel="{{__('words.Cancel')}}"></profile>
+                            @if (auth()->check())
+                                {{-- TODO: Change to livewire --}}
+                                <profile
+                                    like-route="{{ route('profile.like') }}"
+                                    report-route="{{ route('profile.report') }}"
+                                    is-liked="{{ (bool) $user?->is_like }}"
+                                    user-id="{{ $user->id }}"
+                                    like-count="{{ $user->likes_count }}"
+                                    coin-count="{{ $user->user_coin_achievements_sum_count }}"
+                                    lbl-like="{{ __('') }}"
+                                    lbl-likes="{{ __('') }}"
+                                    lbl-report="{{ __('words.Report') }}"
+                                    msg-report-profile="{{ __('words.Report profile picture?') }}"
+                                    msg-will-sent="{{ __('words.Report will be sent for reviewing.') }}"
+                                    lbl-yes-report="{{ __('words.Yes, report it.') }}"
+                                    lbl-cancel="{{ __('words.Cancel') }}"
+                                ></profile>
                             @else
                                 <i class="fa fa-heart liked-color no-pointer"></i>
                                 <span>{{ $user->likes_count }}</span>
-                                <img src="{{asset('assets/img/coin.png')}}" class="profile_coin">
-                                <span>{{$user->coin_achievements_sum_count}}</span>
+                                <img
+                                    class="profile_coin"
+                                    src="{{ asset('assets/img/coin.png') }}"
+                                >
+                                <span>{{ $user->user_coin_achievements_sum_count }}</span>
                             @endif
                         </div>
                     </div>
@@ -58,45 +71,78 @@
                 </div>
             </div>
 
-
             <!-- Profile Menu Items -->
-            <div class="w-100 border-bottom mb-2" style="border-top: solid 1px #636b6f;">
+            <div
+                class="w-100 border-bottom mb-2"
+                style="border-top: solid 1px #636b6f;"
+            >
                 <div class="container text-center">
-                    <div class="p-3 profile-menu-item d-inline-block" btn_value="joined-games"
-                         style="border-bottom: solid 1px #636b6f ;">
-                        <img src="{{asset('assets/img/game-dark.png')}}" class="profile-menu-img">
-                        <div class="profile-menu-responsive">{{__('words.Joined_Games')}}</div>
+                    <div
+                        class="profile-menu-item d-inline-block p-3"
+                        style="border-bottom: solid 1px #636b6f ;"
+                        btn_value="joined-games"
+                    >
+                        <img
+                            class="profile-menu-img"
+                            src="{{ asset('assets/img/game-dark.png') }}"
+                        >
+                        <div class="profile-menu-responsive">{{ __('words.Joined_Games') }}</div>
                     </div>
-                    <div class="p-3 profile-menu-item d-inline-block" btn_value="competitions">
-                        <img src="{{asset('assets/img/cup-dark.png')}}" class="profile-menu-img">
-                        <div class="profile-menu-responsive">{{__('words.tournament_joined')}}</div>
+                    <div
+                        class="profile-menu-item d-inline-block p-3"
+                        btn_value="competitions"
+                    >
+                        <img
+                            class="profile-menu-img"
+                            src="{{ asset('assets/img/cup-dark.png') }}"
+                        >
+                        <div class="profile-menu-responsive">{{ __('words.tournament_joined') }}</div>
                     </div>
-                    <div class="p-3 profile-menu-item d-inline-block" btn_value="certificates">
-                        <img src="{{asset('assets/img/certificate-dark.png')}}" class="profile-menu-img">
-                        <div class="profile-menu-responsive">{{__('words.championship_certificates')}}</div>
+                    <div
+                        class="profile-menu-item d-inline-block p-3"
+                        btn_value="certificates"
+                    >
+                        <img
+                            class="profile-menu-img"
+                            src="{{ asset('assets/img/certificate-dark.png') }}"
+                        >
+                        <div class="profile-menu-responsive">{{ __('words.championship_certificates') }}</div>
                     </div>
                 </div>
             </div>
 
-
             <div class="card-body">
                 <div class="profile">
                     <div class="w-100 profile-options joined-games">
-                        <div class="text-center"><h2>{{__('words.Joined_Games')}}</h2></div>
-                        @foreach( $userGames as $row => $game)
+                        <div class="text-center">
+                            <h2>{{ __('words.Joined_Games') }}</h2>
+                        </div>
+                        @foreach ($userGames as $row => $game)
                             <div class="profile_game_scores">
-                                <h3 class="btn btn-light p-2 w-100 mt-2 border profile-game-btn"
+                                <h3
+                                    class="btn btn-light w-100 profile-game-btn mt-2 border p-2"
                                     style="font-size: 20px;cursor: pointer;color: #555;"
-                                    btn_value="{{$row}}">
+                                    btn_value="{{ $row }}"
+                                >
                                     <span>
-                                           {{ $game?->name}}
+                                        {{ $game?->name }}
                                     </span>
-                                    <i class="fa fa-chevron-down mx-2 game-btn-i-{{$row}}" rotate="down"></i></h3>
-                                <div class="profile-game-div" id="profile-game-div-{{$row}}" style="display: none;">
+                                    <i
+                                        class="fa fa-chevron-down game-btn-i-{{ $row }} mx-2"
+                                        rotate="down"
+                                    ></i>
+                                </h3>
+                                <div
+                                    class="profile-game-div"
+                                    id="profile-game-div-{{ $row }}"
+                                    style="display: none;"
+                                >
                                     <div class="card profile_stars_box">
-                                        <div class="card-header text-center"><h5>{{ __('words.Stars') }}</h5></div>
+                                        <div class="card-header text-center">
+                                            <h5>{{ __('words.Stars') }}</h5>
+                                        </div>
                                         <div class="card-body">
-                                            {{--@php
+                                            {{-- @php
                                                 $game_id = $score->game->id;
                                                 $inclub_stars = \App\Models\Invite::inclub_stars($user->id, $game_id, $status, $setting);
                                                 $image_stars = \App\Models\Invite::image_stars($user->id, $game_id, $status, $setting);
@@ -119,7 +165,7 @@
                                                 }
                                                 else
                                                   $warning_per = 0;
-                                            @endphp--}}
+                                            @endphp --}}
 
                                             {{-- TODO:List Stare --}}
                                             <ul class="list-group list-group-flush">
@@ -127,41 +173,57 @@
                                                     <div class="stars_textbox">{{ __('words.In Club: ') }}</div>
                                                     <div class="stars_starbox">
                                                         <div class="star-ratings-sprite"><span
-                                                                style="width:{{0}}%"
-                                                                class="star-ratings-sprite-rating"></span></div>
-                                                        <button class="btn-tooltip" rel="tooltip"
-                                                                title="{{ __('message.played_days_ago',['play_num'=>0, 'days_num'=>config('setting.days_ago')]) }}"></button>
+                                                                class="star-ratings-sprite-rating"
+                                                                style="width:{{ 0 }}%"
+                                                            ></span></div>
+                                                        <button
+                                                            class="btn-tooltip"
+                                                            title="{{ __('message.played_days_ago', ['play_num' => 0, 'days_num' => config('setting.days_ago')]) }}"
+                                                            rel="tooltip"
+                                                        ></button>
                                                     </div>
                                                 </li>
                                                 <li class="list-group-item">
                                                     <div class="stars_textbox">{{ __('words.With Referee: ') }}</div>
                                                     <div class="stars_starbox">
                                                         <div class="star-ratings-sprite"><span
-                                                                style="width:{{0}}%"
-                                                                class="star-ratings-sprite-rating"></span>
+                                                                class="star-ratings-sprite-rating"
+                                                                style="width:{{ 0 }}%"
+                                                            ></span>
                                                         </div>
-                                                        <button class="btn-tooltip" rel="tooltip"
-                                                                title="{{ __('message.played_days_ago',['play_num'=>0, 'days_num'=>config('setting.days_ago')]) }}"></button>
+                                                        <button
+                                                            class="btn-tooltip"
+                                                            title="{{ __('message.played_days_ago', ['play_num' => 0, 'days_num' => config('setting.days_ago')]) }}"
+                                                            rel="tooltip"
+                                                        ></button>
                                                     </div>
                                                 </li>
                                                 <li class="list-group-item">
                                                     <div class="stars_textbox">{{ __('words.Team_Game:') }}</div>
                                                     <div class="stars_starbox gamepage_stars">
                                                         <div class="star-ratings-sprite"><span
-                                                                style="width:{{0}}%"
-                                                                class="star-ratings-sprite-rating"></span></div>
-                                                        <button class="btn-tooltip" rel="tooltip"
-                                                                title="{{ __('message.played_days_ago',['play_num'=>0, 'days_num'=>config('setting.days_ago')]) }}"></button>
+                                                                class="star-ratings-sprite-rating"
+                                                                style="width:{{ 0 }}%"
+                                                            ></span></div>
+                                                        <button
+                                                            class="btn-tooltip"
+                                                            title="{{ __('message.played_days_ago', ['play_num' => 0, 'days_num' => config('setting.days_ago')]) }}"
+                                                            rel="tooltip"
+                                                        ></button>
                                                     </div>
                                                 </li>
                                                 <li class="list-group-item">
                                                     <div class="stars_textbox">{{ __('words.Lawful:') }}</div>
                                                     <div class="stars_starbox">
                                                         <div class="star-ratings-sprite"><span
-                                                                style="width:{{100}}%"
-                                                                class="star-ratings-sprite-rating"></span></div>
-                                                        <button class="btn-tooltip" rel="tooltip"
-                                                                title="{{ __('message.warnings_in_played',['warning_num'=>5, 'play_num'=>5]) }}"></button>
+                                                                class="star-ratings-sprite-rating"
+                                                                style="width:{{ 100 }}%"
+                                                            ></span></div>
+                                                        <button
+                                                            class="btn-tooltip"
+                                                            title="{{ __('message.warnings_in_played', ['warning_num' => 5, 'play_num' => 5]) }}"
+                                                            rel="tooltip"
+                                                        ></button>
                                                     </div>
                                                 </li>
                                             </ul>
@@ -169,80 +231,108 @@
                                     </div>
 
                                     <div class="card profile_scores_box">
-                                        <div class="card-header text-center"><h5>{{ __('words.Scores') }}</h5></div>
+                                        <div class="card-header text-center">
+                                            <h5>{{ __('words.Scores') }}</h5>
+                                        </div>
                                         <div class="card-body">
                                             <ul class="list-group list-group-flush">
                                                 <li class="list-group-item">
-                                                    {{ __('words.Score: ').$game?->game_competitions_score_occurred_model_sum_count??0 }}
+                                                    {{ __('words.Score: ') . $game?->game_competitions_score_occurred_model_sum_count ?? 0 }}
                                                 </li>
                                                 @php
-                                                    $rank = \App\Services\Actions\User\GetGameRank::handle($user->id,$game?->id);
-                                                    $countryRank = \App\Services\Actions\User\GetCountryRank::handle($user->id,$user?->profile?->state?->country_id,$game?->id);
+                                                    $rank = \App\Services\Actions\User\GetGameRank::handle($user->id, $game?->id);
+                                                    $countryRank = \App\Services\Actions\User\GetCountryRank::handle($user->id, $user?->profile?->state?->country_id, $game?->id);
                                                 @endphp
-                                                <li class="list-group-item">{{ __('words.Global Rank: ').$rank }}</li>
-                                                <li class="list-group-item">{{ __('words.Country Rank: ').$countryRank }}</li>
+                                                <li class="list-group-item">{{ __('words.Global Rank: ') . $rank }}</li>
+                                                <li class="list-group-item">
+                                                    {{ __('words.Country Rank: ') . $countryRank }}
+                                                </li>
                                             </ul>
                                         </div>
                                     </div>
 
                                     <div class="card profile_gamepage_box">
-                                        <div class="card-header text-center"><h5>{{ __('words.competitions') }}</h5>
+                                        <div class="card-header text-center">
+                                            <h5>{{ __('words.competitions') }}</h5>
                                         </div>
                                         <div class="card-body">
                                             <ul class="list-group list-group-flush warn-part-one">
                                                 {{-- TODO:get in club & Referee --}}
-                                                <li class="list-group-item">{{ __('words.In Club: ').'0' }}</li>
-                                                <li class="list-group-item">{{ __('words.With Referee: ').'0' }}</li>
-                                                <li class="list-group-item"
-                                                    style="border-bottom: none;">{{ __('words.Fault: ').$game->win_absent }}</li>
+                                                <li class="list-group-item">{{ __('words.In Club: ') . '0' }}</li>
+                                                <li class="list-group-item">{{ __('words.With Referee: ') . '0' }}</li>
+                                                <li
+                                                    class="list-group-item"
+                                                    style="border-bottom: none;"
+                                                >{{ __('words.Fault: ') . $game->win_absent }}</li>
                                             </ul>
                                             <ul class="list-group list-group-flush warn-part-two">
-                                                <li class="list-group-item"
-                                                    style="border-top: none;">{{ __('words.Win: ').$game->win_count }}</li>
-                                                <li class="list-group-item">{{ __('words.Lose: ').$game->lose_count }}</li>
-                                                <li class="list-group-item">{{ __('words.all_competitions: ').($game->win_count+$game->lose_count+$game->win_absent) }}</li>
+                                                <li
+                                                    class="list-group-item"
+                                                    style="border-top: none;"
+                                                >{{ __('words.Win: ') . $game->win_count }}</li>
+                                                <li class="list-group-item">{{ __('words.Lose: ') . $game->lose_count }}
+                                                </li>
+                                                <li class="list-group-item">
+                                                    {{ __('words.all_competitions: ') . ($game->win_count + $game->lose_count + $game->win_absent) }}
+                                                </li>
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         @endforeach
-                        @if($userGames->count() == 0)
-                            <div class="w-100 text-center pt-2">{{__('words.dont_yet_any_game')}} ...</div>
+                        @if ($userGames->count() == 0)
+                            <div class="w-100 pt-2 text-center">{{ __('words.dont_yet_any_game') }} ...</div>
                         @endif
                     </div>
                 </div>
 
-
-                <div class="profile profile-options competitions" style="display: none;">
-                    <div class="text-center"><h2>{{__('words.tournament_registered')}}</h2></div>
-                    <div class="w-100 pt-2" id="competitions-div">
-                        <div class="w-100 text-center"><img src="{{asset('assets/img/loading_spinner.gif')}}"
-                                                            width="100px">
+                <div
+                    class="profile profile-options competitions"
+                    style="display: none;"
+                >
+                    <div class="text-center">
+                        <h2>{{ __('words.tournament_registered') }}</h2>
+                    </div>
+                    <div
+                        class="w-100 pt-2"
+                        id="competitions-div"
+                    >
+                        <div class="w-100 text-center"><img
+                                src="{{ asset('assets/img/loading_spinner.gif') }}"
+                                width="100px"
+                            >
                         </div>
                     </div>
                 </div>
 
-
-                <div class="w-100 profile-options certificates" style="display: none;">
-                    <div class="text-center"><h2>{{__('words.championship_certificates')}}</h2></div>
+                <div
+                    class="w-100 profile-options certificates"
+                    style="display: none;"
+                >
+                    <div class="text-center">
+                        <h2>{{ __('words.championship_certificates') }}</h2>
+                    </div>
 
                     <div class="mt-3 text-center">
                         <button
-                            class="btn btn-outline-info active mx-2 btn_personal_certificates">{{__('words.personal_certificates')}}</button>
+                            class="btn btn-outline-info active btn_personal_certificates mx-2">{{ __('words.personal_certificates') }}</button>
                         <button
-                            class="btn btn-outline-info mx-2 btn_team_certificates">{{__('words.team_certificates')}}</button>
+                            class="btn btn-outline-info btn_team_certificates mx-2">{{ __('words.team_certificates') }}</button>
                     </div>
 
-                    <div class="loading_spinner mx-auto mt-3" style="display:none;"></div>
+                    <div
+                        class="loading_spinner mx-auto mt-3"
+                        style="display:none;"
+                    ></div>
 
                     <div id="certificates_content">
                         <div class="team_certificates_body pt-4 text-center"></div>
 
                         <div class="personal_certificates_body">
-                            {{--@if($certificates->count() > 0)
+                            {{-- @if ($certificates->count() > 0)
                                 <div class="w-100 text-center pt-2">
-                                    @foreach($certificates as $certificate)
+                                    @foreach ($certificates as $certificate)
                                         <div class="p-3 d-inline-block">
                                             <a href="{{route('cert_info',['cert_id'=>$certificate->id, 'en_fullname'=>$user->profile->dashed_en_fullname])}}"
                                                target="_blank">
@@ -260,19 +350,17 @@
                                 </div>
                             @else
                                 <div class="w-100 text-center pt-2">{{__('words.dont_yet_any_certificate')}} ...</div>
-                            @endif--}}
+                            @endif --}}
 
-                            <div class="w-100 text-center pt-2">{{__('words.dont_yet_any_certificate')}} ...</div>
+                            <div class="w-100 pt-2 text-center">{{ __('words.dont_yet_any_certificate') }} ...</div>
                         </div>
                     </div>
 
                 </div>
 
-
             </div>
         </div>
     </div>
-
 
     @push('styles')
         <style type="text/css">
@@ -311,19 +399,20 @@
                     width: 30px;
                 }
             }
-
         </style>
     @endpush
 
     @push('scripts')
         <script>
-            $(document).ready(function () {
+            $(document).ready(function() {
 
-                $("[rel=tooltip]").tooltip({placement: 'left'});
+                $("[rel=tooltip]").tooltip({
+                    placement: 'left'
+                });
                 var competition_loading = 0;
 
 
-                $('.profile-game-btn').on('click', function () {
+                $('.profile-game-btn').on('click', function() {
                     var value = $(this).attr('btn_value');
                     var slider = $('#profile-game-div-' + value);
                     var rotate = $('.game-btn-i-' + value);
@@ -350,7 +439,7 @@
                 });
 
 
-                $('.profile-menu-item').on('click', function () {
+                $('.profile-menu-item').on('click', function() {
                     var value = $(this).attr('btn_value');
                     $('.profile-options').css('display', 'none');
                     $('.profile-menu-item').css('border', 'none');
@@ -364,7 +453,9 @@
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                             }
                         });
-                        $.post('{{ route('profile.competitions') }}', {'user_id': '{{$user->id}}'}, function (data) {
+                        $.post('{{ route('profile.competitions') }}', {
+                            'user_id': '{{ $user->id }}'
+                        }, function(data) {
                             if (data) {
                                 $('#competitions-div').html(data);
                                 competition_loading++;
@@ -377,15 +468,17 @@
                 var team_certs_loaded = 0;
                 var team_selected = 0;
 
-                $('.btn_team_certificates').click(function () {
+                $('.btn_team_certificates').click(function() {
                     if (team_selected == 0) {
-                        $('#certificates_content').find('.personal_certificates_body').fadeOut(function () {
+                        $('#certificates_content').find('.personal_certificates_body').fadeOut(function() {
                             if (team_certs_loaded == 0) {
                                 $('.loading_spinner').fadeIn();
-                                $('.team_certificates_body').load("{{route('profile.team.certificates')}}", function () {
-                                    $('.loading_spinner').fadeOut();
-                                    team_certs_loaded = 1;
-                                });
+                                $('.team_certificates_body').load(
+                                    "{{ route('profile.team.certificates') }}",
+                                    function() {
+                                        $('.loading_spinner').fadeOut();
+                                        team_certs_loaded = 1;
+                                    });
                             } else {
                                 $('#certificates_content').find('.team_certificates_body').fadeIn();
                             }
@@ -399,9 +492,9 @@
                 });
 
 
-                $('.btn_personal_certificates').click(function () {
+                $('.btn_personal_certificates').click(function() {
                     if (team_selected == 1) {
-                        $('#certificates_content').find('.team_certificates_body').fadeOut(function () {
+                        $('#certificates_content').find('.team_certificates_body').fadeOut(function() {
                             $('#certificates_content').find('.personal_certificates_body').fadeIn();
                         });
                         $('.btn_personal_certificates').addClass('active');

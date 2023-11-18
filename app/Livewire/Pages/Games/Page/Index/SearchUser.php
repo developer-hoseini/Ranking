@@ -35,7 +35,7 @@ class SearchUser extends Component
     {
         $this->game = $game;
 
-        $this->opponent = $opponent?->loadSum('scoreAchievements', 'count');
+        $this->opponent = $opponent?->loadSum('userScoreAchievements', 'count');
 
         $this->usersRandom = $opponent?->id ? collect([]) :
             User::active()
@@ -53,7 +53,7 @@ class SearchUser extends Component
 
     public function selectUser(User $opponent): void
     {
-        $this->opponent = $opponent->loadSum('scoreAchievements', 'count');
+        $this->opponent = $opponent->loadSum('userScoreAchievements', 'count');
         $this->usersRandom = collect([]);
         $this->usersResult = null;
         $this->username = '';
@@ -65,7 +65,7 @@ class SearchUser extends Component
         $this->usersRandom = collect([]);
         $this->usersResult = User::searchUsername($username)
             ->with('profile')
-            ->withSum('scoreAchievements', 'count')
+            ->withSum('userScoreAchievements', 'count')
             ->active()
             ->whereHas('competitions', fn ($q) => $q->where('game_id', $this->game?->id))
             ->whereNot('id', auth()?->id())

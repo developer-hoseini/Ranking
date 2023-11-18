@@ -49,14 +49,14 @@ class ShowTournaments extends Component
         $winerUsers
             ->load(['media', 'profile'])
             ->loadSum([
-                'scoreAchievements' => function ($q) {
+                'userScoreAchievements' => function ($q) {
                     $q->whereHasMorph('achievementable', [Competition::class], function ($q) {
                         $q->where('game_id', $this->cup->game_id);
                     });
                 },
             ], 'count')
             ->loadSum([
-                'coinAchievements' => function ($q) {
+                'userCoinAchievements' => function ($q) {
                     $q->whereHasMorph('achievementable', [Competition::class], function ($q) {
                         $q->where('game_id', $this->cup->game_id);
                     });

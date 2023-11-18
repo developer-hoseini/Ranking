@@ -105,12 +105,12 @@ class Team extends Model implements HasAvatar, HasMedia
         return $this->morphMany(Achievement::class, 'achievementable');
     }
 
-    public function scoreAchievements(): MorphMany
+    public function teamScoreAchievements(): MorphMany
     {
         return $this->morphMany(Achievement::class, 'achievementable')->where('type', AchievementTypeEnum::SCORE->value);
     }
 
-    public function coinAchievements(): MorphMany
+    public function teamCoinAchievements(): MorphMany
     {
         return $this->morphMany(Achievement::class, 'achievementable')->where('type', AchievementTypeEnum::COIN->value);
     }
@@ -165,12 +165,12 @@ class Team extends Model implements HasAvatar, HasMedia
 
                 $columnNameTeamRank = 'this_team_rank';
                 $columnsNeedForSubQuery = ['id', 'deleted_at'];
-                $columnScoreAchievementsSum = 'score_achievements_sum_count';
+                $columnScoreAchievementsSum = 'team_score_achievements_sum_count';
 
                 $sub1 = Team::query()
                     ->where('game_id', $this->game_id)
                     ->select($columnsNeedForSubQuery)
-                    ->withSum("scoreAchievements as $columnScoreAchievementsSum", 'count');
+                    ->withSum("teamScoreAchievements as $columnScoreAchievementsSum", 'count');
 
                 $sub2 = Team::query()
                     ->fromSub($sub1->getQuery(), 'teams_a')

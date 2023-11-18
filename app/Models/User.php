@@ -182,12 +182,12 @@ class User extends Authenticatable implements CanResetPassword, FilamentUser, Ha
         return $this->hasMany(Like::class, 'liked_by_user_id');
     }
 
-    public function scoreAchievements(): MorphMany
+    public function userScoreAchievements(): MorphMany
     {
         return $this->morphMany(Achievement::class, 'achievementable')->where('type', AchievementTypeEnum::SCORE->value);
     }
 
-    public function coinAchievements(): MorphMany
+    public function userCoinAchievements(): MorphMany
     {
         return $this->morphMany(Achievement::class, 'achievementable')->where('type', AchievementTypeEnum::COIN->value);
     }
@@ -292,7 +292,7 @@ class User extends Authenticatable implements CanResetPassword, FilamentUser, Ha
     {
         return Attribute::make(
             get: function () {
-                $avatarName = $this->profile?->avatar_name ?? $this->username ?? $this->name;
+                $avatarName = $this->profile?->avatar_name ?? $this->username ?? $this->name ?? "user-doesn't-have-name";
 
                 return $avatarName;
             }

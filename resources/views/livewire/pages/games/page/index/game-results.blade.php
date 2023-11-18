@@ -33,7 +33,7 @@
                                     <div>{{ $user?->username9 }}</div>
                                 </a>
                                 <div>{{__('words.Rank: ')}} {{ \App\Services\Actions\User\GetGameRank::handle($user?->id,$game->id) }}</div>
-                                <div>{{__('words.Score: ')}} {{ $user?->score_achievements_sum_count }}</div>
+                                <div>{{__('words.Score: ')}} {{ $user?->user_score_achievements_sum_count }}</div>
                             </div>
 
                             <div class="result-info">

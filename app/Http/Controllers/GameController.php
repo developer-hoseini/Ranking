@@ -20,11 +20,11 @@ class GameController extends Controller
 
         $users = User::query()
             ->withSum([
-                'scoreAchievements' => function ($query) use ($game) {
+                'userScoreAchievements' => function ($query) use ($game) {
                     $query->whereHas('occurredModel', fn ($q) => $q->where('game_id', $game->id));
                 },
             ], 'count')
-            ->withSum('coinAchievements', 'count')
+            ->withSum('userCoinAchievements', 'count')
             ->withCount('likes')
             ->whereHas('competitions', function ($query) use ($game) {
                 $query->where('game_id', $game->id);

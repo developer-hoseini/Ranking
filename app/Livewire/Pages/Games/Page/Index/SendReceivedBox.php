@@ -29,7 +29,7 @@ class SendReceivedBox extends Component
                     ->where('game_id', $this->game->id)
                     ->whereHas('confirmStatus', fn ($q) => $q->where('name', StatusEnum::PENDING->value))
                     ->with([
-                        'invitedUser' => fn ($q) => $q->withSum('scoreAchievements', 'count'),
+                        'invitedUser' => fn ($q) => $q->withSum('userScoreAchievements', 'count'),
                         'club',
                         'confirmStatus',
                         'gameType',
@@ -40,7 +40,7 @@ class SendReceivedBox extends Component
                     ->where('game_id', $this->game->id)
                     ->whereHas('confirmStatus', fn ($q) => $q->where('name', StatusEnum::PENDING->value))
                     ->with([
-                        'inviterUser' => fn ($q) => $q->with('profile')->withSum('scoreAchievements', 'count'),
+                        'inviterUser' => fn ($q) => $q->with('profile')->withSum('userScoreAchievements', 'count'),
                         'club',
                         'confirmStatus',
                         'gameType',

@@ -23,7 +23,7 @@
 @php
     $authUser = auth()
         ->user()
-        ->loadSum('coinAchievements', 'count');
+        ->loadSum('userCoinAchievements', 'count');
 @endphp
 
 @php($eventsCount = 0)

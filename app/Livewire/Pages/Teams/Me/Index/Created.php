@@ -19,7 +19,7 @@ class Created extends Component
     {
         $query = Team::query()
             ->authCreatedScope()
-            ->withSum('scoreAchievements', 'count')
+            ->withSum('teamScoreAchievements', 'count')
             ->withCount('users');
 
         return $query->paginate(config('ranking.settings.global.per_page'));

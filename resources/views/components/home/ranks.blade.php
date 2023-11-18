@@ -92,7 +92,7 @@
                                         class="d-inline-block align-middle"
                                         style="width: 15%;"
                                     >
-                                        {{ $user?->score_achievements_sum_count }}</div>
+                                        {{ $user?->user_score_achievements_sum_count }}</div>
                                     <div
                                         class="d-inline-block align-middle"
                                         style="width: 15%;"
@@ -102,7 +102,7 @@
                                             alt="{{ __('words.rezvani_coin') }}"
                                             width="20px"
                                         >
-                                        <div>{{ $user?->coin_achievements_sum_count }}</div>
+                                        <div>{{ $user?->user_coin_achievements_sum_count }}</div>
                                     </div>
                                 </div>
                             @endforeach

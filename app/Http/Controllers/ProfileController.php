@@ -21,7 +21,7 @@ class ProfileController extends Controller
     {
         $user->load([
             'profile.state.country',
-        ])->loadSum('coinAchievements', 'count')
+        ])->loadSum('userCoinAchievements', 'count')
             ->loadCount('likes');
 
         if (auth()->check()) {

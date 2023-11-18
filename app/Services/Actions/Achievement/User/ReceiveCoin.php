@@ -24,7 +24,7 @@ class ReceiveCoin
             throw new \ErrorException('status must be achievemnet');
         }
 
-        $acheivement = $user->coinAchievements()->create([
+        $acheivement = $user->userCoinAchievements()->create([
             'count' => $coin,
             'status_id' => Status::nameScope($statusEnum->value)->first()?->id,
             'type' => AchievementTypeEnum::COIN->value,

@@ -229,7 +229,7 @@ class FakeDataSeeder extends Seeder
             'gameResults.gameResultStatus',
             'gameResults.gameResultUserStatus',
             'gameResults.gameResultAdminStatus',
-            'achievements', 'scoreAchievement', 'coinAchievement'])->get();
+            'achievements', 'competitionScoreAchievement', 'competitionCoinAchievement'])->get();
         $dataCollect = collect([]);
 
         $acheivementsStatuses = Status::modelType(Achievement::class, false)->get();
@@ -259,7 +259,7 @@ class FakeDataSeeder extends Seeder
                             'achievementable_type' => User::class,
                             'achievementable_id' => $user->id,
                             'type' => $isCoin ? AchievementTypeEnum::COIN->value : AchievementTypeEnum::SCORE->value,
-                            'count' => $isCoin ? $competition->coinAchievement->count : $competition->scoreAchievement->count,
+                            'count' => $isCoin ? $competition->competitionCoinAchievement->count : $competition->competitionScoreAchievement->count,
                             'occurred_model_id' => $competition->id,
                             'occurred_model_type' => Competition::class,
                             'status_id' => $achievementStatusId,
@@ -293,7 +293,7 @@ class FakeDataSeeder extends Seeder
                             'achievementable_type' => Team::class,
                             'achievementable_id' => $team->id,
                             'type' => $isCoin ? AchievementTypeEnum::COIN->value : AchievementTypeEnum::SCORE->value,
-                            'count' => $isCoin ? $competition->coinAchievement->count : $competition->scoreAchievement->count,
+                            'count' => $isCoin ? $competition->competitionCoinAchievement->count : $competition->competitionScoreAchievement->count,
                             'occurred_model_id' => $competition->id,
                             'occurred_model_type' => Competition::class,
                             'status_id' => $achievementStatusId,

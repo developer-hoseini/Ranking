@@ -153,12 +153,12 @@ class Competition extends Model implements HasMedia
         return $this->morphMany(Achievement::class, 'achievementable');
     }
 
-    public function scoreAchievement(): MorphOne
+    public function competitionScoreAchievement(): MorphOne
     {
         return $this->morphOne(Achievement::class, 'achievementable')->where('type', AchievementTypeEnum::SCORE->value);
     }
 
-    public function coinAchievement(): MorphOne
+    public function competitionCoinAchievement(): MorphOne
     {
         return $this->morphOne(Achievement::class, 'achievementable')->where('type', AchievementTypeEnum::COIN->value);
     }

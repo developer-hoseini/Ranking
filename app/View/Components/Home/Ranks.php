@@ -27,8 +27,8 @@ class Ranks extends Component
                             ->whereColumn('achievementable_id', 'users.id')
                             ->groupBy('achievementable_id')
                     )
-                        ->withSum('scoreAchievements', 'count')
-                        ->withSum('coinAchievements', 'count')
+                        ->withSum('userScoreAchievements', 'count')
+                        ->withSum('userCoinAchievements', 'count')
                         ->groupBy(['competitions.game_id'])
                         ->limit(3);
 
