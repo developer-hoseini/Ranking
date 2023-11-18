@@ -159,7 +159,7 @@
             <a
                 class="menu-nav-circle-btn"
                 id="menu-nav-c-btn-5"
-                href="{{ route('events') }}"
+                href="{{ route('notifications.index') }}"
                 title="{{ __('words.Events') }}"
             >
                 @if ($eventsCount > 0)

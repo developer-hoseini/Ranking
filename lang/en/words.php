@@ -59,6 +59,7 @@ return [
     'Email' => 'Email',
     'Save' => 'Save',
     'Events' => 'Events',
+    'Notifications' => 'Notifications',
     'Total Members: ' => 'Total Members: ',
     'Total Played: ' => 'Total Played: ',
     ' page' => ' page',

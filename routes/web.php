@@ -152,6 +152,11 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             });
         });
 
+        //notifications
+        Route::prefix('notifications')->middleware(['auth'])->name('notifications.')->group(function () {
+            Route::get('/', \App\Livewire\Pages\Notification::class)->name('index');
+        });
+
         //rules
         Route::get('/rules', \App\Livewire\Pages\Rules::class)->name('rules');
 

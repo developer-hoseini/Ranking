@@ -7,6 +7,9 @@ use App\Enums\StatusEnum;
 use App\Models\Achievement;
 use App\Models\Status;
 use App\Models\User;
+use App\Notifications\Achievement\Coin\CoinReceiveDeleteNotification;
+use App\Notifications\Achievement\Coin\CoinReceiveNotification;
+use App\Notifications\Achievement\Coin\CoinReceiveUpdateNotification;
 use Illuminate\Database\Eloquent\Collection;
 
 class ReceiveCoin
@@ -34,12 +37,97 @@ class ReceiveCoin
             $this->gameResult = $gameResult;
 
             if ($this->isAcceptedByAdmin()) {
-                $this->createAchievement();
+                $this->createOrUpdateAchievement();
             } else {
                 $this->removeAchievement();
             }
 
         }
+    }
+
+    private function createOrUpdateAchievement()
+    {
+
+        $count = $this->getCountCoin();
+        $statusId = $this->getStatusId();
+        $userPlayer = $this->getUserPlayer();
+
+        $columnCheckAcheivementExist = [
+            'achievementable_type' => User::class,
+            'achievementable_id' => $this->gameResult->playerable_id,
+            'type' => AchievementTypeEnum::COIN->value,
+            'occurred_model_type' => $this->gameResult->gameresultable_type,
+            'occurred_model_id' => $this->gameResult->gameresultable_id,
+            'status_id' => $statusId,
+        ];
+
+        $columnForUpdate = [
+            'count' => $count,
+            'status_id' => $statusId,
+            'deleted_at' => null,
+        ];
+
+        $achievement = Achievement::where($columnCheckAcheivementExist)->withTrashed()->first();
+
+        if ($achievement) {
+            $achievement->update($columnForUpdate);
+            $userPlayer->notify(new CoinReceiveUpdateNotification($achievement));
+        } else {
+
+            $authUser = \Auth::user();
+
+            $achievement = Achievement::create([
+                ...$columnCheckAcheivementExist,
+                ...$columnForUpdate,
+                'created_by_user_id' => $authUser->id,
+            ]);
+
+            $userPlayer->notify(new CoinReceiveNotification($achievement));
+
+            if ($authUser->isAgent && ! $this->isCreatedAchievmentForAgent) {
+                $agentAchievement = $this->createAchievementForAgent();
+
+                $this->isCreatedAchievmentForAgent = true;
+
+                $authUser->notify(new CoinReceiveNotification($agentAchievement));
+            }
+
+        }
+    }
+
+    private function removeAchievement()
+    {
+        $statusId = $this->getStatusId();
+        $userPlayer = $this->getUserPlayer();
+
+        $achievement = Achievement::query()
+            ->where('achievementable_type', User::class)
+            ->where('achievementable_id', $this->gameResult->playerable_id)
+            ->where('type', AchievementTypeEnum::COIN->value)
+            ->where('occurred_model_type', $this->gameResult->gameresultable_type)
+            ->where('occurred_model_id', $this->gameResult->gameresultable_id)
+            ->where('status_id', $statusId)
+            ->delete();
+
+        $userPlayer->notify(new CoinReceiveDeleteNotification($achievement));
+    }
+
+    private function createAchievementForAgent()
+    {
+        $authId = \Auth::id();
+
+        $coinAgent = $this->getCountCoinAgent();
+
+        return Achievement::create([
+            'achievementable_type' => User::class,
+            'achievementable_id' => $authId,
+            'type' => AchievementTypeEnum::COIN->value,
+            'occurred_model_type' => $this->gameResult->gameresultable_type,
+            'occurred_model_id' => $this->gameResult->gameresultable_id,
+            'status_id' => Status::nameScope(StatusEnum::ACHIEVEMENT_CONFIRM_COMPETITION->value)->firstOrFail()?->id,
+            'count' => $coinAgent,
+            'created_by_user_id' => $authId,
+        ]);
     }
 
     private function isAcceptedByAdmin(): bool
@@ -266,78 +354,10 @@ class ReceiveCoin
         return $statusId;
     }
 
-    private function createAchievement()
+    private function getUserPlayer(): ?User
     {
+        $userPlayer = $this->gameResult->playerable;
 
-        $count = $this->getCountCoin();
-        $statusId = $this->getStatusId();
-
-        $columnCheckAcheivementExist = [
-            'achievementable_type' => User::class,
-            'achievementable_id' => $this->gameResult->playerable_id,
-            'type' => AchievementTypeEnum::COIN->value,
-            'occurred_model_type' => $this->gameResult->gameresultable_type,
-            'occurred_model_id' => $this->gameResult->gameresultable_id,
-            'status_id' => $statusId,
-        ];
-
-        $columnForUpdate = [
-            'count' => $count,
-            'status_id' => $statusId,
-            'deleted_at' => null,
-        ];
-
-        $achievement = Achievement::where($columnCheckAcheivementExist)->withTrashed()->first();
-
-        if ($achievement) {
-            $achievement->update($columnForUpdate);
-        } else {
-
-            $authUser = \Auth::user();
-
-            Achievement::create([
-                ...$columnCheckAcheivementExist,
-                ...$columnForUpdate,
-                'created_by_user_id' => $authUser->id,
-            ]);
-
-            if ($authUser->isAgent && ! $this->isCreatedAchievmentForAgent) {
-                $this->createAchievementForAgent();
-                $this->isCreatedAchievmentForAgent = true;
-            }
-
-        }
-    }
-
-    private function removeAchievement()
-    {
-        $statusId = $this->getStatusId();
-
-        Achievement::query()
-            ->where('achievementable_type', User::class)
-            ->where('achievementable_id', $this->gameResult->playerable_id)
-            ->where('type', AchievementTypeEnum::COIN->value)
-            ->where('occurred_model_type', $this->gameResult->gameresultable_type)
-            ->where('occurred_model_id', $this->gameResult->gameresultable_id)
-            ->where('status_id', $statusId)
-            ->delete();
-    }
-
-    private function createAchievementForAgent()
-    {
-        $authId = \Auth::id();
-
-        $coinAgent = $this->getCountCoinAgent();
-
-        Achievement::create([
-            'achievementable_type' => User::class,
-            'achievementable_id' => $authId,
-            'type' => AchievementTypeEnum::COIN->value,
-            'occurred_model_type' => $this->gameResult->gameresultable_type,
-            'occurred_model_id' => $this->gameResult->gameresultable_id,
-            'status_id' => Status::nameScope(StatusEnum::ACHIEVEMENT_CONFIRM_COMPETITION->value)->firstOrFail()?->id,
-            'count' => $coinAgent,
-            'created_by_user_id' => $authId,
-        ]);
+        return $userPlayer instanceof User ? $userPlayer : null;
     }
 }
