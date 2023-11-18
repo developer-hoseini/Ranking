@@ -102,7 +102,7 @@ class Achievement extends Model
 
     public function achievementStatus(): BelongsTo
     {
-        return $this->belongsTo(Status::class)->modelType(__CLASS__, false);
+        return $this->belongsTo(Status::class, 'status_id')->modelType(__CLASS__, false);
     }
 
     public function createdByUser(): BelongsTo

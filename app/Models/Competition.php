@@ -130,7 +130,7 @@ class Competition extends Model implements HasMedia
 
     public function competitionStatus(): BelongsTo
     {
-        return $this->belongsTo(Status::class)->modelType(__CLASS__, null);
+        return $this->belongsTo(Status::class, 'status_id')->modelType(__CLASS__, null);
     }
 
     public function state(): BelongsTo

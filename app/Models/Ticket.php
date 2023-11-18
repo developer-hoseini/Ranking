@@ -67,7 +67,7 @@ class Ticket extends Model implements HasMedia
 
     public function ticketStatus(): BelongsTo
     {
-        return $this->belongsTo(Status::class)->modelType(Ticket::class, false);
+        return $this->belongsTo(Status::class, 'status_id')->modelType(Ticket::class, false);
     }
 
     public function parentTicket(): BelongsTo

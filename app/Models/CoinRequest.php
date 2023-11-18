@@ -13,7 +13,7 @@ class CoinRequest extends Model
 
     public function coinRequestStatus(): BelongsTo
     {
-        return $this->belongsTo(Status::class)->modelType(null, true);
+        return $this->belongsTo(Status::class, 'status_id')->modelType(null, true);
     }
 
     public function createdByUser(): BelongsTo

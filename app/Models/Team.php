@@ -77,7 +77,7 @@ class Team extends Model implements HasAvatar, HasMedia
 
     public function teamStatus(): BelongsTo
     {
-        return $this->belongsTo(Status::class)->modelType(null);
+        return $this->belongsTo(Status::class, 'status_id')->modelType(null);
     }
 
     public function state(): BelongsTo

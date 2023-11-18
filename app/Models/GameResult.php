@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -48,17 +49,17 @@ class GameResult extends Model
 {
     use HasFactory, SoftDeletes;
 
-    public function gameResultUserStatus()
+    public function gameResultUserStatus(): BelongsTo
     {
         return $this->belongsTo(Status::class, 'user_status_id')->modelType(null, false);
     }
 
-    public function gameResultAdminStatus()
+    public function gameResultAdminStatus(): BelongsTo
     {
         return $this->belongsTo(Status::class, 'admin_status_id')->modelType(null, false);
     }
 
-    public function gameResultStatus()
+    public function gameResultStatus(): BelongsTo
     {
         return $this->belongsTo(Status::class, 'game_result_status_id')->modelType(__CLASS__, false);
     }
