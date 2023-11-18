@@ -19,7 +19,7 @@ class TeamTournaments extends Component
                 'teams',
                 'game',
                 'state.country',
-                'gameResults.status',
+                'gameResults.gameResultUserStatus',
             ])
             ->latest()
             ->take(12)
@@ -36,7 +36,7 @@ class TeamTournaments extends Component
             ->with([
                 'game',
                 'state.country',
-                'competitions.gameResults.status',
+                'competitions.gameResults.gameResultUserStatus',
             ])
             ->withCount(['cupRegisteredTeamsUsers'])
             ->latest()

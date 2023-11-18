@@ -24,7 +24,7 @@ class Created extends Component
             ->with([
                 'game:id,name',
                 'status:id,name',
-                'competitions.gameResults.status',
+                'competitions.gameResults.gameResultUserStatus',
                 'competitions.gameResults.playerable' => function (MorphTo $morphTo) {
                     $morphTo->morphWith([
                         User::class => ['profile', 'media'],

@@ -15,7 +15,7 @@ class SoloTournaments extends Component
             ->with([
                 'game',
                 'state.country',
-                'competitions.gameResults.status',
+                'competitions.gameResults.gameResultUserStatus',
             ])
             ->withCount(['registeredUsers'])
             ->latest()
