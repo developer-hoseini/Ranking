@@ -64,7 +64,7 @@
                     </div>
 
                     <div>
-                        <a href="{{ route('teams.edit', $team->id) }}">
+                        <a href="{{ route('teams.me.edit', $team->id) }}">
                             <i class="fa fa-edit"></i> {{ __('words.Edit Team') }}</a>
                     </div>
 

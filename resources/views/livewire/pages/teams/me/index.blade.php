@@ -8,7 +8,7 @@
             <div class="pb-2 text-left">
                 <a
                     class="btn btn-success text-white"
-                    href="{{ route('teams.create') }}"
+                    href="{{ route('teams.me.create') }}"
                 >
                     {{ __('words.Create Team') }}
                 </a>

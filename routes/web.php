@@ -148,13 +148,13 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
         //teams
         Route::prefix('teams')->name('teams.')->group(function () {
             Route::prefix('me')->name('me.')->middleware(['auth'])->group(function () {
-                Route::get('/', \App\Livewire\Pages\Teams\Me\Index::class)->name('index');
+                Route::get('/create', \App\Livewire\Pages\Teams\Create::class)->name('create');
                 Route::get('/{id}/members', \App\Livewire\Pages\Teams\Me\Show\Members::class)->name('show.memebers');
+                Route::get('/{id}/edit', \App\Livewire\Pages\Teams\Edit::class)->name('edit');
+                Route::get('/', \App\Livewire\Pages\Teams\Me\Index::class)->name('index');
             });
 
-            Route::get('/create', \App\Livewire\Pages\Teams\Create::class)->middleware(['auth'])->name('create');
             Route::get('/{id}', \App\Livewire\Pages\Teams\Show::class)->name('show');
-            Route::get('/{id}/edit', \App\Livewire\Pages\Teams\Edit::class)->middleware(['auth'])->name('edit');
         });
 
         //notifications

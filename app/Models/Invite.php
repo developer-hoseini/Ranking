@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Staudenmeir\EloquentHasManyDeep\HasManyDeep;
@@ -107,5 +108,10 @@ class Invite extends Model
     public function inviteCompetitionsScoreOccurredModel(): HasManyDeep
     {
         return $this->hasManyDeepFromRelations($this->competitions(), (new Competition)->scoreOccurredModel());
+    }
+
+    public function inviteable(): MorphTo
+    {
+        return $this->morphTo('inviteable');
     }
 }

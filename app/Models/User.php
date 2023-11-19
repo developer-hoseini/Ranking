@@ -212,6 +212,11 @@ class User extends Authenticatable implements CanResetPassword, FilamentUser, Ha
         return $this->morphMany(GameResult::class, 'playerable_type');
     }
 
+    public function userInvites(): MorphMany
+    {
+        return $this->morphMany(Invite::class, 'inviteable');
+    }
+
     //for panel
     public function canAccessPanel(Panel $panel): bool
     {

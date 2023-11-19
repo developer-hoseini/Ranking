@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Pages\Teams\Me\Show;
 
+use App\Enums\StatusEnum;
 use App\Models\Team;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
@@ -20,7 +21,18 @@ class Members extends Component
     public function team()
     {
         $team = Team::where('id', $this->teamId)
-            ->with(['users', 'capitan'])
+            ->with([
+                'users',
+                'capitan',
+                'teamInvites' => function ($q) {
+                    $q->whereHas('confirmStatus', function ($q) {
+                        $q->nameScope(StatusEnum::PENDING->value);
+                    })
+                        ->latest();
+                },
+                'teamInvites.invitedUser',
+                'teamInvites.confirmStatus',
+            ])
             ->first();
 
         return $team;
