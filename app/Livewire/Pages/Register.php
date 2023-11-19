@@ -66,6 +66,8 @@ class Register extends Component
             throw $th;
         }
 
+        $user->notify(new Registered($user));
+
         auth()->login($user);
 
         return redirect('/')->with('success', 'Account successfully registered. Please verify your email address');

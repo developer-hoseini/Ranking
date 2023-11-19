@@ -35,6 +35,9 @@ return [
                 'confirm_by_agent_a_with_competition_picture' => 22,
             ],
         ],
+        'score' => [
+            'register' => 100,
+        ],
 
     ],
     'settings' => [
