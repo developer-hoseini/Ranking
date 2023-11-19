@@ -15,7 +15,7 @@ class Index extends Component
         $type = $request->get('type');
 
         if ($type) {
-            if (in_array($type, ['joined', 'created'])) {
+            if (in_array($type, ['joined', 'created', 'requested-to-join'])) {
                 $this->type = $type;
             }
         }

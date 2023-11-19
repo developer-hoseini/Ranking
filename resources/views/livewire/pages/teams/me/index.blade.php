@@ -28,6 +28,12 @@
                     {{ __('words.Registered_Teams') }}
 
                 </button>
+                <button
+                    class="btn btn-outline-info {{ $type == 'requested-to-join' ? 'btn-info text-white' : '' }} px-lg-5 px-md-3 mx-1 px-2 py-2"
+                    wire:click='$set("type","requested-to-join")'
+                >
+                    Requested to join
+                </button>
             </div>
 
             @if ($type == 'created')
@@ -36,6 +42,10 @@
 
             @if ($type == 'joined')
                 <livewire:pages.teams.me.index.joined />
+            @endif
+
+            @if ($type == 'requested-to-join')
+                <livewire:pages.teams.me.index.requested-to-join />
             @endif
 
         </div>
