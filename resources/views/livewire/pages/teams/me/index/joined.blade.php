@@ -1,19 +1,24 @@
 <div class="my_teams">
-    {{-- @foreach ($my_teams as $team)
-        <div class="team">
+    @foreach ($this->teams as $team)
+        <div class="team d-flex">
             <div class="team_name text-center">
+                {{-- TODO: add route show team --}}
                 <a
-                    href="{{ route('team_profile', ['teamname' => $team->name]) }}"
+                    {{-- href="{{ route('team_profile', ['teamname' => $team->name]) }}" --}}
                     target="_blank"
                 >
                     <img
                         class="user_photo"
-                        src="{{ $team->photo }}"
+                        src="{{ $team->avatar }}"
                         width="100"
                     >
                     <div>{{ $team->name }}</div>
                 </a>
-                <div><span>({{ __('games.' . $team->game->name) }})</span></div>
+                <div>
+                    <span>
+                        ({{ $team?->game?->name }})
+                    </span>
+                </div>
             </div>
 
             <div class="team_details">
@@ -25,43 +30,46 @@
                             <th>{{ __('words.Member_Count') }}</th>
                         </tr>
                         <tr>
-                            <td>{{ $team->score->score }}</td>
-                            <td>{{ $team->score->rank }}</td>
-                            <td>{{ $team->members_count + 1 }}</td>
+                            <td>
+                                {{ $team?->team_score_achievements_sum_count }}
+                            </td>
+                            <td>
+                                {{ $team?->team_rank }}
+                            </td>
+                            <td>
+                                {{ $team?->users_count }}
+                            </td>
                         </tr>
                     </tbody>
                 </table>
 
                 <div class="team_buttons">
-                    @if ($team->members_count > 0)
+                    {{-- @if ($team->users_count > 0)
                         <div class="mb-3">
-                            <a href="{{ route('team_page', ['team_id' => $team->id]) }}">
+                            <a href="{{ route('teams.show', $team->id) }}">
                                 <i class="fa fa-handshake"></i> {{ __('words.Invitation_to_Compete') }}</a>
                         </div>
-                    @endif
-
+                    @endif --}}
                     <div class="mb-3">
-                        <a href="{{ route('team_members', ['team_id' => $team->id]) }}">
+                        <a href="{{ route('teams.me.show.memebers', $team->id) }}">
                             <i class="fa fa fa-users"></i> {{ __('words.Members List') }}</a>
                     </div>
-
                     <div class="mb-3">
-                        <a href="{{ route('team_rank_position', ['team_id' => $team->id]) }}">
+                        <a href="{{ route('ranks.team', ['filter[id]' => $team->id]) }}">
                             <i class="fa fa-trophy"></i> {{ __('words.team_position') }}</a>
                     </div>
-
                     <div class="mb-3">
-                        <a href="{{ route('team_page', ['team_id' => $team->id]) . '#Info' }}">
+                        <a href="{{ route('teams.show', $team->id) }}">
                             <i class="fa fa-info-circle"></i> {{ __('words.team_info') }}</a>
                     </div>
 
-                    <div>
-                        <a href="{{ route('edit_team', ['team_id' => $team->id]) }}">
-                            <i class="fa fa-edit"></i> {{ __('words.Edit Team') }}</a>
-                    </div>
                 </div>
             </div>
         </div>
-    @endforeach --}}
+    @endforeach
+
+    <div>
+        {{ $this->teams->links() }}
+    </div>
 
 </div>

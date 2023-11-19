@@ -44,12 +44,12 @@
                 </table>
 
                 <div class="team_buttons">
-                    @if ($team->users_count > 0)
+                    {{-- @if ($team->users_count > 0)
                         <div class="mb-3">
                             <a href="{{ route('teams.show', $team->id) }}">
                                 <i class="fa fa-handshake"></i> {{ __('words.Invitation_to_Compete') }}</a>
                         </div>
-                    @endif
+                    @endif --}}
                     <div class="mb-3">
                         <a href="{{ route('teams.me.show.memebers', $team->id) }}">
                             <i class="fa fa fa-users"></i> {{ __('words.Members List') }}</a>
@@ -72,5 +72,9 @@
             </div>
         </div>
     @endforeach
+
+    <div>
+        {{ $this->teams->links() }}
+    </div>
 
 </div>
