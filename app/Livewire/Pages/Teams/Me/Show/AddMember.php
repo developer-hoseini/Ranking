@@ -7,6 +7,7 @@ use App\Models\Invite;
 use App\Models\Status;
 use App\Models\Team;
 use App\Models\User;
+use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
@@ -33,6 +34,21 @@ class AddMember extends Component
         $this->team = Team::where('id', $teamId)
             ->where('created_by_user_id', \Auth::id())
             ->firstOrFail();
+    }
+
+    #[Computed]
+    public function randomUsers()
+    {
+        $users = User::inRandomOrder()
+            ->whereHas('userCompetitionsGame', fn ($q) => $q->where('games.id', $this->team?->game_id))
+            ->whereDoesntHave('invited', function ($q) {
+                $q->where('inviteable_type', Team::class)
+                    ->where('inviteable_id', $this->team?->id);
+            })
+            ->limit(5)
+            ->get();
+
+        return $users;
     }
 
     public function updatedSearchUser()
@@ -66,6 +82,18 @@ class AddMember extends Component
         if ($user) {
             $this->selectedUser = $user;
             $this->searchUser = $user['profile']['avatar_name'] ?? '';
+        }
+
+    }
+
+    #[On('random-user-selected')]
+    public function randomUserSeleced($userId)
+    {
+        $this->form['user_id'] = $userId;
+        $user = collect($this->randomUsers)->filter(fn ($user) => $user['id'] == $userId)->first();
+        if ($user) {
+            $this->selectedUser = $user;
+            $this->formSubmit();
         }
 
     }

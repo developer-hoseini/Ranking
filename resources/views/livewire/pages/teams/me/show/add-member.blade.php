@@ -59,6 +59,31 @@
         </div>
 
         <div class="form-group row justify-content-center mb-5">
+            <h5>Random users:</h5>
+            @foreach ($this->randomUsers as $user)
+                <div class="row col-12 col-md-2 cursor-pointer flex-wrap">
+                    <div
+                        class="d-flex my-md-0 mx-2 my-2"
+                        x-on:click="$dispatch('random-user-selected',{userId:'{{ $user['id'] }}',avatarName:'{{ $user->avatarName }}'})"
+                    >
+                        <img
+                            src="{{ $user->avatar }}"
+                            alt="{{ $user->avatar }}"
+                            width="25"
+                        >
+                        <span
+                            class="text-truncate"
+                            title="{{ $user->avatarName }}"
+                            style="max-width: 100px;"
+                        >
+                            {{ $user->avatarName }}
+                        </span>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+
+        <div class="form-group row justify-content-center mb-5">
             <div class="col-md-6 offset-md-4">
                 <button class="btn btn-danger">
                     {{ __('words.invite to team') }}
