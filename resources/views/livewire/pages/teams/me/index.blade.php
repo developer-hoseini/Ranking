@@ -6,7 +6,10 @@
         </div>
         <div class="card-body">
             <div class="pb-2 text-left">
-                <a class="btn btn-success text-white">
+                <a
+                    class="btn btn-success text-white"
+                    href="{{ route('teams.create') }}"
+                >
                     {{ __('words.Create Team') }}
                 </a>
 

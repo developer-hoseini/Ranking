@@ -152,6 +152,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
                 Route::get('/{id}/members', \App\Livewire\Pages\Teams\Me\Show\Members::class)->name('show.memebers');
             });
 
+            Route::get('/create', \App\Livewire\Pages\Teams\Create::class)->middleware(['auth'])->name('create');
             Route::get('/{id}', \App\Livewire\Pages\Teams\Show::class)->name('show');
             Route::get('/{id}/edit', \App\Livewire\Pages\Teams\Edit::class)->middleware(['auth'])->name('edit');
         });
