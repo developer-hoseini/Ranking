@@ -12,6 +12,7 @@ class Members extends Component
 
     public function mount($id)
     {
+        /* TODO: compelete add memeber team */
         $this->teamId = $id;
     }
 

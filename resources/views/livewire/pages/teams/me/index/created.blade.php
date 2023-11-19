@@ -31,7 +31,7 @@
                         </tr>
                         <tr>
                             <td>
-                                {{ $team?->user_score_achievements_sum_count }}
+                                {{ $team?->team_score_achievements_sum_count }}
                             </td>
                             <td>
                                 {{ $team?->team_rank }}
@@ -54,22 +54,20 @@
                         <a href="{{ route('teams.me.show.memebers', $team->id) }}">
                             <i class="fa fa fa-users"></i> {{ __('words.Members List') }}</a>
                     </div>
-                    {{-- 
-
                     <div class="mb-3">
-                        <a href="{{ route('team_rank_position', ['team_id' => $team->id]) }}">
+                        <a href="{{ route('ranks.team', ['filter[id]' => $team->id]) }}">
                             <i class="fa fa-trophy"></i> {{ __('words.team_position') }}</a>
                     </div>
-
                     <div class="mb-3">
-                        <a href="{{ route('team_page', ['team_id' => $team->id]) . '#Info' }}">
+                        <a href="{{ route('teams.show', $team->id) }}">
                             <i class="fa fa-info-circle"></i> {{ __('words.team_info') }}</a>
                     </div>
 
                     <div>
-                        <a href="{{ route('edit_team', ['team_id' => $team->id]) }}">
+                        <a href="{{ route('teams.edit', $team->id) }}">
                             <i class="fa fa-edit"></i> {{ __('words.Edit Team') }}</a>
-                    </div> --}}
+                    </div>
+
                 </div>
             </div>
         </div>

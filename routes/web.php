@@ -57,6 +57,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
 
         //ranks
         Route::prefix('ranks')->name('ranks.')->group(function () {
+            Route::get('/team', \App\Livewire\Pages\Ranks\Team::class)->name('team');
             Route::get('/', \App\Livewire\Pages\Ranks::class)->name('index');
         });
 
@@ -145,11 +146,14 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
         });
 
         //teams
-        Route::prefix('teams')->middleware(['auth'])->name('teams.')->group(function () {
-            Route::prefix('me')->name('me.')->group(function () {
+        Route::prefix('teams')->name('teams.')->group(function () {
+            Route::prefix('me')->name('me.')->middleware(['auth'])->group(function () {
                 Route::get('/', \App\Livewire\Pages\Teams\Me\Index::class)->name('index');
                 Route::get('/{id}/members', \App\Livewire\Pages\Teams\Me\Show\Members::class)->name('show.memebers');
             });
+
+            Route::get('/{id}', \App\Livewire\Pages\Teams\Show::class)->name('show');
+            Route::get('/{id}/edit', \App\Livewire\Pages\Teams\Edit::class)->middleware(['auth'])->name('edit');
         });
 
         //notifications
