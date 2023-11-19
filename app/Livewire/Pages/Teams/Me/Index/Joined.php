@@ -19,7 +19,8 @@ class Joined extends Component
         $query = Team::query()
             ->whereHas('users', fn ($q) => $q->authScope())
             ->withSum('teamScoreAchievements', 'count')
-            ->withCount('users');
+            ->withCount('users')
+            ->latest();
 
         return $query->paginate(config('ranking.settings.global.per_page'));
 
