@@ -88,8 +88,7 @@
                                                            aria-describedby="inputGroupFileAddon01"
                                                            @change="image_name_changed">
                                                     <input type="hidden" name="with_referee" value="1">
-                                                    <label class="custom-file-label" for="inputGroupFile01">@{{image_file_name
-                                                        }}</label>
+                                                    <label class="custom-file-label" for="inputGroupFile01"></label>
                                                 </div>
                                             </div>
                                         </div>
@@ -127,10 +126,10 @@
                                 </div>
 
                                 @php
-                                    $inviteGameResult->confirmStatus->name = \App\Enums\StatusEnum::SUBMIT_RESULT;
+                                    $inviteGameResult->confirmStatus->name = \App\Enums\StatusEnum::SUBMIT_RESULT->value;
                                   }
                                   else{
-                                    $inviteGameResult->confirmStatus->name = \App\Enums\StatusEnum::WAIT_OPPONENT_RESULT;
+                                    $inviteGameResult->confirmStatus->name = \App\Enums\StatusEnum::WAIT_OPPONENT_RESULT->value;
                                   }
                               }
                                 @endphp
@@ -146,13 +145,12 @@
                                     @endif
 
                                     <span class="result_status">
-                              @if($inviteGameResult->confirmStatus->name == \App\Enums\StatusEnum::FINISHED)
+                              @if($inviteGameResult->confirmStatus->name == \App\Enums\StatusEnum::FINISHED->value)
                                             <b>{{ __('words.Final Result:') }}</b>
                                         @else
                                             <b>{{ __('words.Status:') }}</b>
                                         @endif
-                                        {{--                                        TODO Refactor--}}
-                                        {{$inviteGameResult->confirmStatus?->message }}
+                                        {{\App\Enums\StatusEnum::tryFrom($inviteGameResult->confirmStatus->name)?->getLabel() }}
                             </span>
                                 </div>
 
