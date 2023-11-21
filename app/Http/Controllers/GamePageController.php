@@ -165,13 +165,13 @@ class GamePageController extends Controller
                         'playerable_id' => $invite->invited_user_id,
                         'playerable_type' => User::class,
                         'game_result_status_id' => $statusPendingId,
-                        'status_id' => $statusPendingId,
+                        'user_status_id' => $statusPendingId,
                     ],
                     [
                         'playerable_id' => $invite->inviter_user_id,
                         'playerable_type' => User::class,
                         'game_result_status_id' => $statusPendingId,
-                        'status_id' => $statusPendingId,
+                        'user_status_id' => $statusPendingId,
                     ],
                 ]);
 
