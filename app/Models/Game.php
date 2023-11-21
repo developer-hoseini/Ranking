@@ -100,6 +100,11 @@ class Game extends Model
         return $this->hasMany(OnlineGame::class);
     }
 
+    public function teams(): HasMany
+    {
+        return $this->hasMany(Team::class);
+    }
+
     public function scopeActive(Builder $query): Builder
     {
         return $query->where('active', true);

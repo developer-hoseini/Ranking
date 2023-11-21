@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\AchievementTypeEnum;
+use App\Enums\StatusEnum;
 use Filament\Models\Contracts\HasAvatar;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -133,6 +134,11 @@ class Team extends Model implements HasAvatar, HasMedia
     public function scopeAuthCreatedScope(Builder $builder): Builder
     {
         return $builder->whereHas('createdByUser', fn ($q) => $q->authScope());
+    }
+
+    public function scopeAcceptedScope(Builder $builder): Builder
+    {
+        return $builder->whereHas('teamStatus', fn ($q) => $q->nameScope(StatusEnum::ACCEPTED->value));
     }
 
     public function getFilamentAvatarUrl(): ?string

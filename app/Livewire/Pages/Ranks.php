@@ -22,6 +22,11 @@ class Ranks extends Component
         'rank' => '',
     ];
 
+    public function mount()
+    {
+        /* TODO: implement pagination */
+    }
+
     #[Computed]
     public function games()
     {
