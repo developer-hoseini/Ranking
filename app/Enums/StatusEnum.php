@@ -133,4 +133,14 @@ enum StatusEnum: string
             self::REJECTED->value,
         ];
     }
+
+    public static function getGameResult(): array
+    {
+        return [
+            self::GAME_RESULT_I_ABSENT->value,
+            self::GAME_RESULT_HE_ABSENT->value,
+            self::GAME_RESULT_LOSE->value,
+            self::GAME_RESULT_WIN->value,
+        ];
+    }
 }
