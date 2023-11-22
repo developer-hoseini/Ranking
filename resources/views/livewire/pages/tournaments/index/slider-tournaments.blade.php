@@ -11,10 +11,9 @@
                 <div class="swiper-slide">
                     {{ __('words.start_tour_earn_money') }}<i class="fa fa-coins mx-2"></i>
                     <div class="pt-1">
-                        {{-- TODO: add create tournoment route --}}
                         <a
                             class="btn btn-white-glass"
-                            {{-- href="{{ route('my_tournament.create') }}" --}}
+                            href="{{ route('tournaments.me.create') }}"
                         >{{ __('words.create_your_tour_now') }}<i class="fa fa-arrow-left mx-2"></i></a>
                     </div>
                 </div>
