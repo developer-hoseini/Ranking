@@ -55,7 +55,7 @@ enum StatusEnum: string
         return match ($this) {
             self::SUBMIT_RESULT, self::WAIT_OPPONENT_RESULT,
             self::WAIT_IMAGE_VERIFY,self::WAIT_CLUB_VERIFY => Invite::class,
-            self::GAME_RESULT_WIN,self::GAME_RESULT_LOSE,self::GAME_RESULT_ABSENT => GameResult::class,
+            self::GAME_RESULT_WIN,self::GAME_RESULT_LOSE,self::GAME_RESULT_ABSENT,self::GAME_RESULT_I_ABSENT,self::GAME_RESULT_HE_ABSENT => GameResult::class,
             self::TICKET_PENDING,self::TICKET_ANSWERED,self::TICKET_CLOSED => Ticket::class,
             self::ACHIEVEMENT_WIN,self::ACHIEVEMENT_LOSE,self::ACHIEVEMENT_SIGNUP,self::ACHIEVEMENT_APPROVE,self::ACHIEVEMENT_COMPLETE_PROFILE ,
             self::ACHIEVEMENT_BUY_OR_SELL_COIN,self::ACHIEVEMENT_CONFIRM_COMPETITION => Achievement::class,

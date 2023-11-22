@@ -1,5 +1,4 @@
-<div id="app2" class="card result_box"
-     x-init="setInterval(function(){@this.dispatchSelf('reloadGameResults');},10000)">
+<div id="app2" class="card result_box">
     <a data-toggle="collapse" href="#Results" role="button" aria-expanded="false" aria-controls="Results"
        class="collapsed">
         <div class="card-header text-center">

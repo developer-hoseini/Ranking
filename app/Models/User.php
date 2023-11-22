@@ -297,9 +297,7 @@ class User extends Authenticatable implements CanResetPassword, FilamentUser, Ha
     {
         return Attribute::make(
             get: function () {
-                $avatarName = $this->profile?->avatar_name ?? $this->username ?? $this->name ?? "user-doesn't-have-name";
-
-                return $avatarName;
+                return $this->profile?->avatar_name ?? $this->username ?? $this->name ?? "user-doesn't-have-name";
             }
         );
     }
@@ -337,16 +335,16 @@ class User extends Authenticatable implements CanResetPassword, FilamentUser, Ha
             get: function () {
                 $hasAdminRole = $this->roles?->where('name', 'admin')->first();
 
-                return $hasAdminRole ? true : false;
+                return (bool) $hasAdminRole;
             }
         );
     }
 
-    private function checkHasAgent(string $type)
+    private function checkHasAgent(string $type): bool
     {
         $hasAgentRole = $this->roles?->where('name', "agent-$type")->first();
 
-        return $hasAgentRole ? true : false;
+        return (bool) $hasAgentRole;
     }
 
     protected function isAgent(): Attribute
@@ -355,7 +353,7 @@ class User extends Authenticatable implements CanResetPassword, FilamentUser, Ha
             get: function () {
                 $hasAgentRole = $this->roles?->whereIn('name', ['agent-a', 'agent-b', 'agent-c'])->first();
 
-                return $hasAgentRole ? true : false;
+                return (bool) $hasAgentRole;
             }
         );
     }

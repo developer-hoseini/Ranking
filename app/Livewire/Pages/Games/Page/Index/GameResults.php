@@ -33,10 +33,10 @@ class GameResults extends Component
             ->has('inviteCompetitionsGameResults', '>=', 1)
             ->with([
                 'inviteCompetitionsScoreOccurredModel',
-                'inviteCompetitionsGameResults',
+                'inviteCompetitionsGameResults.gameResultStatus',
                 'competitions' => fn ($q) => $q->latest(),
-                'invitedUser' => fn ($q) => $q->withSum('userScoreAchievements', 'count'),
-                'inviterUser' => fn ($q) => $q->withSum('userScoreAchievements', 'count'),
+                'invitedUser' => fn ($q) => $q->with('profile')->withSum('userScoreAchievements', 'count'),
+                'inviterUser' => fn ($q) => $q->with('profile')->withSum('userScoreAchievements', 'count'),
                 'gameType',
                 'confirmStatus',
                 'club',
