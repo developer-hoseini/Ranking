@@ -61,7 +61,7 @@
                             >
                                 <x-slot:player1>
                                     @if ($player1)
-                                        <a href="http://ranking-orginal.test/profile/Jason">
+                                        <a href="{{ route('profile.show', $player1->id) }}">
                                             <img
                                                 class="user_photo"
                                                 src="{{ $player1?->avatar != '' ? $player1?->avatar : asset('assets/images/default-profile.png') }}"
@@ -76,7 +76,7 @@
                                 </x-slot>
                                 <x-slot:player2>
                                     @if ($player2)
-                                        <a href="http://ranking-orginal.test/profile/Jelin">
+                                        <a href="{{ route('profile.show', $player2->id) }}">
 
                                             <img
                                                 class="user_photo"
@@ -97,7 +97,7 @@
                     @else
                         <x-cups.show.player-win-cup style="{{ $style }}">
                             @if ($winerPlayer)
-                                <a href="http://ranking-orginal.test/profile/Jason">
+                                <a href="{{ route('profile.show', $winerPlayer->id) }}">
                                     <img
                                         class="user_photo"
                                         src=""
