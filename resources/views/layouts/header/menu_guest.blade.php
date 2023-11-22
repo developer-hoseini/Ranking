@@ -118,7 +118,7 @@
                     <div class="text-dark mt-1">{{ __('words.Games') }}</div>
                 </div>
             </a>
-            <a
+            {{-- <a
                 href="{{ route('prizes') }}"
                 style="text-decoration: none;"
             >
@@ -130,7 +130,7 @@
                     >
                     <div class="text-dark mt-1">{{ __('words.store') }}</div>
                 </div>
-            </a>
+            </a> --}}
             <a
                 href="{{ route('ranks.team') }}"
                 style="text-decoration: none;"
@@ -145,7 +145,7 @@
                 </div>
             </a>
             <a
-                href="('tutorial')}}"
+                href="{{ route('tutorial') }}"
                 style="text-decoration: none;"
             >
                 <div class="menu-list-item text-center">
@@ -158,7 +158,7 @@
                 </div>
             </a>
             <a
-                href="('rules')}}"
+                href="{{ route('rules') }}"
                 style="text-decoration: none;"
             >
                 <div class="menu-list-item text-center">
