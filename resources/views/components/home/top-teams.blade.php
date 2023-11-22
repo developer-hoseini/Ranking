@@ -20,12 +20,13 @@
                     <div class="swiper-slide ranks-swiper-slide text-center">
                         <div class="w-100 rounded shadow">
                             <div
-                                class="rounded-top py-2"
-                                style="background-color: #f2f2f2;"
+                                class="rounded-top text-truncate py-2"
+                                style="background-color: #f2f2f2;width: 100%"
                             >
                                 <a
                                     class="text-info font-weight-bold"
                                     href="{{ route('games.show', $game->id) }}"
+                                    title="{{ $game->name }}"
                                 >{{ $game->name }}</a>
                             </div>
 
