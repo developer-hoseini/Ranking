@@ -28,6 +28,8 @@ class Team extends Component
         'rank' => '',
     ];
 
+    public $type = 'global';
+
     public $team;
 
     public function mount(Request $request)
@@ -61,12 +63,16 @@ class Team extends Component
     #[Computed]
     public function rankTeams()
     {
-        $teams = $this->getRankTeams();
 
-        return $teams ?? [];
+        if ($this->type == 'country') {
+            return $this->getCountryRankTeams() ?? [];
+        }
+
+        return $this->getGlobalRankTeams() ?? [];
+
     }
 
-    private function getRankTeams()
+    private function getGlobalRankTeams()
     {
         $query = ModelsTeam::query()
             // ->acceptedScope()
@@ -91,7 +97,49 @@ class Team extends Component
             $teams = $query->skip($this->filters['rank'] - 1)->take(1)->get();
         } else {
             $teams = $query
-                ->paginate(2);
+                ->paginate(config('ranking.settings.global.per_page'));
+        }
+
+        return $teams;
+    }
+
+    private function getCountryRankTeams()
+    {
+        $countryId = null;
+        $authUser = auth()->user();
+
+        if ($authUser) {
+            $countryId = $authUser?->state?->country_id;
+        }
+
+        if ($this->team) {
+            $countryId = $this->team?->state?->country_id;
+        }
+
+        $query = ModelsTeam::query()
+            ->where('id', '!=', $this->team?->id)
+            ->whereHas('game', function ($q) {
+                $q->where('games.id', $this->game['id']);
+            })
+            ->whereHas('state', fn ($q) => $q->where('country_id', $countryId))
+            ->with([
+                'capitan',
+            ])
+            ->orderByDesc(
+                Achievement::selectRaw('sum(count) as total_scores')
+                    ->where('achievementable_type', ModelsTeam::class)
+                    ->where('type', AchievementTypeEnum::SCORE->value)
+                    ->whereColumn('achievementable_id', 'teams.id')
+                    ->groupBy('achievementable_id')
+            )
+            ->withSum('teamScoreAchievements', 'count')
+            ->withSum('teamCoinAchievements', 'count');
+
+        if ($this->filters['rank']) {
+            $teams = $query->skip($this->filters['rank'] - 1)->take(1)->get();
+        } else {
+            $teams = $query
+                ->paginate(config('ranking.settings.global.per_page'));
         }
 
         return $teams;

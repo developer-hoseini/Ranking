@@ -4,20 +4,26 @@
             class="btn-group btn-group-toggle change-games-part mb-2"
             data-toggle="buttons"
         >
-            {{-- <label
-                class="btn btn-secondary btn-won active mb-1 mr-1 mt-2"
-                v-show="isAuth"
-            >
-                <input type="radio" /> <i class="fas fa-globe"></i>
-                {{ __('words.Global Rank') }}
-            </label>
-            <label
-                class="btn btn-secondary btn-lost mb-1 mr-1 mt-2"
-                v-show="isAuth"
-            >
-                <input type="radio" /> <i class="fas fa-flag"></i>
-                {{ __('words.Country Rank') }}
-            </label> --}}
+            @auth()
+                <div
+                    class="btn-group btn-group-toggle d-flex my-2 text-center"
+                    data-toggle="buttons"
+                >
+                    <button
+                        class="btn btn-secondary btn-won @if ($type == 'global') active @endif mb-1 mr-1 mt-2"
+                        wire:click='$set("type","global")'
+                    > <i class="fas fa-globe"></i>
+                        {{ __('words.Global Rank') }}
+                    </button>
+
+                    <button
+                        class="btn btn-secondary btn-lost @if ($type == 'country') active @endif mb-1 mr-1 mt-2"
+                        wire:click='$set("type","country")'
+                    > <i class="fas fa-flag"></i>
+                        {{ __('words.Country Rank') }}
+                    </button>
+                </div>
+            @endauth
 
             <div class="form-group mt-4">
                 <select
