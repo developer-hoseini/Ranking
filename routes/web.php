@@ -116,7 +116,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::post('/report', [ProfileController::class, 'report'])->name('report');
             Route::post('/competitions', [ProfileController::class, 'competitions'])->name('competitions');
             Route::get('/team/certificates', [ProfileController::class, 'teamCertificates'])->name('team.certificates');
-            Route::get('/{user}', [ProfileController::class, 'show'])->name('show')->where('contact', '[0-9]+');
+            Route::get('/{user?}', [ProfileController::class, 'show'])->name('show')->where('contact', '[0-9]+');
 
         });
 

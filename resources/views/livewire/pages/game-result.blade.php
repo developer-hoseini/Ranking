@@ -8,12 +8,12 @@
                         id="app"
                     >
                         <thead>
-                            <tr>
-                                <th scope="col">{{ __('words.opponent') }}</th>
-                                <th scope="col">{{ __('words.Game') }}</th>
-                                <th scope="col">{{ __('words.result') }}</th>
-                                <th scope="col">{{ __('words.status') }}</th>
-                            </tr>
+                        <tr>
+                            <th scope="col">{{ __('words.opponent') }}</th>
+                            <th scope="col">{{ __('words.Game') }}</th>
+                            <th scope="col">{{ __('words.result') }}</th>
+                            <th scope="col">{{ __('words.status') }}</th>
+                        </tr>
                         </thead>
 
                         @foreach ($this->gameResults as $result)
@@ -28,7 +28,7 @@
                                 <td class="text-center">
                                     <a
                                         class="photo_fullname"
-                                        href="{{ route('profile.show', $opponentUser?->id) }}"
+                                        href="{{ route('profile.show', ['user'=>$opponentUser?->id]) }}"
                                     >
                                         <img
                                             class="user_photo"
