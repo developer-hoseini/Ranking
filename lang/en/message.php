@@ -169,6 +169,12 @@ Can you win it?!',
 accepted your invitation.
 Don\'t forget to register your result!',
 
+    'sms_your_invite_has_rejected' => ':fullname
+rejected your invitation.',
+
+    'sms_your_invite_has_canceled' => ':fullname
+canceled your invitation.',
+
     'sms_tour_top_players' => 'Top players of :tour_name:
 :first_name
 :second_name
