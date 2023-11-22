@@ -48,6 +48,7 @@
     @endif
 
     @if ($gameType == 'online')
-        <livewire:pages.games.index.online-games wire:key='online' />
+        <h3>Coming soon ...</h3>
+        {{-- <livewire:pages.games.index.online-games wire:key='online' /> --}}
     @endif
 </div>

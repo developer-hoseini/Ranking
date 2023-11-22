@@ -132,7 +132,7 @@
                 </div>
             </a>
             <a
-                href="('global_team_ranks')}}"
+                href="{{ route('ranks.team') }}"
                 style="text-decoration: none;"
             >
                 <div class="menu-list-item text-center">

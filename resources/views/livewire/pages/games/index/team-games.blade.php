@@ -18,11 +18,10 @@
                     </li>
                 </ul>
 
-                {{-- TODO: add route --}}
                 <a
                     class="btn btn-primary btn-block text-white"
+                    href="{{ route('teams.me.create', ['game_id' => $game?->id]) }}"
                     style="margin-top: 23px;"
-                    {{-- href="{{ route('create_team') }}" --}}
                 >{{ __('words.Create Team') }}</a>
 
             </div>

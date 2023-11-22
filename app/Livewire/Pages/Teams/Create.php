@@ -4,6 +4,7 @@ namespace App\Livewire\Pages\Teams;
 
 use App\Models\Game;
 use App\Models\Team;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Rule;
@@ -26,6 +27,13 @@ class Create extends Component
         'about' => null,
         'avatar' => null,
     ];
+
+    public function mount(Request $request)
+    {
+        if ($request->has('game_id')) {
+            $this->form['game_id'] = $request->get('game_id');
+        }
+    }
 
     #[Computed]
     public function games()
