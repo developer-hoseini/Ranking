@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('words. - ') . __('games.' . $game->name) . ' (' . __('words.double') . ')')
+@section('title', __('words. - ') . $game->name . ' (' . __('words.double') . ')')
 
 @section('header')
     @parent

@@ -42,7 +42,7 @@
                                 class="text-decoration-none"
                                 href="{{ route('games.show', $competition?->game?->id ?? 0) }}"
                             >
-                                <h4 class="text-dark">{{ __('games.' . $competition?->game?->name) }}</h4>
+                                <h4 class="text-dark">{{ $competition?->game?->name }}</h4>
                             </a>
                         </div>
                         <div class="col-4 p-0">
