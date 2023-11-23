@@ -285,7 +285,7 @@ class User extends Authenticatable implements CanResetPassword, FilamentUser, Ha
                 $avatar = $this->getFirstMediaUrl('avatar');
 
                 if ($avatar) {
-                    return $avatar;
+                    return $avatar ?? '';
                 }
 
                 return asset('assets/images/default-profile.png');

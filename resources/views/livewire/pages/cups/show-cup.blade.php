@@ -38,7 +38,7 @@
 
                     if ($isEnd) {
                         $competition = $cup->competitions->where('pivot.step', $key)->first();
-                        $winerPlayer = $competition?->winerUser;
+                        $winerPlayer = $competition?->winerPlayer;
 
                         $height = 0;
                     }

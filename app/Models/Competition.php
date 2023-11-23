@@ -184,13 +184,21 @@ class Competition extends Model implements HasMedia
             ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/gif', 'image/jpg']);
     }
 
-    protected function loserUser(): Attribute
+    protected function loserPlayer(): Attribute
     {
         return Attribute::make(
             get: function () {
                 $gameResult = $this->gameResults->where('gameResultStatus.name', StatusEnum::GAME_RESULT_LOSE->value)->first();
                 if ($gameResult) {
-                    return $this->users->where('id', $gameResult->playerable_id)->first();
+
+                    if ($gameResult->playerable_type == User::class) {
+                        return $this->users->where('id', $gameResult->playerable_id)->first();
+                    }
+
+                    if ($gameResult->playerable_type == Team::class) {
+                        return $this->teams->where('id', $gameResult->playerable_id)->first();
+                    }
+
                 }
 
                 return null;
@@ -198,7 +206,7 @@ class Competition extends Model implements HasMedia
         );
     }
 
-    protected function winerUser(): Attribute
+    protected function winerPlayer(): Attribute
     {
         return Attribute::make(
             get: function () {
