@@ -70,7 +70,7 @@
                                         <img
                                             class="rounded-circle"
                                             src="{{ $user?->avatar }}"
-                                            title="{{ $user?->username }}"
+                                            title="{{ $user?->avatarName }}"
                                             alt="{{ $user?->profile?->fullName }}"
                                             img
                                             width="100%"
@@ -82,10 +82,10 @@
                                     >
                                         <a
                                             class="text-dark"
-                                            title="{{ $user?->profile?->fullName }}"
+                                            title="{{ $user?->avatarName }}"
                                             @if ($user) href="{{ route('profile.show', ['user' => $user?->id]) }}" @endif
                                         >
-                                            {{ $user?->profile?->fullName ?? $user?->username }}
+                                            {{ $user?->avatarName }}
                                         </a>
                                     </div>
                                     <div

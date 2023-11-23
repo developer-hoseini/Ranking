@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('words. - ') . ($user?->profile?->fullname ?? $user->name) . ' (' . $user->username . ')')
+@section('title', __('words. - ') . $user?->avatarName)
 
 @section('header')
     @parent
@@ -16,21 +16,21 @@
                         <img
                             class="user_photo"
                             src="{{ $user->avatar }}"
-                            title="{{ $user?->profile?->fullname ?? $user->name }}"
-                            alt="{{ $user->username }}"
+                            title="{{ $user?->avatar_name }}"
+                            alt="{{ $user->avatar_name }}"
                             width="180"
                         >
                     </div>
 
                     <div class="profile-details">
                         <div>
-                            <h2 style="font-size: 24px;">{{ $user?->username }}</h2>
+                            <h2 style="font-size: 24px;">{{ $user?->avatar_name }}</h2>
                         </div>
                         <div>
                             <h1
                                 class="font-weight-bold"
                                 style="font-size: 20px;color: #000;"
-                            >{{ $user?->profile?->fullname ?? $user->name }}</h1>
+                            >{{ $user?->profile?->fullname ?? '' }}</h1>
                         </div>
                         <div>
                             @if ($user->profile?->state_id != null)

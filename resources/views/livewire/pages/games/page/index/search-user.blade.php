@@ -42,7 +42,7 @@
                                     class="user_photo suggested_user_photo"
                                     src="{{ $userRandom?->avatar }}"
                                 >
-                                <div>{{ $userRandom?->username }}</div>
+                                <div>{{ $userRandom?->avatarName }}</div>
                             </li>
                         @endforeach
                     </ul>
@@ -62,7 +62,7 @@
                                 src="{{ $userResult?->avatar }}"
                                 width="50"
                             >
-                            {{ $userResult->username . ' (' . $userResult?->profile?->fullname . ')' }}
+                            {{ $userResult->avatarName . ' (' . $userResult?->profile?->fullname . ')' }}
                         </button>
                     @endforeach
                 </div>
@@ -229,7 +229,7 @@
                         href="{{ route('profile.show', ['user' => $opponent?->id]) }}"
                         title="selected_username"
                         target="_blank"
-                    >{{ $opponent?->username }}</a>
+                    >{{ $opponent?->avatarName }}</a>
                 </div>
                 <div>
                     {{ __('words.Rank: ') . \App\Services\Actions\User\GetGameRank::handle($opponent->id, $game->id) }}

@@ -157,16 +157,16 @@
                             <a
                                 class="text-ranking"
                                 href="{{ route('profile.show', $cup?->created_by_user_id) }}"
-                                title="{{ $cup?->createdByUser->username }}"
+                                title="{{ $cup?->createdByUser->avatarName }}"
                             >
                                 <img
                                     class="rounded-circle"
                                     src="{{ $cup?->createdByUser?->avatar }}"
-                                    title="{{ $cup?->createdByUser?->profile?->fullName }}"
-                                    alt="{{ $cup?->createdByUser?->username }}"
+                                    title="{{ $cup?->createdByUser?->avatarName }}"
+                                    alt="{{ $cup?->createdByUser?->avatarName }}"
                                     height="35px"
                                 >
-                                {{ $cup?->createdByUser?->profile?->fullName }}
+                                {{ $cup?->createdByUser?->avatarName }}
                             </a>
                         @else
                             {{-- TODO: createdBy admin must check user has role admin --}}

@@ -29,11 +29,11 @@
                                 ></i></div>
                             <div class="bg-success rounded-pill w-100 py-1">
                                 <a
-                                    class="text-white"
+                                    class="text-truncate text-white"
                                     href="{{ route('profile.show', $competition?->loserUser?->id ?? 0) }}"
-                                    title="{{ $competition?->loserUser?->username }}"
+                                    title="{{ $competition?->loserUser?->avatarName }}"
                                 >
-                                    {{ $competition?->loserUser?->username }}
+                                    {{ $competition?->loserUser?->avatarName }}
                                 </a>
                             </div>
                         </div>
@@ -61,11 +61,11 @@
                                 ></i></div>
                             <div class="bg-danger rounded-pill w-100 p-1">
                                 <a
-                                    class="text-white"
+                                    class="text-truncate text-white"
                                     href="{{ route('profile.show', $competition?->winerUser?->id ?? 0) }}"
-                                    title="{{ $competition?->winerUser?->username }}"
+                                    title="{{ $competition?->winerUser?->avatarName }}"
                                 >
-                                    {{ $competition?->winerUser?->username }}
+                                    {{ $competition?->winerUser?->avatarName }}
                                 </a>
                             </div>
                         </div>

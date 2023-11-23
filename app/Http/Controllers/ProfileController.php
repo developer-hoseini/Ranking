@@ -137,6 +137,7 @@ class ProfileController extends Controller
             $data = null;
 
             $tournaments = Cup::query()
+                ->cupAcceptedStatusScope()
                 ->whereHas('registeredUsers', function ($query) use ($userId) {
                     $query->where('users.id', $userId);
                 })->orWhere(function ($q) use ($userId) {

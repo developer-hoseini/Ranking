@@ -129,7 +129,7 @@
                                             {{ $user?->profile?->fullname }}
                                         </span>
                                         <span>
-                                            {{ $user?->profile?->fullname ?? $user->username }}
+                                            {{ $user?->avatarName }}
                                         </span>
                                     </a>
                                 </td>

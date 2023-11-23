@@ -29,7 +29,7 @@
                         <div class="sent-user-info">
                             <a
                                 href="{{ route('profile.show', ['user' => $invite->invited_user_id]) }}"
-                                title="{{ $invite->invitedUser?->username }}"
+                                title="{{ $invite->invitedUser?->avatarName }}"
                                 target="_blank"
                             >
                                 <img
@@ -37,7 +37,7 @@
                                     src="{{ $invite->invitedUser?->avatar }}"
                                     width="80"
                                 >
-                                <div>{{ $invite->invitedUser->username9 }}</div>
+                                <div>{{ $invite->invitedUser->avatarName }}</div>
                             </a>
                             <div>{{ __('words.Rank: ') }}
                                 {{ \App\Services\Actions\User\GetGameRank::handle($invite->invited_user_id, $game->id) }}
@@ -124,7 +124,7 @@
                         <div class="receive-user-info">
                             <a
                                 href="{{ route('profile.show', ['user' => $invite->inviter_user_id]) }}"
-                                title="{{ $invite->inviterUser?->username }}"
+                                title="{{ $invite->inviterUser?->avatarName }}"
                                 target="_blank"
                             >
                                 <img
@@ -132,7 +132,7 @@
                                     src="{{ $invite->inviterUser?->avatar }}"
                                     width="80"
                                 >
-                                <div>{{ $invite->inviterUser->username9 }}</div>
+                                <div>{{ $invite->inviterUser->avatarName }}</div>
                             </a>
                             <div>{{ __('words.Rank: ') }}
                                 {{ \App\Services\Actions\User\GetGameRank::handle($invite->inviter_user_id, $game->id) }}
