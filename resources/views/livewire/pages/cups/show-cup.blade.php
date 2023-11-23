@@ -71,7 +71,10 @@
                                             </span>
                                         </a>
                                     @else
-                                        <x-icons.svg.question />
+                                        <x-icons.svg.question
+                                            width="32px"
+                                            height="32px"
+                                        />
                                     @endif
                                 </x-slot>
                                 <x-slot:player2>
@@ -87,7 +90,10 @@
                                                 class="w-75 position-absolute text-truncate">{{ $player2?->name }}</span>
                                         </a>
                                     @else
-                                        <x-icons.svg.question />
+                                        <x-icons.svg.question
+                                            width="32px"
+                                            height="32px"
+                                        />
                                     @endif
 
                                 </x-slot>
@@ -108,7 +114,10 @@
                                     </span>
                                 </a>
                             @else
-                                <x-icons.svg.question />
+                                <x-icons.svg.question
+                                    width="32px"
+                                    height="32px"
+                                />
                             @endif
                         </x-cups.show.player-win-cup>
                     @endif
