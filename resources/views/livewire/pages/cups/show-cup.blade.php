@@ -12,6 +12,9 @@
     $player1MarginBottom = 10;
     $marginBottom = 70;
 
+    $isForTeam = $cup->is_team ?? false;
+    $routeName = !$isForTeam ? 'profile.show' : 'teams.show';
+
 @endphp
 
 <div class="container">
@@ -24,8 +27,6 @@
             @foreach ($steps as $key => $step)
                 @php
                     $winerPlayer = null;
-                    $isForTeam = $cup->is_team;
-                    $routeName = !$isForTeam ? $routeName : 'teams.show';
 
                     if ($key > 0) {
                         $marginTop += $height / 2;
