@@ -41,7 +41,7 @@ class Show extends Component
                 'childTickets.createdByUser.media',
                 'media',
                 'ticketCategory:id,name',
-                'status:id,name',
+                'ticketStatus:id,name',
             ])
             ->firstOrFail();
     }
