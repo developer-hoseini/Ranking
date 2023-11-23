@@ -195,18 +195,19 @@
         >
             <div class="menu-list-item text-center">
                 {{-- @if ($unconfirmed_quick_submitted > 0) --}}
-                <img
+                {{-- <img
                     class="mt-1"
                     src="{{ asset('assets/img/menu/notify/result_submit.png') }}"
                     width="45px"
-                >
+                > --}}
                 {{-- @else --}}
-                {{-- <img
+                {{--  --}}
+                {{-- @endif --}}
+                <img
                     class="mt-1"
                     src="{{ url('assets/img/menu/result_submit.png') }}"
                     width="45px"
-                > --}}
-                {{-- @endif --}}
+                >
                 <div class="text-dark mt-1">{{ __('words.submitted_results') }}</div>
             </div>
         </a>
