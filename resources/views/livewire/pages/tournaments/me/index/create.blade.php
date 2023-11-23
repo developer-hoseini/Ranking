@@ -9,37 +9,26 @@
             enctype="multipart/form-data"
         >
             @csrf
-            {{-- TODO: create Solo And Team combo box --}}
-            {{--
-                <div class="row pt-2">
-                    <input
-                        class="d-none"
-                        id="only"
-                        name="is_team"
-                        type="radio"
-                        checked="checked"
-                    >
-                    <input
-                        class="d-none"
-                        id="team"
-                        name="is_team"
-                        type="radio"
-                    > 
-                    <label
-                        class="btn btn-info col-5 mx-auto"
-                        id="only-lable"
-                        for="only"
-                        onclick="only();"
-                    >{{ __('words.tournament_only') }}</label>
-                    <label
-                        class="btn btn-outline-info col-5 mx-auto"
-                        id="team-lable"
-                        for="team"
-                        onclick="team();"
-                    >{{ __('words.tournament_team') }}</label>
-                    
-                </div>
-            --}}
+            <div
+                class="d-flex col-12 justify-content-between mx-auto py-3"
+                {{-- class="row justify-content-around p-2 " --}}
+            >
+                <button
+                    class="btn btn-outline-info col @if ($type == 'solo') active @endif col mr-2"
+                    type="button"
+                    wire:click='$set("type","solo")'
+                >
+                    {{ __('words.tournament_only') }}
+                </button>
+                <button
+                    class="btn btn-outline-info col @if ($type == 'team') active @endif"
+                    type="button"
+                    wire:click='$set("type","team")'
+                >
+                    {{ __('words.tournament_team') }}
+                </button>
+
+            </div>
             <div class="row px-2 pt-1">
                 <div class="col-sm-12 col-md-5 col-lg-4 mx-auto mt-1 px-1 py-1">
                     {{ __('words.sports_field') }} :
@@ -218,19 +207,23 @@
                 @enderror
             </div>
 
-            <div class="row px-2 pt-1">
-                <button
-                    class="btn btn-success w-100 mt-2 py-2"
-                    type="button"
+            <div
+                class="row justify-content-center align-content-center mx-auto mt-3 gap-5"
+                style="gap:1rem"
+            >
+                <a
+                    class="btn btn-success"
+                    href="#"
+                    role="button"
                     wire:click='submitForm'
                 >
                     {{ __('words.create_tournament') }}
                     <i class="fa fa-plus mx-2"></i>
-                </button>
+                </a>
                 <a
-                    class="btn btn-light w-100 mt-2 border"
-                    type="submit"
+                    class="btn btn-light"
                     href="{{ route('tournaments.me.index') }}"
+                    role="button"
                 >
                     {{ __('words.back_to_my_tournament') }}
                 </a>

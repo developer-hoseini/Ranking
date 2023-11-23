@@ -41,6 +41,8 @@ class Create extends Component
         'description' => '',
     ];
 
+    public $type = 'solo';
+
     public function mount()
     {
         $this->countries = Country::select(['id', 'name'])->get()->toArray();
@@ -56,12 +58,22 @@ class Create extends Component
     #[Computed]
     public function games()
     {
-        return Game::active()->orderBy('sort', 'asc')->select(['id', 'name'])->get();
+        $isTeam = $this->type === 'team';
+
+        $query = Game::active()->orderBy('sort', 'asc')->select(['id', 'name']);
+
+        if ($isTeam) {
+            $query->gameTypesScope(['team']);
+        }
+
+        return $query->get();
     }
 
     public function submitForm()
     {
         $this->validate();
+
+        $isTeam = $this->type === 'team';
 
         Cup::create([
             'name' => $this->form['name'],
@@ -74,9 +86,11 @@ class Create extends Component
             'start_at' => $this->form['start_at'],
             'status_id' => Status::query()->nameScope(StatusEnum::PENDING->value)->firstOrFail()?->id,
             'created_by_user_id' => auth()->id(),
+            'is_team' => $isTeam,
         ]);
 
         $this->reset();
+
         session()->flash('success', 'your tournament created succsesfully, please wait to confirm by admin');
 
         $this->redirect(route('tournaments.me.index', ['type' => 'created']));
