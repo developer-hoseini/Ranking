@@ -24,6 +24,8 @@
             @foreach ($steps as $key => $step)
                 @php
                     $winerPlayer = null;
+                    $isForTeam = $cup->is_team;
+                    $routeName = !$isForTeam ? $routeName : 'teams.show';
 
                     if ($key > 0) {
                         $marginTop += $height / 2;
@@ -36,11 +38,13 @@
                     if ($isEnd) {
                         $competition = $cup->competitions->where('pivot.step', $key)->first();
                         $winerPlayer = $competition?->winerUser;
+
                         $height = 0;
                     }
 
                     $style = "height: {$height}px; margin-top: {$marginTop}px; width: 190px; margin-bottom:{$marginBottom}px;";
                     $player1Style = "margin-bottom: {$player1MarginBottom}px;";
+
                 @endphp
                 <div class="round">
                     @if (!$isEnd)
@@ -50,9 +54,17 @@
                                     ->where('pivot.step', $key + 1)
                                     ->values()
                                     ?->get($i);
-                                $users = $competition?->users;
-                                $player1 = $users?->first();
-                                $player2 = $users?->values()?->get(1);
+
+                                if (!$isForTeam) {
+                                    $users = $competition?->users;
+                                    $player1 = $users?->first();
+                                    $player2 = $users?->values()?->get(1);
+                                } else {
+                                    $teams = $competition?->teams;
+                                    $player1 = $teams?->first();
+                                    $player2 = $teams?->values()?->get(1);
+                                }
+
                             @endphp
                             <x-cups.show.players
                                 style="{{ $style }}"
@@ -61,7 +73,7 @@
                             >
                                 <x-slot:player1>
                                     @if ($player1)
-                                        <a href="{{ route('profile.show', $player1->id) }}">
+                                        <a href="{{ route($routeName, $player1->id) }}">
                                             <img
                                                 class="user_photo"
                                                 src="{{ $player1?->avatar != '' ? $player1?->avatar : asset('assets/images/default-profile.png') }}"
@@ -79,7 +91,7 @@
                                 </x-slot>
                                 <x-slot:player2>
                                     @if ($player2)
-                                        <a href="{{ route('profile.show', $player2->id) }}">
+                                        <a href="{{ route($routeName, $player2->id) }}">
 
                                             <img
                                                 class="user_photo"
@@ -103,7 +115,7 @@
                     @else
                         <x-cups.show.player-win-cup style="{{ $style }}">
                             @if ($winerPlayer)
-                                <a href="{{ route('profile.show', $winerPlayer->id) }}">
+                                <a href="{{ route($routeName, $winerPlayer->id) }}">
                                     <img
                                         class="user_photo"
                                         src=""

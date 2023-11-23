@@ -141,6 +141,11 @@ class Team extends Model implements HasAvatar, HasMedia
         return $builder->whereHas('teamStatus', fn ($q) => $q->nameScope(StatusEnum::ACCEPTED->value));
     }
 
+    public function teamCups(): MorphToMany
+    {
+        return $this->morphToMany(Cup::class, 'cupable');
+    }
+
     public function getFilamentAvatarUrl(): ?string
     {
         return $this->getMedia('avatar')?->first()?->getUrl() ?? '';
@@ -165,6 +170,15 @@ class Team extends Model implements HasAvatar, HasMedia
                 }
 
                 return asset('assets/images/default-team-profile.png');
+            }
+        );
+    }
+
+    protected function avatarName(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                return $this->name ?? "team-doesn't-have-name";
             }
         );
     }

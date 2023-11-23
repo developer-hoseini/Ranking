@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\ReasonReportEnum;
 use App\Enums\StatusEnum;
 use App\Models\Competition;
+use App\Models\Cup;
 use App\Models\Game;
 use App\Models\GameResult;
 use App\Models\Like;
@@ -129,22 +130,25 @@ class ProfileController extends Controller
         }
     }
 
-    public function competitions(Request $request)
+    public function tournamnets(Request $request)
     {
         if ($request->ajax() && $request->has('user_id')) {
             $userId = $request->input('user_id');
             $data = null;
 
-            $tournaments = Competition::whereHas('users', function ($query) use ($userId) {
-                $query->where('users.id', $userId);
-            })->orwhereHas('teams', function ($query) use ($userId) {
-                $query->where('teams.id', $userId);
-            })->with([
-                'teams', 'users',
-            ])->orderBy('start_at', 'DESC')->get();
+            $tournaments = Cup::query()
+                ->whereHas('registeredUsers', function ($query) use ($userId) {
+                    $query->where('users.id', $userId);
+                })->orwhereHas('registeredTeams', function ($query) use ($userId) {
+                    $query->whereHas('users', function ($query) use ($userId) {
+                        $query->where('users.id', $userId);
+                    });
+                })/* ->with([
+                    'registeredTeams', 'registeredUsers',
+                ]) */ ->orderBy('start_at', 'DESC')->get();
 
             foreach ($tournaments as $tournament) {
-                if ($tournament->teams->count()) {
+                if (! $tournament->is_team) {
                     //                    $bracketRoute = 'bracket';
                     $tournamentType = '<span class="mx-2">'.__('words.only').'</span><i class="fa fa-user"></i>';
                 } else {

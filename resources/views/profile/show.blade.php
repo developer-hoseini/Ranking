@@ -453,7 +453,7 @@
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                             }
                         });
-                        $.post('{{ route('profile.competitions') }}', {
+                        $.post('{{ route('profile.tournamnets') }}', {
                             'user_id': '{{ $user->id }}'
                         }, function(data) {
                             if (data) {

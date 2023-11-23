@@ -113,10 +113,9 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
 
             Route::post('/like', [ProfileController::class, 'like'])->name('like');
             Route::post('/report', [ProfileController::class, 'report'])->name('report');
-            Route::post('/competitions', [ProfileController::class, 'competitions'])->name('competitions');
+            Route::post('/tournamnets', [ProfileController::class, 'tournamnets'])->name('tournamnets');
             Route::get('/team/certificates', [ProfileController::class, 'teamCertificates'])->name('team.certificates');
-            Route::get('/{user?}', [ProfileController::class, 'show'])->name('show')->where('contact', '[0-9]+');
-
+            Route::get('/{user?}', [ProfileController::class, 'show'])->name('show')->where('user', '[0-9]+');
         });
 
         //game-results

@@ -21,6 +21,7 @@ class ShowCup extends Component
             ->with([
                 'competitions.gameResults.gameResultStatus',
                 'competitions.users.media',
+                'competitions.teams.media',
             ])
             ->firstOrFail();
 

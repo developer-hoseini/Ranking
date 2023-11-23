@@ -165,7 +165,11 @@ class Cup extends Model implements HasMedia
                     return false;
                 }
 
-                $isRegistered = $this->registeredUsers->where('id', $authUser->id)->first();
+                if (! $this->is_team) {
+                    $isRegistered = $this->registeredUsers->where('id', $authUser->id)->first();
+                } else {
+                    $isRegistered = $this->registeredTeams->whereIn('id', $authUser->teams()->acceptedScope()->pluck('id'))->first();
+                }
 
                 return $isRegistered ? true : false;
 
@@ -244,7 +248,7 @@ class Cup extends Model implements HasMedia
             get: function () {
                 $competition = $this->competitions->where('pivot.step', '=', $this->step)->first();
                 $finalResults = $this->getCompetitionResult($competition);
-
+                
                 return $finalResults;
             }
         );

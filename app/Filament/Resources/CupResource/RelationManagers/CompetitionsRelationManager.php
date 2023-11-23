@@ -5,6 +5,7 @@ namespace App\Filament\Resources\CupResource\RelationManagers;
 use App\Enums\StatusEnum;
 use App\Models\Competition;
 use App\Models\Status;
+use App\Models\Team;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -15,6 +16,7 @@ use Filament\Tables;
 use Filament\Tables\Actions\AttachAction;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class CompetitionsRelationManager extends RelationManager
 {
@@ -72,12 +74,22 @@ class CompetitionsRelationManager extends RelationManager
                             ->options(function (RelationManager $livewire) {
                                 $cup = $livewire->getOwnerRecord();
 
-                                $users = User::query()
-                                    ->whereHas('cups', function ($q) use ($cup) {
-                                        $q->where('cups.id', $cup->id);
-                                    });
+                                if (! $cup->is_team) {
+                                    $users = User::query()
+                                        ->whereHas('cups', function ($q) use ($cup) {
+                                            $q->where('cups.id', $cup->id);
+                                        });
 
-                                return $users->pluck('name', 'id');
+                                    return $users->pluck('name', 'id');
+
+                                } else {
+                                    $teams = Team::query()
+                                        ->whereHas('teamCups', function ($q) use ($cup) {
+                                            $q->where('cups.id', $cup->id);
+                                        });
+
+                                    return $teams->pluck('name', 'id');
+                                }
 
                                 // return $options->pluck('id', 'name');
                             })
@@ -86,12 +98,22 @@ class CompetitionsRelationManager extends RelationManager
                             ->options(function (RelationManager $livewire) {
                                 $cup = $livewire->getOwnerRecord();
 
-                                $users = User::query()
-                                    ->whereHas('cups', function ($q) use ($cup) {
-                                        $q->where('cups.id', $cup->id);
-                                    });
+                                if (! $cup->is_team) {
+                                    $users = User::query()
+                                        ->whereHas('cups', function ($q) use ($cup) {
+                                            $q->where('cups.id', $cup->id);
+                                        });
 
-                                return $users->pluck('name', 'id');
+                                    return $users->pluck('name', 'id');
+
+                                } else {
+                                    $teams = Team::query()
+                                        ->whereHas('teamCups', function ($q) use ($cup) {
+                                            $q->where('cups.id', $cup->id);
+                                        });
+
+                                    return $teams->pluck('name', 'id');
+                                }
 
                                 // return $options->pluck('id', 'name');
                             })
@@ -105,13 +127,19 @@ class CompetitionsRelationManager extends RelationManager
 
                         $cup = $livewire->getOwnerRecord();
 
-                        $competition = Competition::query()
+                        $query = Competition::query()
                             ->whereHas('cups', function ($q) use ($cup, $data) {
                                 $q->where('cups.id', $cup->id)
                                     ->where('cupables.step', $data['step']);
-                            })
-                            ->whereHas('users', fn ($q) => $q->whereIn('users.id', [$data['player1'], $data['player2']]))
-                            ->first();
+                            });
+
+                        if (! $cup->is_team) {
+                            $query->whereHas('users', fn ($q) => $q->whereIn('users.id', [$data['player1'], $data['player2']]));
+                        } else {
+                            $query->whereHas('teams', fn ($q) => $q->whereIn('teams.id', [$data['player1'], $data['player2']]));
+                        }
+
+                        $competition = $query->first();
 
                         if ($competition) {
                             $livewire->addError('palyer1', 'this competion with this step is duplicated');
@@ -127,22 +155,43 @@ class CompetitionsRelationManager extends RelationManager
                     })
                     ->using(function (array $data, string $model, RelationManager $livewire): Model {
                         $cup = $livewire->getOwnerRecord();
-                        $user1 = User::where('id', $data['player1'])->first();
-                        $user2 = User::where('id', $data['player2'])->first();
 
-                        $createdCompetition = Competition::create([
-                            'name' => "{$cup->name} - {$user1?->name} vs {$user2?->name}",
-                            'capacity' => 2,
-                            'description' => "create based on cup #{$cup->id}",
-                            'game_id' => $cup->game_id,
-                            'state_id' => $cup->state_id,
-                            'status_id' => Status::where('name', StatusEnum::COMPETITION_TOURNAMENT->value)->first()?->id,
-                        ]);
+                        if (! $cup->is_team) {
+                            $player1 = User::where('id', $data['player1'])->first();
+                            $player2 = User::where('id', $data['player2'])->first();
+                        } else {
+                            $player1 = Team::where('id', $data['player1'])->first();
+                            $player2 = Team::where('id', $data['player2'])->first();
+                        }
 
-                        $createdCompetition->users()->attach([$user1->id, $user2->id]);
-                        $createdCompetition->cups()->attach($cup->id, ['step' => $data['step']]);
+                        DB::beginTransaction();
 
-                        return $createdCompetition;
+                        try {
+                            $createdCompetition = Competition::create([
+                                'name' => "{$cup->name} - {$player1?->name} vs {$player2?->name}",
+                                'capacity' => 2,
+                                'description' => "create based on cup #{$cup->id}",
+                                'game_id' => $cup->game_id,
+                                'state_id' => $cup->state_id,
+                                'status_id' => Status::where('name', StatusEnum::COMPETITION_TOURNAMENT->value)->first()?->id,
+                            ]);
+
+                            if (! $cup->is_team) {
+                                $createdCompetition->users()->attach([$player1->id, $player2->id]);
+                            } else {
+                                $createdCompetition->teams()->attach([$player1->id, $player2->id]);
+                            }
+
+                            $createdCompetition->cups()->attach($cup->id, ['step' => $data['step']]);
+
+                            DB::commit();
+
+                            return $createdCompetition;
+                        } catch (\Throwable $th) {
+                            DB::rollBack();
+                            throw $th;
+                        }
+
                     }),
 
             ])

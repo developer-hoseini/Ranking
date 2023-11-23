@@ -9,6 +9,7 @@ use App\Models\Competition;
 use App\Models\GameResult;
 use App\Models\State;
 use App\Models\Status;
+use App\Models\Team;
 use App\Models\User;
 use DB;
 use Filament\Forms;
@@ -152,29 +153,39 @@ class CompetitionResource extends Resource
                     ->color('info')
                     ->icon('heroicon-o-flag')
                     ->iconButton()
-                    ->form(function (Competition $record) {
-                        $users = $record->users;
-                        $gameResults = $record->gameResults;
+                    ->form(function (Competition $competition) {
+
+                        $players = $competition->teams->count() ? $competition->teams : $competition->users;
+
+                        $gameResults = $competition->gameResults;
                         $statuses = Status::modelType(null)->get();
                         $gameResultstatuses = Status::modelType(GameResult::class, false)->get();
 
-                        $sections = $users->map(function ($user, $key) use ($statuses, $gameResultstatuses, $gameResults) {
-                            $gameResult = $gameResults->where('playerable_id', $user->id)->first();
+                        $sections = $players->map(function ($player, $key) use ($statuses, $gameResultstatuses, $gameResults) {
 
-                            return Section::make('player '.$key + 1)
+                            $isTeam = $player instanceof Team;
+
+                            $gameResult = $gameResults->where('playerable_id', $player->id)->first();
+
+                            return Section::make(($isTeam ? 'Team ' : 'User ').'player '.$key + 1)
                                 ->schema([
-                                    Select::make("form.$key.user_id")
-                                        ->label('user')
-                                        ->options([$user->id => $user->avatarName])
+                                    Forms\Components\Hidden::make("form.$key.player_type")
+                                        ->label('player type')
+                                        ->default($isTeam ? Team::class : User::class)
+                                        ->in($isTeam ? Team::class : User::class)
+                                        ->required(),
+                                    Select::make("form.$key.player_id")
+                                        ->label('player')
+                                        ->options([$player->id => $player->avatarName])
                                         ->default($gameResult?->playerable_id)
                                         ->required(),
                                     Select::make("form.$key.game_result_status_id")
-                                        ->label('status')
+                                        ->label('game status')
                                         ->options($gameResultstatuses->pluck('name', 'id'))
                                         ->default($gameResult?->game_result_status_id)
                                         ->required(),
-                                    Select::make("form.$key.user_status_id")
-                                        ->label('status user')
+                                    Select::make("form.$key.player_status_id")
+                                        ->label('player status')
                                         ->options($statuses->pluck('name', 'id'))
                                         ->default($gameResult?->user_status_id)
                                         ->required(),
@@ -216,23 +227,23 @@ class CompetitionResource extends Resource
 
                         try {
                             foreach ($forms as $form) {
-                                $gameResult = $gameResults->where('playerable_id', $form['user_id'])->first();
+                                $gameResult = $gameResults->where('playerable_id', $form['player_id'])->first();
 
                                 if ($gameResult) {
                                     //edit
                                     $gameResult->update([
                                         'game_result_status_id' => $form['game_result_status_id'],
-                                        'user_status_id' => $form['user_status_id'],
+                                        'user_status_id' => $form['player_status_id'],
                                         'admin_status_id' => $adminStatusForm,
                                     ]);
 
                                 } else {
                                     //create
                                     $gameResult = $record->gameResults()->create([
-                                        'playerable_type' => User::class,
-                                        'playerable_id' => $form['user_id'],
+                                        'playerable_type' => $form['player_type'],
+                                        'playerable_id' => $form['player_id'],
                                         'game_result_status_id' => $form['game_result_status_id'],
-                                        'user_status_id' => $form['user_status_id'],
+                                        'user_status_id' => $form['player_status_id'],
                                         'admin_status_id' => $adminStatusForm,
                                     ]);
                                 }

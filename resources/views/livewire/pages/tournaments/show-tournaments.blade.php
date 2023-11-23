@@ -106,12 +106,23 @@
                                         You registered before !
                                     </p>
                                 @else
-                                    <a
-                                        class="btn btn-success-glass"
-                                        id="register-btn"
-                                        href="{{ route('tournaments.register', $cup?->id) }}"
-                                        style="width: 90%;"
-                                    >{{ __('words.Register') }}</a>
+                                    @if (!$cup->is_team)
+                                        <a
+                                            class="btn btn-success-glass"
+                                            id="register-btn"
+                                            href="{{ route('tournaments.register', $cup?->id) }}"
+                                            style="width: 90%;"
+                                        >{{ __('words.Register') }}</a>
+                                    @else
+                                        {{-- TODO: complete the register team with captain --}}
+                                        <p
+                                            class="fs-2 text-white"
+                                            style="font-size: 12px;line-height: 15px;"
+                                        >
+                                            Only Captain could register the team
+                                        </p>
+                                    @endif
+
                                 @endif
                             @else
                                 <div
@@ -130,8 +141,12 @@
         class="container mt-5"
         id="tour-descript"
     >
+        @if ($cup->is_team)
+            <h2 class="mb-5 text-center">it's a team tournament</h2>
+        @endif
         <div class="rounded-2 d-flex flex-wrap border bg-white p-3">
             <div class="tour-w50-box px-2">
+
                 <div class="border-bottom pb-3">
                     <div
                         class="font-weight-bold text-dark"
@@ -247,32 +262,60 @@
                             </tr>
                         </thead>
 
-                        @foreach ($winerUsers as $rank => $user)
-                            @if ($user)
-                                <tr class="responsive-score">
-                                    <td class="alignment">
-                                        <a
-                                            class="text-dark"
-                                            href="{{ route('profile.show', $user->id) }}"
-                                            title="{{ $user?->username }}"
-                                        >
-                                            <img
-                                                class="rounded-circle mx-1"
-                                                src="{{ $user->avatar }}"
-                                                height="30px"
+                        @if ($cup->is_team)
+                            @foreach ($winerTeams as $rank => $team)
+                                @if ($team)
+                                    <tr class="responsive-score">
+                                        <td class="alignment">
+                                            <a
+                                                class="text-dark"
+                                                href="{{ route('teams.show', $team->id) }}"
+                                                title="{{ $team?->name }}"
                                             >
-                                            {{ $user?->profile?->fullName }}
-                                        </a>
+                                                <img
+                                                    class="rounded-circle mx-1"
+                                                    src="{{ $team->avatar }}"
+                                                    height="30px"
+                                                >
+                                                {{ $team?->name }}
+                                            </a>
 
-                                    </td>
-                                    <td>{{ trans_choice('words.tournament_score_place', $rank + 1) }}
-                                    </td>
-                                </tr>
-                            @endif
-                        @endforeach
+                                        </td>
+                                        <td>{{ trans_choice('words.tournament_score_place', $rank + 1) }}
+                                        </td>
+                                    </tr>
+                                @endif
+                            @endforeach
+                        @else
+                            @foreach ($winerUsers as $rank => $user)
+                                @if ($user)
+                                    <tr class="responsive-score">
+                                        <td class="alignment">
+                                            <a
+                                                class="text-dark"
+                                                href="{{ route('profile.show', $user->id) }}"
+                                                title="{{ $user?->username }}"
+                                            >
+                                                <img
+                                                    class="rounded-circle mx-1"
+                                                    src="{{ $user->avatar }}"
+                                                    height="30px"
+                                                >
+                                                {{ $user?->profile?->fullName }}
+                                            </a>
+
+                                        </td>
+                                        <td>{{ trans_choice('words.tournament_score_place', $rank + 1) }}
+                                        </td>
+                                    </tr>
+                                @endif
+                            @endforeach
+                        @endif
+
                     </table>
                 @else
                     <div class="w-100">
+
                         <div
                             class="font-weight-bold text-dark"
                             style="font-size: 18px;"

@@ -203,8 +203,15 @@ class Competition extends Model implements HasMedia
         return Attribute::make(
             get: function () {
                 $gameResult = $this->gameResults->where('gameResultStatus.name', StatusEnum::GAME_RESULT_WIN->value)->first();
+
                 if ($gameResult) {
-                    return $this->users->where('id', $gameResult->playerable_id)->first();
+                    if ($gameResult->playerable_type == User::class) {
+                        return $this->users->where('id', $gameResult->playerable_id)->first();
+                    }
+
+                    if ($gameResult->playerable_type == Team::class) {
+                        return $this->teams->where('id', $gameResult->playerable_id)->first();
+                    }
                 }
 
                 return null;

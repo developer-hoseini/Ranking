@@ -16,16 +16,24 @@ class ShowTournaments extends Component
 
     public $winerUsers = [];
 
+    public $winerTeams = [];
+
     public function mount($id)
     {
         $this->cup = $this->getCup($id);
         $this->setting = config('ranking.rules.coin.tournoment');
-        $this->winerUsers = $this->getWinerUsers();
+
+        if ($this->cup->is_team) {
+            $this->winerTeams = $this->getWinerTeams();
+        } else {
+            $this->winerUsers = $this->getWinerUsers();
+        }
     }
 
     private function getCup($id)
     {
-        return Cup::where('id', $id)
+
+        $cup = Cup::where('id', $id)
             ->cupAcceptedStatusScope()
             ->with([
                 'competitions.gameResults.gameResultAdminStatus',
@@ -37,6 +45,8 @@ class ShowTournaments extends Component
                 'media',
             ])
             ->firstOrFail();
+
+        return $cup;
     }
 
     private function getWinerUsers()
@@ -66,6 +76,36 @@ class ShowTournaments extends Component
         $loadedSumWinderUsers = [...$cupFirstAndSecondUsers, ...$cupThirdAndForthUser];
 
         return $loadedSumWinderUsers;
+    }
+
+    private function getWinerTeams()
+    {
+        $cupFirstAndSecondTeams = $this->cup?->cupFirstAndSecondUsers;
+        $cupThirdAndForthTeams = $this->cup?->cupThirdAndForthUser;
+
+        $winerTeams = collect([...$cupFirstAndSecondTeams, ...$cupThirdAndForthTeams])->values()->filter();
+        $winerTeams = Collection::make($winerTeams)->values();
+
+        $winerTeams
+            ->load(['media'])
+            ->loadSum([
+                'teamScoreAchievements' => function ($q) {
+                    $q->whereHasMorph('achievementable', [Competition::class], function ($q) {
+                        $q->where('game_id', $this->cup->game_id);
+                    });
+                },
+            ], 'count')
+            ->loadSum([
+                'teamCoinAchievements' => function ($q) {
+                    $q->whereHasMorph('achievementable', [Competition::class], function ($q) {
+                        $q->where('game_id', $this->cup->game_id);
+                    });
+                },
+            ], 'count');
+
+        $loadedSumWinderTeams = [...$cupFirstAndSecondTeams, ...$cupThirdAndForthTeams];
+
+        return $loadedSumWinderTeams;
     }
 
     #[Layout('components.layouts.app')]

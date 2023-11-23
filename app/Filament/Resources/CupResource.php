@@ -73,6 +73,8 @@ class CupResource extends Resource
                 Forms\Components\Select::make('status_id')
                     ->relationship('cupStatus', 'name')
                     ->required(),
+                Forms\Components\Toggle::make('is_team')
+                    ->nullable(),
                 Forms\Components\SpatieMediaLibraryFileUpload::make('images')
                     ->collection('images')
                     ->multiple()
@@ -105,6 +107,8 @@ class CupResource extends Resource
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('cupStatus.name')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('is_team')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('deleted_at')
                     ->dateTime()
@@ -141,6 +145,7 @@ class CupResource extends Resource
         return [
             CupResource\RelationManagers\CompetitionsRelationManager::class,
             CupResource\RelationManagers\RegisterdUsersRelationManager::class,
+            CupResource\RelationManagers\RegisterdTeamsRelationManager::class,
         ];
     }
 
