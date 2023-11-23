@@ -72,8 +72,8 @@
                                         </a>
                                     @else
                                         <x-icons.svg.question
-                                            width="32px"
-                                            height="32px"
+                                            width="32"
+                                            height="32"
                                         />
                                     @endif
                                 </x-slot>
@@ -91,8 +91,8 @@
                                         </a>
                                     @else
                                         <x-icons.svg.question
-                                            width="32px"
-                                            height="32px"
+                                            width="32"
+                                            height="32"
                                         />
                                     @endif
 
@@ -115,8 +115,8 @@
                                 </a>
                             @else
                                 <x-icons.svg.question
-                                    width="32px"
-                                    height="32px"
+                                    width="32"
+                                    height="32"
                                 />
                             @endif
                         </x-cups.show.player-win-cup>
