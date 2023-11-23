@@ -31,9 +31,9 @@
                  <div class="swiper-slide tour-slide">
                      <a
                          class="text-decoration-none"
+                         href="{{ route('tournaments.show', $cup->id) }}"
                          title="{{ $cup?->game?->name }}"
                          style="color: #6f6f6f;"
-                         {{-- href="{{ route('tournament.show', ['tour_id' => $competition?->id, 'tour_name' => $competition?->name]) }}" --}}
                      >
                          <div class="rounded-2 tour-card bg-white pb-3 shadow">
                              <img

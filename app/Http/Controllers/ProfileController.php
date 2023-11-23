@@ -139,13 +139,17 @@ class ProfileController extends Controller
             $tournaments = Cup::query()
                 ->whereHas('registeredUsers', function ($query) use ($userId) {
                     $query->where('users.id', $userId);
-                })->orwhereHas('registeredTeams', function ($query) use ($userId) {
-                    $query->whereHas('users', function ($query) use ($userId) {
-                        $query->where('users.id', $userId);
+                })->orWhere(function ($q) use ($userId) {
+                    $q->orwhereHas('registeredTeams', function ($query) use ($userId) {
+                        $query->whereHas('users', function ($query) use ($userId) {
+                            $query->where('users.id', $userId);
+                        });
                     });
-                })/* ->with([
+                })
+                /* ->with([
                     'registeredTeams', 'registeredUsers',
-                ]) */ ->orderBy('start_at', 'DESC')->get();
+                ]) */
+                ->orderBy('start_at', 'DESC')->get();
 
             foreach ($tournaments as $tournament) {
                 if (! $tournament->is_team) {

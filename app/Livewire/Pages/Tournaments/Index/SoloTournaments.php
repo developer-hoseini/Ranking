@@ -11,6 +11,7 @@ class SoloTournaments extends Component
     public function cups()
     {
         $cups = Cup::query()
+            ->teamScope(false)
             ->cupAcceptedStatusScope()
             ->with([
                 'game',

@@ -123,6 +123,11 @@ class Cup extends Model implements HasMedia
         return $builder->whereHas('cupStatus', fn ($q) => $q->nameScope(StatusEnum::ACCEPTED->value));
     }
 
+    public function scopeTeamScope(Builder $builder, $isTeam = true)
+    {
+        return $builder->where('is_team', $isTeam);
+    }
+
     protected function startAtDate(): Attribute
     {
         return Attribute::make(
@@ -248,7 +253,7 @@ class Cup extends Model implements HasMedia
             get: function () {
                 $competition = $this->competitions->where('pivot.step', '=', $this->step)->first();
                 $finalResults = $this->getCompetitionResult($competition);
-                
+
                 return $finalResults;
             }
         );
