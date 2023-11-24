@@ -2,12 +2,13 @@
 
 namespace App\Livewire\Pages\GameResults;
 
+use App\Enums\CompetitionableType;
 use App\Enums\StatusEnum;
 use App\Models\Game;
 use App\Models\Status;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
+use Illuminate\Validation\Rule as ValidationRule;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Rule;
@@ -22,6 +23,8 @@ class QuickSubmit extends Component
 
     public ?array $users = [];
 
+    public ?array $agents = [];
+
     public $selectedUser = null;
 
     #[Rule([
@@ -35,11 +38,19 @@ class QuickSubmit extends Component
         'game_id' => null,
         'image' => null,
         'result' => '',
+        'agent_user_id' => null,
     ];
+
+    public function rules()
+    {
+        return [
+            'form.agent_user_id' => ['nullable', 'exists:users,id', ValidationRule::in(array_column($this->agents, 'id'))],
+        ];
+    }
 
     public function mount(): void
     {
-        // $this->form->fill();
+        $this->agents = User::hasAgentRolesScope()->select(['id', 'username'])->get()->toArray();
     }
 
     #[Computed]
@@ -93,7 +104,7 @@ class QuickSubmit extends Component
     {
         $this->validate();
 
-        $authUser = auth()->user();
+        $authUser = \Auth::user();
 
         $game = Game::where('id', $this->form['game_id'])->first();
         $selectedUserAvatarName = $this->selectedUser['profile']['avatar_name'] ?? '';
@@ -110,6 +121,10 @@ class QuickSubmit extends Component
             ]);
 
             $competition->users()->attach($this->selectedUser['id']);
+
+            if (! empty($this->form['agent_user_id'])) {
+                $competition->competitionAgents()->attach($this->form['agent_user_id'], ['type' => CompetitionableType::AGENT->value]);
+            }
 
             $gameResultStatusPlayer1 = $this->form['result'] == 'win' ? StatusEnum::GAME_RESULT_WIN->value : StatusEnum::GAME_RESULT_LOSE->value;
             $gameResultStatusPlayer2 = $this->form['result'] == 'win' ? StatusEnum::GAME_RESULT_LOSE->value : StatusEnum::GAME_RESULT_WIN->value;

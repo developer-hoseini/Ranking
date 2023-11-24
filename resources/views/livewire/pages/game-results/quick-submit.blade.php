@@ -10,10 +10,7 @@
                     <form>
                         @csrf
 
-                        <div
-                            class="form-group row"
-                            id="app"
-                        >
+                        <div class="form-group row">
                             <label
                                 class="col-md-3 col-form-label"
                                 for="opponent"
@@ -150,7 +147,7 @@
                                 class="col-md-7"
                                 x-data="{ selected: '' }"
                             >
-                                <div class="btn-group btn-group-toggle mb-2">
+                                <div class="btn-group btn-group-toggle">
                                     <label
                                         class="btn btn-secondary btn-won mb-1 mr-1 mt-2"
                                         :class="selected == 'win' ? 'active' : ''"
@@ -182,6 +179,39 @@
                                         </div>
                                     @enderror
                                 </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-4">
+                            <label
+                                class="col-md-3 col-form-label"
+                                for="agent_user_id"
+                            >
+                                Agent
+                            </label>
+
+                            <div class="col-md-7">
+                                <select
+                                    class="form-control"
+                                    id="agent_user_id"
+                                    wire:model='form.agent_user_id'
+                                >
+                                    <option value="">select agent</option>
+                                    @foreach ($agents as $agent)
+                                        <option value="{{ $agent['id'] ?? '' }}">
+                                            {{ $agent['username'] ?? '' }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('form.agent_user_id')
+                                    <div class="text-danger">
+                                        <span>{{ $message }}</span>
+                                    </div>
+                                @enderror
+                                <span style="font-size: 0.75rem">
+                                    if you know which agent must confirm this competition, please fill this
+                                    selectbox, otherwise skip that.
+                                </span>
                             </div>
                         </div>
 

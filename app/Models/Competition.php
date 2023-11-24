@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\AchievementTypeEnum;
+use App\Enums\CompetitionableType;
 use App\Enums\StatusEnum;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -103,7 +104,9 @@ class Competition extends Model implements HasMedia
 
     public function users(): MorphToMany
     {
-        return $this->morphedByMany(User::class, 'competitionable')->withPivot(['status_id']);
+        return $this->morphedByMany(User::class, 'competitionable')
+            ->withPivot(['status_id', 'type'])
+            ->wherePivot('type', CompetitionableType::PLAYER->value);
     }
 
     public function opponentUsers(): MorphToMany
@@ -113,9 +116,18 @@ class Competition extends Model implements HasMedia
             ->whereNot('users.id', \Auth::user()?->id);
     }
 
+    public function competitionAgents(): MorphToMany
+    {
+        return $this->morphedByMany(User::class, 'competitionable')
+            ->withPivot(['status_id', 'type'])
+            ->wherePivot('type', CompetitionableType::AGENT->value);
+    }
+
     public function teams(): MorphToMany
     {
-        return $this->morphedByMany(Team::class, 'competitionable')->withPivot(['status_id']);
+        return $this->morphedByMany(Team::class, 'competitionable')
+            ->withPivot(['status_id', 'type'])
+            ->wherePivot('type', CompetitionableType::PLAYER->value);
     }
 
     public function game(): BelongsTo

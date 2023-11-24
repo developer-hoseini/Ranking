@@ -278,6 +278,11 @@ class User extends Authenticatable implements CanResetPassword, FilamentUser, Ha
         return $builder->where('users.id', auth()->id());
     }
 
+    public function scopeHasAgentRolesScope(Builder $builder): Builder
+    {
+        return $builder->whereHas('roles', fn ($q) => $q->where('name', 'like', 'agent%'));
+    }
+
     protected function avatar(): Attribute
     {
         return Attribute::make(
