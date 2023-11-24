@@ -26,6 +26,11 @@
             name="keywords"
             content="ranking, metaverse, meta sports, meta coin, games coin, sports token, blockchane, rank, tournament, tournament brackets"
         >
+        {{-- TODO: remove noindex after release --}}
+        <meta
+            name="robots"
+            content="noindex"
+        >
         <link
             type="image/x-icon"
             href="{{ Vite::image('favicon.png') }}"
