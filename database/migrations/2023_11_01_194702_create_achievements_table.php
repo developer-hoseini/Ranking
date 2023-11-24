@@ -16,7 +16,7 @@ return new class extends Migration
 
             $table->morphs('achievementable');
 
-            $table->enum('type', ['score', 'coin']);
+            $table->enum('type', ['score', 'coin', 'join']);
             $table->integer('count');
 
             $table->unsignedBigInteger('occurred_model_id')->nullable()->index();

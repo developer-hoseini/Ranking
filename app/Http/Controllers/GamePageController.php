@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Enums\StatusEnum;
 use App\Http\Requests\GamePageInviteRequest;
-use App\Models\Competition;
 use App\Models\Event;
 use App\Models\Game;
 use App\Models\GameType;
@@ -24,14 +23,11 @@ class GamePageController extends Controller
 {
     public function index(Game $game, User $opponent = null)
     {
+        $game->loadMissing(['gameJoinUserAchievements' => fn ($q) => $q->where('achievementable_id', auth()->id())
+            ->where('achievementable_type', User::class)->where('count', 1),
+        ]);
 
-        $competition = Competition::query()
-            ->whereHas('users', fn ($q) => $q->where('users.id', auth()->id()))
-            ->where('game_id', $game->id)
-            ->with(['users', 'game'])
-            ->first();
-
-        if (! $competition) {
+        if (! $game->gameJoinUserAchievements->count()) {
             return redirect()->route('games.index');
         }
 

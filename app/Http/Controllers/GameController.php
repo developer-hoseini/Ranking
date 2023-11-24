@@ -6,6 +6,7 @@ use App\Enums\AchievementTypeEnum;
 use App\Models\Achievement;
 use App\Models\Game;
 use App\Models\User;
+use App\Notifications\Achievement\Game\JoinNotification;
 
 class GameController extends Controller
 {
@@ -21,7 +22,7 @@ class GameController extends Controller
         $users = User::query()
             ->withSum([
                 'userScoreAchievements' => function ($query) use ($game) {
-                    $query->whereHas('occurredModel', fn ($q) => $q->where('game_id', $game->id));
+                    $query->whereHas('achievementCompetition', fn ($q) => $q->where('game_id', $game->id));
                 },
             ], 'count')
             ->withSum('userCoinAchievements', 'count')
@@ -38,7 +39,7 @@ class GameController extends Controller
                     ->where('achievementable_type', User::class)
                     ->where('type', AchievementTypeEnum::SCORE->value)
                     ->whereColumn('achievementable_id', 'users.id')
-                    ->whereHas('occurredModel', fn ($q) => $q->where('game_id', $game->id))
+                    ->whereHas('achievementCompetition', fn ($q) => $q->where('game_id', $game->id))
                     ->groupBy('achievementable_id')
             )
             ->paginate(config('setting.gameinfo_list'));
@@ -59,17 +60,34 @@ class GameController extends Controller
         return view('games.show-online', compact('game'));
     }
 
-    public function join($id)
+    public function joinStatusGame(Game $game, bool $type): \Illuminate\Http\RedirectResponse
     {
-        /* TODO: compelete join method */
-        // only 2 player game can join
-        $games = Game::query()
-            ->where('id', $id)
-            ->active()
-            ->gameTypesScope(['two player'], true)
-            ->select(['id', 'name'])
-            ->firstOrFail();
+        $game->loadMissing(['gameJoinUserAchievements' => fn ($q) => $q->where('achievementable_id', auth()->id())->where('achievementable_type', User::class)]);
 
-        return $games;
+        if ($game->gameJoinUserAchievements->count()) {
+            $game->gameJoinUserAchievements()->update([
+                'count' => $type,
+            ]);
+        } else {
+            $game->achievements()->create([
+                'achievementable_type' => User::class,
+                'achievementable_id' => auth()->id(),
+                'type' => AchievementTypeEnum::JOIN->value,
+                'count' => $type,
+                'created_by_user_id' => auth()->id(),
+            ]);
+        }
+
+        if ($type) {
+
+            auth()->user()?->notify(new JoinNotification($game));
+
+            return redirect()->route('games.page.index', ['game' => $game->id])
+                ->with('success', __('message.you_joined_successfully', ['game_name' => $game->name]));
+        }
+
+        return redirect()->back()
+            ->with('success', __('message.you_left', ['game_name' => $game->name]));
+
     }
 }

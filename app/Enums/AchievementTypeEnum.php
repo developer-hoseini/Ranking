@@ -11,5 +11,6 @@ enum AchievementTypeEnum: string
     use BaseEnum;
     case COIN = 'coin';
     case SCORE = 'score';
+    case JOIN = 'join';
 
 }

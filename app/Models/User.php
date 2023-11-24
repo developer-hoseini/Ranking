@@ -187,6 +187,11 @@ class User extends Authenticatable implements CanResetPassword, FilamentUser, Ha
         return $this->morphMany(Achievement::class, 'achievementable')->where('type', AchievementTypeEnum::SCORE->value);
     }
 
+    public function userJoinGameAchievements(): MorphMany
+    {
+        return $this->morphMany(Achievement::class, 'achievementable')->where('type', AchievementTypeEnum::JOIN->value);
+    }
+
     public function userCoinAchievements(): MorphMany
     {
         return $this->morphMany(Achievement::class, 'achievementable')->where('type', AchievementTypeEnum::COIN->value);

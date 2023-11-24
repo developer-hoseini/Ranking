@@ -88,7 +88,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
 
             /* TODO: uncomment verified middleware */
             Route::middleware(['auth'/* , 'verified' */])->group(function () {
-                Route::get('/{id}/join', [GameController::class, 'join'])->middleware('auth')->name('join');
+                Route::get('/join/{game}/{type}', [GameController::class, 'joinStatusGame'])->middleware('auth')->name('join.status');
             });
 
             //game page
