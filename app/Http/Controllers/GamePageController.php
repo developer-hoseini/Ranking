@@ -14,6 +14,8 @@ use App\Notifications\Achievement\Invite\AcceptInviteNotification;
 use App\Notifications\Achievement\Invite\CancelInviteNotification;
 use App\Notifications\Achievement\Invite\ReceivedInviteNotification;
 use App\Notifications\Achievement\Invite\RejectInviteNotification;
+use App\Services\Actions\User\GetCountryRank;
+use App\Services\Actions\User\GetGameRank;
 use Auth;
 use DB;
 use Illuminate\Validation\Rules\In;
@@ -40,7 +42,7 @@ class GamePageController extends Controller
         $invitesCount = Invite::where(function ($query) {
             $query->where('inviter_user_id', auth()?->id())
                 ->orWhere('invited_user_id', auth()?->id());
-        })->whereHas('gameStatus', fn ($q) => $q->where('name', StatusEnum::FINISHED))
+        })->whereHas('gameStatus', fn ($q) => $q->where('name', StatusEnum::FINISHED->value))
             ->count();
 
         if ($invitesCount >= config('setting.profile_middleware_count') && empty(auth()->user()?->profile?->bio)) {
@@ -48,6 +50,36 @@ class GamePageController extends Controller
                 'message' => __('message.Please complete your profile first'),
             ]);
         }
+
+        $user = Auth::user()?->loadSum([
+            'userScoreAchievements' => function ($query) use ($game) {
+                $query->whereHas('achievementCompetition', fn ($q) => $q->where('game_id', $game->id));
+            }], 'count')
+            ->loadSum(['userCoinAchievements' => function ($query) use ($game) {
+                $query->whereHas('achievementCompetition', fn ($q) => $q->where('game_id', $game->id));
+            }], 'count');
+
+        $gameResult = $user->gameResults()
+            ->whereHas('gameResultAdminStatus', fn ($q) => $q->where('statuses.name', StatusEnum::ACCEPTED->value))
+            ->whereHas('gameresultableCompetition', fn ($q) => $q->where('competitions.game_id', $game->id))
+            ->with([
+                'gameResultStatus',
+                'gameResultCompetitionInviteGameType',
+            ])->get();
+
+        $gameResultCompetitionInviteGameType = $gameResult->pluck('gameResultCompetitionInviteGameType')->flatten();
+        $gameResultStatus = $gameResult->pluck('gameResultStatus');
+        $score = [
+            'in_club' => $gameResultCompetitionInviteGameType->where('name', 'in_club')->count(),
+            'with_image' => $gameResultCompetitionInviteGameType->where('name', 'with_image')->count(),
+            'win' => $gameResultStatus->where('name', StatusEnum::GAME_RESULT_WIN->value)->count(),
+            'lose' => $gameResultStatus->where('name', StatusEnum::GAME_RESULT_LOSE->value)->count(),
+            'fault' => $gameResultStatus->whereIn('name', [StatusEnum::GAME_RESULT_I_ABSENT->value, StatusEnum::GAME_RESULT_HE_ABSENT->value])->count(),
+            'total' => $gameResultStatus->count(),
+        ];
+
+        $user->rank = GetGameRank::handle($user->id, $game?->id);
+        $user->country_rank = GetCountryRank::handle($user->id, $user?->profile?->state?->country_id, $game?->id);
 
         /*
         $game_results = DB::table('invite')
@@ -120,7 +152,7 @@ class GamePageController extends Controller
             'one_submit_results_count' => $one_submit_results_count,
         ];*/
 
-        return view('games.page.index', compact('game', 'opponent'));
+        return view('games.page.index', compact('game', 'opponent', 'user', 'score'));
     }
 
     /**

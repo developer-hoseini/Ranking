@@ -2,52 +2,17 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Staudenmeir\EloquentHasManyDeep\HasManyDeep;
+use Staudenmeir\EloquentHasManyDeep\HasOneDeep;
 
-/**
- * App\Models\GameResult
- *
- * @property int $id
- * @property string $playerable_type
- * @property int $playerable_id
- * @property string $gameresultable_type
- * @property int $gameresultable_id
- * @property int $game_result_status_id
- * @property int|null $status_id
- * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\Status $gameResultStatus
- * @property-read Model|\Eloquent $gameresultable
- * @property-read Model|\Eloquent $playerable
- * @property-read \App\Models\Status|null $status
- *
- * @method static \Illuminate\Database\Eloquent\Builder|GameResult newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|GameResult newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|GameResult onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder|GameResult query()
- * @method static \Illuminate\Database\Eloquent\Builder|GameResult whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|GameResult whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|GameResult whereGameResultStatusId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|GameResult whereGameresultableId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|GameResult whereGameresultableType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|GameResult whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|GameResult wherePlayerableId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|GameResult wherePlayerableType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|GameResult whereStatusId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|GameResult whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|GameResult withTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder|GameResult withoutTrashed()
- *
- * @mixin \Eloquent
- */
 class GameResult extends Model
 {
-    use HasFactory, SoftDeletes;
+    use SoftDeletes;
+    use \Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
     public function gameResultUserStatus(): BelongsTo
     {
@@ -72,5 +37,30 @@ class GameResult extends Model
     public function gameresultable(): MorphTo
     {
         return $this->morphTo('gameresultable');
+    }
+
+    public function gameresultableCompetition(): MorphTo
+    {
+        return $this->morphTo('gameresultable')->where('gameresultable_type', Competition::class);
+    }
+
+    public function gameResultCompetition(): HasOneDeep
+    {
+        return $this->hasOneDeep(
+            Competition::class,
+            [__CLASS__],
+            ['id', 'id'],
+            [null, null, 'gameresultable_id']
+        )->where('gameresultable_type', Competition::class);
+    }
+
+    public function gameResultCompetitionInvite(): HasManyDeep
+    {
+        return $this->hasManyDeepFromRelations($this->gameResultCompetition(), (new Competition)->invite());
+    }
+
+    public function gameResultCompetitionInviteGameType(): HasManyDeep
+    {
+        return $this->hasManyDeepFromRelations($this->gameResultCompetitionInvite(), (new Invite())->gameType());
     }
 }

@@ -214,7 +214,7 @@ class User extends Authenticatable implements CanResetPassword, FilamentUser, Ha
 
     public function gameResults(): MorphMany
     {
-        return $this->morphMany(GameResult::class, 'playerable_type');
+        return $this->morphMany(GameResult::class, 'playerable');
     }
 
     public function userInvites(): MorphMany
