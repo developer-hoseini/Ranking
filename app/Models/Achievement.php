@@ -80,6 +80,11 @@ class Achievement extends Model
         return $this->morphTo('occurredModel');
     }
 
+    public function occurredModelCompetition(): MorphTo
+    {
+        return $this->morphTo('occurredModel')->where('occurred_model_type', Competition::class);
+    }
+
     public function achievementCompetition(): HasOneDeep
     {
         return $this->hasOneDeep(

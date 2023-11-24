@@ -33,22 +33,21 @@
                 @endphp
 
 
-                @if($game->game_competitions_users_count)
+                @if($game->game_join_user_achievements_count)
 
-                    <a
-                        {{--                        href="{{ route('gamepage',['game_id'=>$game->id]) }}"--}}
-                        class="btn bg-success btn-block text-white">
+                    <a href="{{ route('games.page.index',['game'=>$game->id]) }}"
+                       class="btn bg-success btn-block text-white">
                         {{ __('words.Enter') }}
                     </a>
                     <a
-                        {{--                        href="{{ route('unjoin',['id'=>$game->id]) }}"--}}
+                        href="{{ route('games.join.status', ['game' => $game->id ,'type'=>0]) }}"
                         class="btn bg-danger btn-block text-white">{{ __('words.Leave') }}
                     </a>
                 @else
                     <a
                         class="btn btn-primary btn-block text-white"
                         style="margin-top: 23px; cursor: pointer;"
-                        {{-- href="{{ route('select_game_login', ['game_id' => $game->id]) }}" --}}
+                        href="{{ route('games.join.status', ['game' => $game->id ,'type'=>true]) }}"
                     >{{ __('words.Join') }}</a>
                 @endif
 

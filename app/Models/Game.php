@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Staudenmeir\EloquentHasManyDeep\HasManyDeep;
 
 /**
@@ -103,6 +104,16 @@ class Game extends Model
     public function teams(): HasMany
     {
         return $this->hasMany(Team::class);
+    }
+
+    public function achievements(): MorphMany
+    {
+        return $this->morphMany(Achievement::class, 'occurred_model');
+    }
+
+    public function gameJoinUserAchievements(): MorphMany
+    {
+        return $this->morphMany(Achievement::class, 'occurred_model')->where('type', AchievementTypeEnum::JOIN->value);
     }
 
     public function scopeActive(Builder $query): Builder

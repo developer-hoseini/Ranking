@@ -24,7 +24,8 @@ class DoubleGames extends Component
             ])
             ->withCount([
                 'competitions' => fn ($q) => $q->has('gameResults'),
-                'gameCompetitionsUsers' => fn ($q) => $q->where('users.id', auth()->id()),
+                'gameJoinUserAchievements' => fn ($q) => $q->where('achievementable_id', auth()->id())
+                    ->where('achievementable_type', User::class)->where('count', 1),
             ])
             ->withSum([
                 'gameCompetitionsScoreOccurredModel' => function ($query) {
@@ -39,8 +40,8 @@ class DoubleGames extends Component
             $users = ($game->gameCompetitionsUsers ?? collect([]))?->union($game->gameCompetitionsTeamsUsers);
             $game['users_count'] = $users?->count() ?? 0;
 
-            $game['user_rank'] = $game->game_competitions_users_count ? GetGameRank::handle(auth()->id(), $game?->id) : '-';
-            $game['user_score'] = $game->game_competitions_users_count ? $game->game_competitions_score_occurred_model_sum_count : '-';
+            $game['user_rank'] = $game->game_join_user_achievements_count ? GetGameRank::handle(auth()->id(), $game?->id) : '-';
+            $game['user_score'] = $game->game_join_user_achievements_count ? $game->game_competitions_score_occurred_model_sum_count : '-';
 
             return $game;
         });
