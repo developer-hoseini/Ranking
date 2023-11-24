@@ -1,4 +1,4 @@
-<li class="list-group-item"
+<li class="list-group-item" id="invite-result-{{$inviteGameResult->id}}"
     x-init="setInterval(function(){@this.dispatchSelf('reloadInviteGameResults');},10000)">
     <div class="col-md offset-md">
         <div class="result-user-info">
