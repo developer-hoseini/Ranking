@@ -40,11 +40,11 @@
     </div>
 
     @if ($gameType == 'double')
-        <livewire:pages.games.index.double-games wire:key='double' />
+        <livewire:pages.games.index.double-games wire:key='double'/>
     @endif
 
     @if ($gameType == 'team')
-        <livewire:pages.games.index.team-games wire:key='team' />
+        <livewire:pages.games.index.team-games wire:key='team'/>
     @endif
 
     @if ($gameType == 'online')
