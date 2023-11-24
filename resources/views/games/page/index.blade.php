@@ -85,7 +85,7 @@
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">{{ __('words.In Club: ').$score['in_club'] }}</li>
                             <li class="list-group-item">{{ __('words.With Referee: ').$score['with_image'] }}</li>
-                            <li class="list-group-item">{{ __('words.Fault: ').$score['fault'] }}</li>
+                            <li class="list-group-item">{{ __('words.Absent: ').$score['absent'] }}</li>
                             <li class="list-group-item">{{ __('words.Win: ').$score['win'] }}</li>
                             <li class="list-group-item">{{ __('words.Lose: ').$score['lose'] }}</li>
                             <li class="list-group-item">{{ __('words.all_competitions: ').$score['total'] }}</li>

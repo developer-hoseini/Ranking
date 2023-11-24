@@ -74,7 +74,7 @@ class GamePageController extends Controller
             'with_image' => $gameResultCompetitionInviteGameType->where('name', 'with_image')->count(),
             'win' => $gameResultStatus->where('name', StatusEnum::GAME_RESULT_WIN->value)->count(),
             'lose' => $gameResultStatus->where('name', StatusEnum::GAME_RESULT_LOSE->value)->count(),
-            'fault' => $gameResultStatus->whereIn('name', [StatusEnum::GAME_RESULT_I_ABSENT->value, StatusEnum::GAME_RESULT_HE_ABSENT->value])->count(),
+            'absent' => $gameResultStatus->whereIn('name', [StatusEnum::GAME_RESULT_I_ABSENT->value, StatusEnum::GAME_RESULT_HE_ABSENT->value])->count(),
             'total' => $gameResultStatus->count(),
         ];
 
