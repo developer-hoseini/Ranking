@@ -27,11 +27,6 @@
                     </li>
                 </ul>
 
-                {{-- TODO: add route --}}
-                @php
-                    // $routeHref = auth() ? route('')
-                @endphp
-
 
                 @if($game->game_join_user_achievements_count)
 
