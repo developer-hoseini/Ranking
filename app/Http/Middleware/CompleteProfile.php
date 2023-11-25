@@ -11,7 +11,7 @@ class CompleteProfile
     {
         if (empty(trim(Auth::user()?->isProfileCompleted))) {
 
-            return redirect()->route('profile.complete-profile')->withErrors([
+            return redirect()->route('profile.complete-profile', ['callback' => $request->getRequestUri()])->withErrors([
                 'message' => __('message.Please complete your profile first'),
             ]);
         }

@@ -284,8 +284,23 @@
                                         </div>
                                         <br><br>
                                         <div class="row justify-content-center">
+
                                             <div class="col-7 text-center">
                                                 <h5 class="text-success">You Have Successfully Completed Profile</h5>
+
+                                                @if ($callbackUrl)
+                                                    <a
+                                                        class="text-success"
+                                                        href="{{ $callbackUrl }}"
+                                                        x-init='(function() {
+                                                            setTimeout(function() {
+                                                                window.location = "{{ $callbackUrl }}";
+                                                            }, 3000);
+                                                        })()'
+                                                    >
+                                                        You will redirect after 3 seconds ...
+                                                    </a>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>

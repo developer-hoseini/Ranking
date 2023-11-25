@@ -49,6 +49,8 @@ class CompleteProfile extends Component
 
     public $gender = [];
 
+    public $callbackUrl;
+
     public function mount()
     {
         $authUser = auth()->user();
@@ -69,6 +71,11 @@ class CompleteProfile extends Component
         }
 
         $this->gender = GenderEnum::getSelectBoxTransformItems()->toArray();
+
+        if (request()->has('callback')) {
+            $this->callbackUrl = url(request()->get('callback'));
+        }
+
     }
 
     public function updatedLocationInformationCountryId()
