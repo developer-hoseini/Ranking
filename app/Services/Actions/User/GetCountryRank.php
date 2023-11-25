@@ -33,8 +33,8 @@ class GetCountryRank
         $rank = $country?->countryCompetitionsUsers
             ->where('id', $userId)
             ->keys()
-            ?->first() + 1;
+            ?->first();
 
-        return $rank ?? 0;
+        return $rank ? $rank + 1 : 0;
     }
 }

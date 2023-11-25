@@ -3,10 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Enums\AchievementTypeEnum;
+use App\Enums\StatusEnum;
 use App\Models\Achievement;
+use App\Models\Competition;
 use App\Models\Game;
+use App\Models\Status;
 use App\Models\User;
 use App\Notifications\Achievement\Game\JoinNotification;
+use Illuminate\Support\Facades\Auth;
 
 class GameController extends Controller
 {
@@ -64,23 +68,52 @@ class GameController extends Controller
     {
         $game->loadMissing(['gameJoinUserAchievements' => fn ($q) => $q->where('achievementable_id', auth()->id())->where('achievementable_type', User::class)]);
 
+        \DB::beginTransaction();
         if ($game->gameJoinUserAchievements->count()) {
             $game->gameJoinUserAchievements()->update([
                 'count' => $type,
             ]);
         } else {
-            $game->achievements()->create([
-                'achievementable_type' => User::class,
-                'achievementable_id' => auth()->id(),
-                'type' => AchievementTypeEnum::JOIN->value,
-                'count' => $type,
-                'created_by_user_id' => auth()->id(),
+            $user = Auth::user()?->load('profile');
+            $profile = $user->profile;
+            $acceptStatusId = Status::nameScope(StatusEnum::ACCEPTED->value)->first()?->id;
+            $competition = Competition::create([
+                'name' => "{$game->name} - join {$user->avatar_name}",
+                'capacity' => 1,
+                'description' => "Join user to #{$game->id}",
+                'game_id' => $game->id,
+                'state_id' => $profile->state_id,
+                'status_id' => $acceptStatusId,
             ]);
+            $user->competitions()->attach([
+                $competition->id => [
+                    'status_id' => $acceptStatusId,
+                ],
+            ]);
+            $user->achievements()->createMany([
+                [
+                    'occurred_model_id' => $game->id,
+                    'occurred_model_type' => Game::class,
+                    'type' => AchievementTypeEnum::JOIN->value,
+                    'count' => $type,
+                    'created_by_user_id' => auth()->id(),
+                ],
+                [
+                    'occurred_model_id' => $competition->id,
+                    'occurred_model_type' => Competition::class,
+                    'type' => AchievementTypeEnum::SCORE->value,
+                    'count' => 100,
+                    'status_id' => $acceptStatusId,
+                    'created_by_user_id' => auth()->id(),
+                ],
+            ]);
+            if ($type) {
+                auth()->user()?->notify(new JoinNotification($game));
+            }
         }
 
+        \DB::commit();
         if ($type) {
-
-            auth()->user()?->notify(new JoinNotification($game));
 
             return redirect()->route('games.page.index', ['game' => $game->id])
                 ->with('success', __('message.you_joined_successfully', ['game_name' => $game->name]));

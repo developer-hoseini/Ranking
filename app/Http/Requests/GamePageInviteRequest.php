@@ -22,7 +22,7 @@ class GamePageInviteRequest extends FormRequest
                 'required_if:in_club,true',
                 'int',
                 'exists:clubs,id',
-                new NoRepeatClub($this->route('game')?->id, $this->input('userId')),
+                new NoRepeatClub($this->route('game')?->id, $this->input('userId', 0)),
             ],
         ];
     }
