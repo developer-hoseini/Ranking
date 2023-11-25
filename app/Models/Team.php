@@ -164,4 +164,11 @@ class Team extends Model implements HasAvatar, HasMedia
             }
         );
     }
+
+    protected function name9(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => substr($this->name, 0, 9).'...'
+        );
+    }
 }

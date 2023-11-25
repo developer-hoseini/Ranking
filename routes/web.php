@@ -147,7 +147,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
                 Route::get('/', \App\Livewire\Pages\Teams\Me\Index::class)->name('index');
             });
 
-            Route::get('/{id}', \App\Livewire\Pages\Teams\Show::class)->name('show');
+            Route::get('/profile/{team}', \App\Livewire\Pages\Teams\Show::class)->name('profile');
+            Route::get('/{team}', \App\Livewire\Pages\Teams\Show::class)->name('show');
         });
 
         //notifications
