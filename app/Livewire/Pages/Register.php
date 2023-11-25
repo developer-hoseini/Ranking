@@ -10,7 +10,7 @@ use App\Notifications\Achievement\Score\RegisterNotification;
 use App\Services\Actions\Achievement\User\ReceiveCoin;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\DB;
-use Livewire\Attributes\Rule;
+use Illuminate\Validation\Rules\Password;
 use Livewire\Component;
 
 class Register extends Component
@@ -19,11 +19,6 @@ class Register extends Component
 
     public $states = [];
 
-    #[Rule([
-        'form.avatar_name' => 'required|min:4|max:25|unique:users,username',
-        'form.email' => 'required|email|unique:users,email',
-        'form.password' => 'required|min:5|max:50',
-    ])]
     public $form = [
         'avatar_name' => '',
         'email' => '',
@@ -31,6 +26,22 @@ class Register extends Component
         'state_id' => '',
         'country_id' => '',
     ];
+
+    public function rules()
+    {
+        return [
+            'form.avatar_name' => 'required|min:5|max:25|unique:users,username',
+            'form.email' => 'required|email|unique:users,email',
+            'form.password' => [
+                'required',
+                Password::min(8)
+                    ->mixedCase()
+                    ->numbers()
+                    ->symbols()
+                    ->letters(),
+            ],
+        ];
+    }
 
     public function mount()
     {
