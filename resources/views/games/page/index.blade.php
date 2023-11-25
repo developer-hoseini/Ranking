@@ -118,98 +118,98 @@
                 </div>
 
 
-                {{--
-                    <div class="card stars_box player_info_box">
-                        <div class="card-header text-center">
-                            <h5>
-                                {{ __('words.Stars') }}
-                            </h5>
-                        </div>
-                        <div class="card-body">
-                            @php
-                                $inclub_per = $inclub_stars*100 / config('setting.star_club');
-                                $image_per = $image_stars*100 / config('setting.star_image');
-                                $team_played_per = $team_played_stars*100 / config('setting.star_team_played');
-                                if($total_played>0){ // prevent divide by zero
-                                  $div_played = $total_played/config('setting.warning_div');
-                                  $remove_star = $score['warning']/$div_played;
-                                  $warning_per = 100-$remove_star*20; // every 20% = one star
-                                }
-                                else
-                                  $warning_per = 0;
-                            @endphp
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">
-                                    <div class="stars_textbox">{{ __('words.In Club: ') }}</div>
-                                    <div class="stars_starbox gamepage_stars">
-                                        <div class="star-ratings-sprite"><span style="width:{{$inclub_per}}%"
-                                                                               class="star-ratings-sprite-rating"></span>
-                                        </div>
-                                        <span
-                                            class="stars_value">{{ __('message.played_days_ago',['play_num'=>$inclub_stars, 'days_num'=>config('setting.days_ago')]) }}</span>
-                                    </div>
-                                </li>
-
-                                <li class="list-group-item">
-                                    <div class="stars_textbox">{{ __('words.With Referee: ') }}</div>
-                                    <div class="stars_starbox gamepage_stars">
-                                        <div class="star-ratings-sprite"><span style="width:{{$image_per}}%"
-                                                                               class="star-ratings-sprite-rating"></span>
-                                        </div>
-                                        <span
-                                            class="stars_value">{{ __('message.played_days_ago',['play_num'=>$image_stars, 'days_num'=>config('setting.days_ago')]) }}</span>
-                                    </div>
-                                </li>
-
-                                <li class="list-group-item">
-                                    <div class="stars_textbox">{{ __('words.Team_Game:') }}</div>
-                                    <div class="stars_starbox gamepage_stars">
-                                        <div class="star-ratings-sprite"><span style="width:{{$team_played_per}}%"
-                                                                               class="star-ratings-sprite-rating"></span>
-                                        </div>
-                                        <span
-                                            class="stars_value">{{ __('message.played_days_ago',['play_num'=>$team_played_stars, 'days_num'=>config('setting.days_ago')]) }}</span>
-                                    </div>
-                                </li>
-
-                                <li class="list-group-item">
-                                    <div class="stars_textbox">{{ __('words.Lawful:') }}</div>
-                                    <div class="stars_starbox gamepage_stars">
-                                        <div class="star-ratings-sprite"><span style="width:{{$warning_per}}%"
-                                                                               class="star-ratings-sprite-rating"></span>
-                                        </div>
-                                        <span
-                                            class="stars_value">{{ __('message.warnings_in_played',['warning_num'=>$score['warning'], 'play_num'=>$total_played]) }}</span>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
+                <div class="card stars_box player_info_box">
+                    <div class="card-header text-center">
+                        <h5>
+                            {{ __('words.Stars') }}
+                        </h5>
                     </div>
+                    <div class="card-body">
+                        {{--TODO:refactor show detail
+                        @php
+                            $inclub_per = $inclub_stars*100 / config('setting.star_club');
+                            $image_per = $image_stars*100 / config('setting.star_image');
+                            $team_played_per = $team_played_stars*100 / config('setting.star_team_played');
+                            if($total_played>0){ // prevent divide by zero
+                              $div_played = $total_played/config('setting.warning_div');
+                              $remove_star = $score['warning']/$div_played;
+                              $warning_per = 100-$remove_star*20; // every 20% = one star
+                            }
+                            else
+                              $warning_per = 0;
+                        @endphp--}}
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <div class="stars_textbox">{{ __('words.In Club: ') }}</div>
+                                <div class="stars_starbox gamepage_stars">
+                                    <div class="star-ratings-sprite"><span style="width:{{'0'}}%"
+                                                                           class="star-ratings-sprite-rating"></span>
+                                    </div>
+                                    <span
+                                        class="stars_value">{{ __('message.played_days_ago',['play_num'=>'0', 'days_num'=>config('setting.days_ago')]) }}</span>
+                                </div>
+                            </li>
 
+                            <li class="list-group-item">
+                                <div class="stars_textbox">{{ __('words.With Referee: ') }}</div>
+                                <div class="stars_starbox gamepage_stars">
+                                    <div class="star-ratings-sprite"><span style="width:{{'0'}}%"
+                                                                           class="star-ratings-sprite-rating"></span>
+                                    </div>
+                                    <span
+                                        class="stars_value">{{ __('message.played_days_ago',['play_num'=>'0', 'days_num'=>config('setting.days_ago')]) }}</span>
+                                </div>
+                            </li>
 
-                    <div class="card stars_box player_info_box">
-                        <div class="card-header text-center">
-                            <h5>
-                                {{ __('words.Warnings') }}
-                            </h5>
-                        </div>
-                        <div class="card-body">
+                            <li class="list-group-item">
+                                <div class="stars_textbox">{{ __('words.Team_Game:') }}</div>
+                                <div class="stars_starbox gamepage_stars">
+                                    <div class="star-ratings-sprite"><span style="width:{{'0'}}%"
+                                                                           class="star-ratings-sprite-rating"></span>
+                                    </div>
+                                    <span
+                                        class="stars_value">{{ __('message.played_days_ago',['play_num'=>'0', 'days_num'=>config('setting.days_ago')]) }}</span>
+                                </div>
+                            </li>
 
-                            <ul class="list-group list-group-flush warn-part-one">
-                                <li class="list-group-item">{{ __('words.Fault Result: ').$false_result }}</li>
-                                <li class="list-group-item">{{ __('words.No Submit: ').$no_submit }}</li>
-                                <li class="list-group-item">{{ __('words.Absent: ').$you_absent }}</li>
-                            </ul>
-
-                            <ul class="list-group list-group-flush warn-part-two">
-                                <li class="list-group-item"
-                                    style="border-top: none;">{{ __('words.Unverified Image: ').$false_image }}</li>
-                                <li class="list-group-item">{{ __('words.Unverified Play: ').$false_club }}</li>
-                            </ul>
-
-                        </div>
+                            <li class="list-group-item">
+                                <div class="stars_textbox">{{ __('words.Lawful:') }}</div>
+                                <div class="stars_starbox gamepage_stars">
+                                    <div class="star-ratings-sprite"><span style="width:{{'0'}}%"
+                                                                           class="star-ratings-sprite-rating"></span>
+                                    </div>
+                                    <span
+                                        class="stars_value">{{ __('message.warnings_in_played',['warning_num'=>'0', 'play_num'=>'0']) }}</span>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
-    --}}
+                </div>
+
+
+                <div class="card stars_box player_info_box">
+                    <div class="card-header text-center">
+                        <h5>
+                            {{ __('words.Warnings') }}
+                        </h5>
+                    </div>
+                    <div class="card-body">
+
+                        <ul class="list-group list-group-flush warn-part-one">
+                            <li class="list-group-item">{{ __('words.Fault Result: ').'0' }}</li>
+                            <li class="list-group-item">{{ __('words.No Submit: ').'0' }}</li>
+                            <li class="list-group-item">{{ __('words.Absent: ').'0' }}</li>
+                        </ul>
+
+                        <ul class="list-group list-group-flush warn-part-two">
+                            <li class="list-group-item"
+                                style="border-top: none;">{{ __('words.Unverified Image: ').'0' }}</li>
+                            <li class="list-group-item">{{ __('words.Unverified Play: ').'0' }}</li>
+                        </ul>
+
+                    </div>
+                </div>
+
 
             </div>
         </div>
