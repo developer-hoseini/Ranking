@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Enums\StatusEnum;
 use App\Http\Requests\GamePageInviteRequest;
-use App\Models\Event;
 use App\Models\Game;
 use App\Models\GameType;
 use App\Models\Invite;
@@ -18,8 +17,6 @@ use App\Services\Actions\User\GetCountryRank;
 use App\Services\Actions\User\GetGameRank;
 use Auth;
 use DB;
-use Illuminate\Validation\Rules\In;
-use Image;
 
 class GamePageController extends Controller
 {
@@ -88,77 +85,6 @@ class GamePageController extends Controller
 
         $user->rank = GetGameRank::handle($user->id, $game?->id);
         $user->country_rank = GetCountryRank::handle($user->id, $user?->profile?->state?->country_id, $game?->id);
-
-        /*
-        $game_results = DB::table('invite')
-            ->join('game_result', 'invite.id', '=', 'game_result.invite_id')
-            ->where('game_id', $game_id)->where(
-            function ($query) use ($user_id) {
-                $query->where('inviter_id', $user_id)->orWhere('invited_id', $user_id);
-            })
-            ->whereNotIn('status', [$status['Pending'], $status['Rejected'], $status['Canceled']])
-            ->orderBy('invite.id', 'desc')->get();
-*/
-
-        //        $setting = config('setting');
-
-        //        $game = \App\Game::withCount(['scores', 'invites', 'in_club', 'with_image'])->where('id', $game_id)->first();
-
-        //$score = \App\User_Score::where(['user_id'=>$user_id, 'game_id'=>$game_id])->first();
-
-        /* $inclub_stars = \App\Invite::inclub_stars($user_id, $game_id, $status, $setting);
-         $image_stars = \App\Invite::image_stars($user_id, $game_id, $status, $setting);
-
-         $team_played_stars = \App\Team_Played_User::whereHas('team', function ($query) use ($game_id) {
-             $query->where('game_id', $game_id);
-         })->where([
-             ['user_id', '=', $user_id],
-             ['dt', '>=', $setting['days_ago']],
-         ])->count();*/
-
-        //Warnings
-        /*$false_result = \App\Event::where(['user_id' => $user_id, 'type' => config('event.Warning'), 'reason' => config('reason.False_Result')])->count();
-        $no_submit = \App\Event::where(['user_id' => $user_id, 'type' => config('event.Warning'), 'reason' => config('reason.No_Submit')])->count();
-        $you_absent = \App\Event::where(['user_id' => $user_id, 'type' => config('event.Warning'), 'reason' => config('reason.You_Absent')])->count();
-        $false_image = \App\Event::where(['user_id' => $user_id, 'type' => config('event.Warning'), 'reason' => config('reason.False_Image')])->count();
-        $false_club = \App\Event::where(['user_id' => $user_id, 'type' => config('event.Warning'), 'reason' => config('reason.False_Club')])->count();*/
-        /*
-
-
-                $no_submit_results_count = \App\Invite::whereHas('no_submit_result')->whereRaw('game_id=? and (inviter_id=? or invited_id=?)', [$game_id, $user_id, $user_id])->count();
-                $one_submit_results_count = \App\Invite::whereHas('one_submit_result')->whereRaw('game_id=? and (inviter_id=? or invited_id=?)', [$game_id, $user_id, $user_id])->count();
-
-                if ($opponent_id) {
-                    $user_score = \App\User_Score::where(
-                        ['user_id' => $opponent_id, 'game_id' => $game_id, 'is_join' => $status['Yes']]
-                    )->first();
-
-                    if ($user_score) {
-                        $opponent = \App\User::with(['scores'])->where('id', $opponent_id)->first();
-                    } else {
-                        $opponent = null;
-                    }
-                } else {
-                    $opponent = null;
-                }*/
-        /*[
-            'game' => $game,
-            'opponent' => $opponent,
-            /* 'score' => $score,
-            'inclub_stars' => $inclub_stars,
-            'image_stars' => $image_stars,
-            'team_played_stars' => $team_played_stars,
-            'false_result' => $false_result,
-            'no_submit' => $no_submit,
-            'you_absent' => $you_absent,
-            'false_image' => $false_image,
-            'false_club' => $false_club,
-            'sent' => $sent,
-            'received' => $received,
-            'game_results' => $game_results,
-            'no_submit_results_count' => $no_submit_results_count,
-            'one_submit_results_count' => $one_submit_results_count,
-        ];*/
 
         return view('games.page.index', compact('game', 'opponent', 'user', 'score'));
     }
