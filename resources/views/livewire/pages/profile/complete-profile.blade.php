@@ -85,6 +85,19 @@
                                             wire:model="accountInformation.mobile"
                                             placeholder="Phone Number"
                                         />
+                                        {{-- <input
+                                            class="@error('accountInformation.mobile') is-invalid @else is-valid @enderror"
+                                            id="phone"
+                                            type="text"
+                                            style="padding-left: 50px !important"
+                                            wire:ignore.self
+                                            wire:model="accountInformation.mobile"
+                                            placeholder="Phone Number"
+                                            x-ref="phoneref"
+                                            x-init='window.intlTelInput($refs.phoneref, {
+                                                        utilsScript:"https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/utils.js",
+                                            })'
+                                        /> --}}
                                         <div class="error">
                                             @error('accountInformation.mobile')
                                                 <span>{{ $message }}</span>
@@ -395,6 +408,18 @@
             color: #2C3E50;
             font-size: 16px;
             letter-spacing: 1px;
+            /* padding: 0px 8px 4px 8px !important;
+                    border: none !important;
+                    border-bottom: 1px solid #ccc !important;
+                    border-radius: 0px !important;
+                    margin-bottom: 25px !important;
+                    margin-top: 2px !important;
+                    width: 100% !important;
+                    box-sizing: border-box !important;
+                    font-family: montserrat !important;
+                    color: #2C3E50 !important;
+                    font-size: 16px !important;
+                    letter-spacing: 1px !important; */
         }
 
         #complete-profile-form select:focus,
@@ -578,5 +603,23 @@
             width: 100%;
             object-fit: cover;
         }
+
+        /* .iti {
+                        display: block !important;
+                    }
+
+                    .iti--allow-dropdown .iti__flag-container,
+                    .iti--separate-dial-code .iti__flag-container {
+                        top: -23px;
+                    } */
     </style>
+    {{-- 
+    <link
+        href="https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/css/intlTelInput.css"
+        rel="stylesheet"
+    > --}}
+@endpush
+
+@push('scripts')
+    {{-- <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/intlTelInput.min.js"></script> --}}
 @endpush
