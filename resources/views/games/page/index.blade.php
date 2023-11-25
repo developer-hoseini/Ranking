@@ -93,26 +93,32 @@
                     </div>
                 </div>
 
+                <div class="card gamepage_box player_info_box">
+                    <div class="card-header text-center">
+                        <h5>
+                            {{ __('words.Game Info') }}
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                {{ __('words.Total In Club: ').$game?->in_club_count }}
+                            </li>
+                            <li class="list-group-item">
+                                {{ __('words.Total With Referee: ').$game?->with_image_count }}
+                            </li>
+                            <li class="list-group-item">
+                                {{ __('words.Total Members: ').$game?->competitions_count }}
+                            </li>
+                            <li class="list-group-item">
+                                {{ __('words.Total Played: ').$game?->users_count }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
 
                 {{--
-
-                    <div class="card gamepage_box player_info_box">
-                        <div class="card-header text-center">
-                            <h5>
-                                {{ __('words.Game Info') }}
-                            </h5>
-                        </div>
-                        <div class="card-body">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">{{ __('words.Total In Club: ').$game['in_club_count'] }}</li>
-                                <li class="list-group-item">{{ __('words.Total With Referee: ').$game['with_image_count'] }}</li>
-                                <li class="list-group-item">{{ __('words.Total Members: ').$game['scores_count'] }}</li>
-                                <li class="list-group-item">{{ __('words.Total Played: ').$game['invites_count'] }}</li>
-                            </ul>
-                        </div>
-                    </div>
-
-
                     <div class="card stars_box player_info_box">
                         <div class="card-header text-center">
                             <h5>
