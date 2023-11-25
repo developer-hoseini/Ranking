@@ -53,7 +53,8 @@ class RegisterNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            $this->user->toArray(),
+            ...$this->user->toArray(),
+            'message' => $this->message,
         ];
     }
 
