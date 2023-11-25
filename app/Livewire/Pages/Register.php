@@ -6,6 +6,7 @@ use App\Enums\StatusEnum;
 use App\Models\Country;
 use App\Models\State;
 use App\Models\User;
+use App\Notifications\Achievement\Score\RegisterNotification;
 use App\Services\Actions\Achievement\User\ReceiveCoin;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\DB;
@@ -66,7 +67,7 @@ class Register extends Component
             throw $th;
         }
 
-        $user->notify(new Registered($user));
+        $user->notify(new RegisterNotification($user));
 
         auth()->login($user);
 
