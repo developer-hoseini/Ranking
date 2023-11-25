@@ -18,57 +18,6 @@ use Illuminate\Support\Facades\DB;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-/**
- * App\Models\Team
- *
- * @property int $id
- * @property string $name
- * @property string|null $about
- * @property int|null $likes
- * @property int|null $status_id
- * @property int|null $capitan_user_id
- * @property int|null $state_id
- * @property string|null $deleted_at
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Achievement> $achievements
- * @property-read int|null $achievements_count
- * @property-read \App\Models\User|null $capitan
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Competition> $competitions
- * @property-read int|null $competitions_count
- * @property-read \App\Models\State|null $state
- * @property-read \App\Models\Status|null $status
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
- * @property-read int|null $users_count
- *
- * @method static \Database\Factories\TeamFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder|Team newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Team newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Team query()
- * @method static \Illuminate\Database\Eloquent\Builder|Team whereAbout($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Team whereCapitanUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Team whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Team whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Team whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Team whereLikes($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Team whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Team whereStateId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Team whereStatusId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Team whereUpdatedAt($value)
- *
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Achievement> $coinAchievements
- * @property-read int|null $coin_achievements_count
- * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
- * @property-read int|null $media_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Achievement> $scoreAchievements
- * @property-read int|null $score_achievements_count
- *
- * @method static \Illuminate\Database\Eloquent\Builder|Team onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder|Team withTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder|Team withoutTrashed()
- *
- * @mixin \Eloquent
- */
 class Team extends Model implements HasAvatar, HasMedia
 {
     use HasFactory;

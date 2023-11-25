@@ -27,7 +27,7 @@ class GamePageController extends Controller
     {
         $game->loadMissing(['gameJoinUserAchievements' => fn ($q) => $q->where('achievementable_id', auth()->id())
             ->where('achievementable_type', User::class)->where('count', 1),
-        ]);
+        ])->loadCount(['scores', 'invites', 'in_club', 'with_image']);
 
         if (! $game->gameJoinUserAchievements->count()) {
             return redirect()->route('games.index');

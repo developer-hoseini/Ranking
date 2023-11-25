@@ -16,46 +16,6 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Staudenmeir\EloquentHasManyDeep\HasManyDeep;
 use Staudenmeir\EloquentHasManyDeep\HasOneDeep;
 
-/**
- * App\Models\Cup
- *
- * @property int $id
- * @property string $name
- * @property int $capacity
- * @property string|null $description
- * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Competition> $competitions
- * @property-read int|null $competitions_count
- *
- * @method static \Database\Factories\CupFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder|Cup newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Cup newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Cup onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder|Cup query()
- * @method static \Illuminate\Database\Eloquent\Builder|Cup whereCapacity($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Cup whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Cup whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Cup whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Cup whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Cup whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Cup whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Cup withTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder|Cup withoutTrashed()
- *
- * @property-read \App\Models\User $createdByUser
- * @property-read \App\Models\Game $game
- * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
- * @property-read int|null $media_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Team> $registeredTeams
- * @property-read int|null $registered_teams_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $registeredUsers
- * @property-read int|null $registered_users_count
- * @property-read \App\Models\State $state
- *
- * @mixin \Eloquent
- */
 class Cup extends Model implements HasMedia
 {
     use HasFactory,SoftDeletes;
