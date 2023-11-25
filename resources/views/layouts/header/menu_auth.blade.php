@@ -62,7 +62,7 @@
                 {{-- @endif --}}
             </div>
             <a
-                class="text-decoration-none d-inline-block mx-1"
+                class="text-decoration-none d-inline-block pulse mx-1"
                 href="{{ route('game-results.quick-submit') }}"
                 title="{{ __('words.quick_submit_result') }}"
             >

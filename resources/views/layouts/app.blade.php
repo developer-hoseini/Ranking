@@ -83,6 +83,10 @@
             href="{{ url('/assets/css/app.css') }}"
             rel="stylesheet"
         >
+        <link
+            href="{{ url('/assets/css/custom.css') }}"
+            rel="stylesheet"
+        >
 
         @livewireStyles
         @stack('styles')
