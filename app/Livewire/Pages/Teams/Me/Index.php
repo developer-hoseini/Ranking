@@ -9,15 +9,13 @@ class Index extends Component
 {
     public $type = 'created';
 
-    public function mount(Request $request)
+    public function mount(Request $request): void
     {
         /* TODO: it is not complete all pages in teams me please check and add they */
         $type = $request->get('type');
 
-        if ($type) {
-            if (in_array($type, ['joined', 'created', 'requested-to-join'])) {
-                $this->type = $type;
-            }
+        if (in_array($type, ['joined', 'created', 'requested-to-join'])) {
+            $this->type = $type;
         }
     }
 

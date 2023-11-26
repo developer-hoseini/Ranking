@@ -1,4 +1,13 @@
-<div>
+@extends('layouts.app')
+
+@section('title', __('words. - ').$team->name)
+
+@section('header')
+    @parent
+@endsection
+
+
+@section('content')
     <div class="card-header text-center gamepage-header">
         <h3>{{ __('words.Team').' '.$team->name }}</h3>
     </div>
@@ -13,33 +22,6 @@
                 </div>
                 <div class="card-body">
                     <livewire:pages.teams.search-team :team="$team"/>
-                    {{--<search-team random-search-route="{{ route('random_teams') }}"
-                                 search-route="{{ route('search_team') }}"
-                                 select-route="{{ route('select_team') }}"
-                                 get-clubs="{{ route('get_clubs') }}"
-                                 profile-link="{{ route('team_profile', ['teamname'=>'']) }}"
-                                 lbl-username="{{ __('words.Team Name') }}"
-                                 lbl-suggested="{{ __('words.suggested:') }}"
-                                 lbl-score="{{ __('words.Score: ') }}"
-                                 lbl-rank="{{ __('words.Rank: ') }}"
-                                 lbl-btn="{{ __('words.Invite team to compete') }}"
-                                 lbl-required="{{ __('words.Enter Team Name') }}"
-                                 lbl-free-game="{{ __('words.Free_Game') }}"
-                                 lbl-inclub="{{ __('words.In Club') }}"
-                                 lbl-with-image="{{ __('words.With Referee') }}"
-                                 help-free-game="{{ __('words.free_game_tick') }}"
-                                 help-inclub="{{ __('words.in_club_tick') }}"
-                                 help-with-image="{{ __('words.with_image_tick') }}"
-                                 game-id="{{ $team->game_id }}"
-                                 team-id="{{ $team->id }}"
-                                 select-club="{{ __('words.Choose the club you want to play...') }}"
-                                 get-country-route="{{route('get_clubs_country')}}"
-                                 get-states-route="{{route('get_clubs_states')}}"
-                                 locale-country="{{ json_encode(__('country')) }}"
-                                 locale-state="{{ json_encode(__('state')) }}"
-                                 lbl-select-country="{{__('words.Country')}}"
-                                 lbl-select-state="{{__('words.State')}}"
-                    ></search-team>--}}
                 </div>
             </div>
 
@@ -544,5 +526,4 @@
         </script>
     @endpush
 
-
-</div>
+@endsection

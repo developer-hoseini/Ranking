@@ -24,22 +24,22 @@
             <div class="team_details">
                 <table class="table">
                     <tbody>
-                        <tr>
-                            <th>{{ __('words.Score') }}</th>
-                            <th>{{ __('words.Rank') }}</th>
-                            <th>{{ __('words.Member_Count') }}</th>
-                        </tr>
-                        <tr>
-                            <td>
-                                {{ $team?->team_score_achievements_sum_count }}
-                            </td>
-                            <td>
-                                {{ $team?->team_rank }}
-                            </td>
-                            <td>
-                                {{ $team?->users_count }}
-                            </td>
-                        </tr>
+                    <tr>
+                        <th>{{ __('words.Score') }}</th>
+                        <th>{{ __('words.Rank') }}</th>
+                        <th>{{ __('words.Member_Count') }}</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            {{ $team?->team_score_achievements_sum_count??0 }}
+                        </td>
+                        <td>
+                            {{ $team?->team_rank }}
+                        </td>
+                        <td>
+                            {{ $team?->users_count }}
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
 

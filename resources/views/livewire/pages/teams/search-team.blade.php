@@ -1,4 +1,6 @@
-<div
+<form
+    method="post"
+    action="{{ route('teams.invite', ['team' => $team->id]) }}"
     x-data="{
         inClubSelect: false,
         withRefereeSelect: false,
@@ -7,6 +9,8 @@
     x-init="$watch('inClubSelect', value => value ? freeGameSelect = false : (!withRefereeSelect ? freeGameSelect = true : ''));
     $watch('withRefereeSelect', value => value ? freeGameSelect = false : (!inClubSelect ? freeGameSelect = true : ''));
     $watch('freeGameSelect', value => (value && (withRefereeSelect || inClubSelect)) ? withRefereeSelect = inClubSelect = false : '');">
+
+    {{ csrf_field() }}
 
     <div class="invite-part"
          style="width: {{ $teamSelect ? 70 : 100 }}%">
@@ -203,27 +207,20 @@
 
 
     @if ($teamSelect)
-        <img src="{{$teamSelect?->avatar}}" class="user_photo userinfo_img" width="130">
+        <input
+            name="teamId"
+            type="hidden"
+            value="{{ $teamSelect->id }}"
+        >
+        <img src="{{$teamSelect?->avatar}}" class="user_photo userinfo_img" width="130" alt="{{ $teamSelect?->name }}">
         <div class="userinfo_info">
             <div>
                 <a href="{{route('teams.profile',['team'=>$teamSelect->id])}}" target="_blank">
                     {{ $teamSelect->name9 }}
                 </a>
             </div>
-            <div>{{ __('words.Rank: ') . '0' }}</div>
-            <div>{{ __('words.Score: ')  .'0' }}</div>
+            <div>{{ __('words.Rank: ') . $teamSelect?->team_rank }}</div>
+            <div>{{ __('words.Score: ')  .$teamSelect?->team_score_achievements_sum_count??0 }}</div>
         </div>
     @endif
-
-    {{-- <div class="userinfo-part" :style="userinfo_css" v-show="user_selected">
-         <img :src="selected_photo" class="user_photo userinfo_img" width="130">
-         <div class="userinfo_info">
-             <div>
-                 <a :href="profileLink + '/' + selected_username" target="_blank" :title="selected_username">{{ selected_name9 }}</a>
-             </div>
-             <div>{{ lblRank + selected_rank }}</div>
-             <div>{{ lblScore + selected_score }}</div>
-         </div>
-     </div>
- --}}
-</div>
+</form>

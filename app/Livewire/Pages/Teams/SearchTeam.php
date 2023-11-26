@@ -52,7 +52,7 @@ class SearchTeam extends Component
 
     public function selectTeam(Team $teamSelect): void
     {
-        $this->teamSelect = $teamSelect;
+        $this->teamSelect = $teamSelect->loadSum('teamScoreAchievements', 'count');
         $this->teamsRandom = collect([]);
         $this->teamsResult = null;
         $this->teamName = '';

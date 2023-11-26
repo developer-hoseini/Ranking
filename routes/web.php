@@ -7,6 +7,7 @@ use App\Http\Controllers\GameController;
 use App\Http\Controllers\GamePageController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -147,8 +148,9 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
                 Route::get('/', \App\Livewire\Pages\Teams\Me\Index::class)->name('index');
             });
 
-            Route::get('/profile/{team}', \App\Livewire\Pages\Teams\Show::class)->name('profile');
-            Route::get('/{team}', \App\Livewire\Pages\Teams\Show::class)->name('show');
+            Route::get('/profile/{team}', [TeamController::class, 'profile'])->name('profile');
+            Route::post('/invite/{team}', [TeamController::class, 'invite'])->name('invite');
+            Route::get('/{team}', [TeamController::class, 'show'])->name('show');
         });
 
         //notifications
